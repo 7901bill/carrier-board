@@ -2,3 +2,7 @@
 Graphical/
 .claude/
 New folder/
+
+# Altium auto-generated (regenerated locally, redundant with git history)
+Altium/**/History/
+Altium/**/__Previews/
