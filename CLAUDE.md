@@ -1,6 +1,6 @@
 # CLAUDE.md — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-08-01
+Last updated: 2026-08-08
 
 ## Session log — read this first
 
@@ -68,6 +68,22 @@ the last work session left off without reading the whole file.
   before): pick the protection chip, pick the USB-C connector part, pick the
   Hailo-8L power converter, confirm the MP2329's resistor values are in
   stock.
+- **Session 5 (2026-08-08):** Closed out the input-protection stage.
+  **Picked all three parts:** TVS **SMBJ12A** (LCSC C151251), eFuse
+  **TPS25947** (LCSC C3662799), backup fuse **1206T3A63V** (LCSC C354897,
+  confirmed 18.4k in stock). Also **corrected the protection-stage
+  topology** — the original order (TVS → fuse → eFuse) had a gap: a shunt
+  TVS placed *before* the fuse means a TVS that fails shorted (a known TVS
+  failure mode under an over-energy event) shorts VBUS straight to ground
+  without the fuse ever seeing it. Reordered to **fuse → TVS → eFuse** (see
+  "Input protection" below) so the fuse backs up both a shorted TVS and a
+  shorted eFuse, not just the eFuse. This is a first-principles fix, not
+  copied from a reference design yet — **still needs to be checked against
+  the Spectre RM DevBoard's power-input section** before it's treated as
+  final, consistent with this project's rule of never inventing protection
+  topology from scratch. Next step: pick the USB-C connector part, pick the
+  Hailo-8L power converter, confirm the MP2329's resistor values are in
+  stock, then run the two planned LTspice simulations.
 
 ## Project summary
 
@@ -215,21 +231,38 @@ in late 2024), unlike the older, well-documented CM4.
   capacity. The 5V-output resistor values (from the datasheet): R1 =
   40.2k ohms, R2 = 5.49k ohms, C4 = 33pF, inductor = 3.3µH — still need to
   confirm these exact parts are currently in stock (open item).
-- **Input protection, regardless of connector choice:** a surge protector
-  on the power line, plus a protection chip (an electronic "smart fuse"
-  that blocks overvoltage, limits inrush current, and shuts off on a
-  short circuit), plus a plain backup fuse. Surge protector: **USBLC6-2SC6**
-  (protects the power line and the two data lines, LCSC part C7519, a
-  common basic part). Protection chip candidate: **TPS25940** (LCSC part
-  C2867756) — **flagged: only rated for 18V input, and the charger could in
-  theory negotiate up to 20V**, so this part is technically out of margin.
-  **TPS25947** (rated to 23V) is the safer choice, but its stock wasn't
-  confirmed yet — check before finalizing the parts list. Note: since we're
-  now only requesting 9V (not 20V), TPS25940's 18V rating actually has real
-  safety margin on this specific design, even though it's tight against
-  what USB-C PD could theoretically request in general — worth reconsidering
-  once stock on TPS25947 is checked, rather than automatically ruling
-  TPS25940 out.
+- **Input protection — all three parts picked 2026-08-08 (Session 5).**
+  Three separate layers, each catching a different kind of fault:
+  - **Backup fuse: 1206T3A63V** (Walter Elec, LCSC **C354897**, 3A/63V,
+    fast-acting, 1206 SMD, 18.4k units in stock) — the dumb, unconditional
+    last resort. Doesn't watch voltage or current thresholds, just opens
+    permanently once too much current flows for too long. Exists for the
+    case where the *smart* protection (the TVS or the eFuse) itself fails.
+  - **TVS: SMBJ12A** (Littelfuse, LCSC **C151251**, 600W, 12V standoff,
+    unidirectional, DO-214AA/SMB) — a shunt diode across VBUS/GND that
+    absorbs fast transients (ESD from the connector, hot-plug cable
+    ringing) in nanoseconds by clamping the spike voltage. 12V standoff
+    gives ~3V headroom over the fixed 9V request; clamps to ~19.9V, under
+    both TPS25947's 23V rating and the MP2329's 26V absolute max.
+  - **eFuse: TPS25947** (LCSC **C3662799**, TPS259470ARPWR, 2.7-23V, 5.5A,
+    28mΩ, true reverse-polarity blocking via back-to-back FETs) — the
+    active layer: watches voltage and current continuously and opens the
+    internal FET if either goes out of bounds. Picked over **TPS25940**
+    (LCSC C2867756, 18V rating) — now that the design only requests 9V,
+    TPS25940's 18V margin is no longer actually tight, but TPS25947 gives
+    more headroom for similar cost, lower on-resistance (less heat at our
+    ~1.5A load), and real reverse-polarity blocking instead of just
+    reverse-current sensing.
+  - **Order matters: fuse → TVS → eFuse**, not the reverse. A fuse placed
+    *after* the TVS wouldn't catch a TVS that fails shorted (a real TVS
+    failure mode under an over-energy event) — that fault would short VBUS
+    to ground upstream of the fuse and never trip it. Putting the fuse
+    first means it backs up everything downstream of it, including both
+    the TVS and the eFuse failing. **Not yet checked against a reference
+    design** — see Session 5 note above.
+  - Also still in the input-protection chain: surge/ESD protector
+    **USBLC6-2SC6** (protects the power line and the two USB data lines,
+    LCSC part C7519, a common basic part, unchanged).
 - **Handling weak chargers:** the negotiation chip's status output lights
   an LED at minimum (so you can see if a weak charger is connected);
   optionally also wired to a CM5 input pin so software can check the
@@ -269,7 +302,7 @@ dropping it for simplicity.
 
 ```
 USB-C power in ──→ CH224A (asks for 9V, passes it straight through — no conversion)
-               ──→ [protection chip + surge protector + fuse — part not picked yet]
+               ──→ backup fuse (1206T3A63V) → TVS (SMBJ12A, shunt to GND) → eFuse (TPS25947)
                ──→ MP2329 voltage converter (drops 9V to 5V; current rises to match load, ~95% efficient)
                ──→ 5V/5A main power rail (a shared bus, not a fixed split)
                     ├──→ CM5 (uses 5V directly; its own internal power chip handles further conversion)
@@ -530,10 +563,6 @@ everything from the board order onward is replaced by the paragraph above):
   unsettled. **Update: ordered as of Session 4** (see the checkmark under
   Timeline, Week 1) — keeping this line for history, can be deleted next
   cleanup.
-- **Confirm TPS25947 (or another ≥20V-rated protection chip) is actually in
-  stock** — TPS25940 is only rated for 18V; since we're now only requesting
-  9V, this margin concern is less urgent than originally flagged, but still
-  unresolved. **Oldest open item, unchanged since Session 2 (2026-07-25).**
 - **Find a real ≥2A, 3.3V converter for the Hailo-8L's power rail** —
   confirmed 6.6W/2A max draw rules out a simple linear regulator here; no
   specific in-stock part found yet (looked at TPS62088/MP2143-type parts,
@@ -541,11 +570,12 @@ everything from the board order onward is replaced by the paragraph above):
   software support.
 - **Pick the exact camera model** — needed to confirm whether it needs a
   1.8V rail and to check its control-bus address/resistor details.
-- **Protection stage part not finalized** — surge protector (USBLC6-2SC6)
-  and converter (MP2329) are confirmed; the protection chip is still open
-  (see the TPS25947 stock-check item above); a separate small protection
-  chip for the USB data lines (TPD4E02B04-type) also not yet confirmed in
-  stock.
+- **Protection stage parts picked (Session 5)** — TVS (SMBJ12A), eFuse
+  (TPS25947), backup fuse (1206T3A63V), surge protector (USBLC6-2SC6), and
+  converter (MP2329) are all confirmed. **Still open:** verify the
+  fuse → TVS → eFuse topology against a real reference design (see Session
+  5 note) before it's final; a separate small protection chip for the USB
+  data lines (TPD4E02B04-type) also not yet confirmed in stock.
 - **Power-up sequencing part** — delay circuit vs. dedicated switch chip
   approach not decided yet (needed so the 3.3V rail is stable before the
   Hailo-8L's reset signal releases). TPS22965/TPS22918 are candidate parts

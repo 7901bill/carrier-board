@@ -113,3 +113,60 @@ printout, comparing against the manufacturer's drawing) is still required
 either way — this shortcut saves drawing time, not checking time, and
 doesn't change the required fit-check for the CM5/M.2 connectors already
 locked into CLAUDE.md.
+
+---
+
+## 2026-08-08 — Input protection stage closed out (TVS, eFuse, backup fuse)
+
+Folded into CLAUDE.md the same day. See CLAUDE.md's "Session log" (Session
+5) and "Decisions locked → Input protection" for the summary. Raw notes
+below.
+
+**Started from a basic question:** confirmed the input-protection stage
+actually needs three separate parts — TVS, eFuse ("protection chip" in
+earlier sessions' language), and a plain backup fuse — not just the
+protection chip that was already being tracked. The backup fuse had never
+actually made it onto the Outstanding list despite being named in
+"Decisions locked" since Session 2; that gap is now closed.
+
+**Read what was already on hand first.** No datasheet in `Datasheets/`
+covers any of the three parts — confirmed by listing the folder (only
+CM5, Hailo-8L, CH224A, and MP2329 datasheets exist). Pulled the CH224A and
+MP2329 datasheets specifically to ground the voltage ceiling the
+protection stage has to survive under: CH224A operates 4-30V input,
+MP2329's absolute max input is 26V. That 26V number is the real ceiling —
+whatever gets picked has to clamp/limit below it.
+
+**Picked all three parts**, each backed by a real, stock-checked LCSC part
+number:
+- TVS: **SMBJ12A** (Littelfuse, LCSC C151251) over SMAJ12A (smaller
+  package, less pulse-energy margin — not worth it given the connector
+  gets plugged/unplugged a lot during bring-up).
+- eFuse: **TPS25947** (LCSC C3662799) over TPS25940 (LCSC C2867756) — now
+  that the design requests 9V not 20V, TPS25940's 18V rating isn't
+  actually tight anymore, but TPS25947 still wins on lower on-resistance
+  and real reverse-polarity blocking (back-to-back FETs) for similar cost.
+- Backup fuse: **1206T3A63V** (Walter Elec, LCSC C354897, 3A/63V,
+  fast-acting, 18.4k in stock) over a PTC resettable fuse — deliberately
+  picked the one-time type instead of a self-healing PTC, because this
+  fuse's whole job is to be the last-resort signal that the *active*
+  protection (the eFuse) already failed. A PTC that quietly resets doesn't
+  force that failure to actually get noticed and fixed.
+
+**Found and fixed a topology mistake mid-discussion.** The first pass at
+ordering the three parts was TVS → fuse → eFuse (TVS closest to the
+connector, for best transient response). Caught during discussion: TVS
+diodes have a known failure mode of failing *shorted* under an
+over-energy event. If the fuse sits after the TVS, a shorted TVS shorts
+VBUS straight to ground without the fuse — which only sees current in the
+path toward the eFuse — ever tripping. Reordered to **fuse → TVS →
+eFuse**, so the fuse also backs up a shorted TVS, not just a shorted
+eFuse. Traded a few mm of extra trace length between the connector and
+the TVS clamp point (marginally worse transient response) for that
+coverage.
+
+**Not yet resolved:** this reordering was reasoned from first principles,
+not copied from a reference design — same caution that already applies to
+the DF40 connector pin layout. Should be checked against the Spectre RM
+DevBoard's power-input section (already on hand, has its own surge
+protection/two-converter input stage) before being treated as final.
