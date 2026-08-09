@@ -84,6 +84,20 @@ the last work session left off without reading the whole file.
   topology from scratch. Next step: pick the USB-C connector part, pick the
   Hailo-8L power converter, confirm the MP2329's resistor values are in
   stock, then run the two planned LTspice simulations.
+- **Session 6 (2026-08-08):** Checked whether any power-chain part
+  qualifies for JLCPCB's Basic parts library (no per-part setup fee),
+  since budget was raised as a concern. **None do** — CH224A, MP2329,
+  USBLC6-2SC6, SMBJ12A, TPS25947, 1206T3A63V, AP2112K-3.3, TPS22965, and
+  TPS22918 are all Extended (checked against JLCPCB's live parts database,
+  not guessed). The only Basic-library TVS at all is SMBJ6.5CA, whose
+  6.5V standoff is too low for our 9V rail — not usable. This isn't
+  unusual: USB-PD/eFuse/voltage-specific protection parts essentially
+  never make the Basic list. At $3/unique extended part (one-time per
+  order, not per-unit), the 9 parts above run about $27 total — a fixed
+  cost, not worth redesigning around. **Found a bigger issue while
+  checking:** live stock on two already-picked exact reels has dropped
+  hard since they were chosen — **TPS25947 (C3662799) down to 17 units**,
+  **TPS22965 (C347592) down to 29 units** — see "Outstanding" below.
 
 ## Project summary
 
@@ -576,6 +590,14 @@ everything from the board order onward is replaced by the paragraph above):
   fuse → TVS → eFuse topology against a real reference design (see Session
   5 note) before it's final; a separate small protection chip for the USB
   data lines (TPD4E02B04-type) also not yet confirmed in stock.
+- **Stock risk flagged, new as of Session 6 (2026-08-08)** — two already-
+  picked exact reels have thin, fast-dropping stock: **TPS25947**
+  (LCSC C3662799) down to **17 units**, **TPS22965** (LCSC C347592, the
+  exact WSON-8 variant chosen for the M.2 rail switch) down to **29
+  units**. Board order is ~5 weeks out (~Sep 16) — re-check stock closer to
+  order time and have a same-datasheet backup reel picked out in advance,
+  rather than discovering a sellout during layout or after the professor
+  review.
 - **Power-up sequencing part** — delay circuit vs. dedicated switch chip
   approach not decided yet (needed so the 3.3V rail is stable before the
   Hailo-8L's reset signal releases). TPS22965/TPS22918 are candidate parts
