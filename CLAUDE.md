@@ -94,10 +94,11 @@ the last work session left off without reading the whole file.
   unusual: USB-PD/eFuse/voltage-specific protection parts essentially
   never make the Basic list. At $3/unique extended part (one-time per
   order, not per-unit), the 9 parts above run about $27 total — a fixed
-  cost, not worth redesigning around. **Found a bigger issue while
-  checking:** live stock on two already-picked exact reels has dropped
-  hard since they were chosen — **TPS25947 (C3662799) down to 17 units**,
-  **TPS22965 (C347592) down to 29 units** — see "Outstanding" below.
+  cost, not worth redesigning around. A stock-drop concern raised during
+  this check (TPS25947, TPS22965) turned out to be a false alarm from a
+  stale third-party mirror (jlcsearch.tscircuit.com) — LCSC's own live
+  page shows TPS25947 at 1,461 units and TPS22965 at 317, both healthy.
+  Lesson: check LCSC/JLCPCB directly for stock, not third-party mirrors.
 
 ## Project summary
 
@@ -590,14 +591,6 @@ everything from the board order onward is replaced by the paragraph above):
   fuse → TVS → eFuse topology against a real reference design (see Session
   5 note) before it's final; a separate small protection chip for the USB
   data lines (TPD4E02B04-type) also not yet confirmed in stock.
-- **Stock risk flagged, new as of Session 6 (2026-08-08)** — two already-
-  picked exact reels have thin, fast-dropping stock: **TPS25947**
-  (LCSC C3662799) down to **17 units**, **TPS22965** (LCSC C347592, the
-  exact WSON-8 variant chosen for the M.2 rail switch) down to **29
-  units**. Board order is ~5 weeks out (~Sep 16) — re-check stock closer to
-  order time and have a same-datasheet backup reel picked out in advance,
-  rather than discovering a sellout during layout or after the professor
-  review.
 - **Power-up sequencing part** — delay circuit vs. dedicated switch chip
   approach not decided yet (needed so the 3.3V rail is stable before the
   Hailo-8L's reset signal releases). TPS22965/TPS22918 are candidate parts
