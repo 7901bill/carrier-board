@@ -170,3 +170,46 @@ not copied from a reference design — same caution that already applies to
 the DF40 connector pin layout. Should be checked against the Spectre RM
 DevBoard's power-input section (already on hand, has its own surge
 protection/two-converter input stage) before being treated as final.
+
+---
+
+## 2026-08-09 — USB-C connector part picked (TYPE-C-31-M-12 / C165948)
+
+Folded into CLAUDE.md the same day. See CLAUDE.md's "Session log" (Session
+7) and "Decisions locked" for the summary. Raw notes below.
+
+**Checked the new datasheet (`Datasheets/C165948.pdf`) against what the
+connector actually needs to cover**, rather than just trusting the part
+number: CC1/CC2 both present (required for CH224A's PD negotiation and
+cable-orientation detection), VBUS/GND spread across multiple pins, and
+DP1/DN1 + DP2/DN2 (a mirrored pair, no SuperSpeed pins) for the USB 2.0
+debug/flashing line — matches the plan, since no USB 3.0 is used anywhere
+on this board. SBU1/SBU2 are broken out on the part but not needed
+(alt-mode/audio only) — left no-connect.
+
+**Rating check:** part is rated 5A/20V. At the fixed 9V PD request and the
+~13W power budget, actual draw is ~1.5A — well under the 5A rating, and
+20V comfortably covers the 9V request. Not the bottleneck anywhere in the
+chain.
+
+**Mechanical finding, ties back to an open item:** the datasheet's bottom
+view shows through-hole mounting legs (2× Ø0.50 holes), not a pure-SMT
+shell. This directly answers part of the "confirm through-hole shell"
+question that had been sitting open since Session 4 — now three parts
+(DF40, M.2 socket, USB-C connector) are confirmed through-hole and need
+the JLCPCB assembly-quote question resolved together. Also noted the part
+is a board-edge-mount footprint (datasheet flags "PCB EDGE" against one
+side) — true of any USB-C receptacle, not a special property of this part,
+but worth remembering when placing it so the board outline lines up.
+
+**Also revisited the power-distribution flow itself** while going through
+this (not a new decision, just confirmed out loud): PD negotiation (CH224A)
+happens first since it only passes voltage through unchanged and doesn't
+protect anything; the fuse → TVS → eFuse protection stage sits after it,
+sized against the actual negotiated 9V rather than an unknown worst-case
+input; then the MP2329 converts down to the 5V rail. One flow, not
+parallel paths.
+
+Next: Bill starts the footprint for C165948. Then the Hailo-8L's local
+converter (5V→3.3V, ≥2A) is the next open item — the last unpicked part in
+the power chain.

@@ -1,6 +1,6 @@
 # CLAUDE.md — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-08-08
+Last updated: 2026-08-09
 
 ## Session log — read this first
 
@@ -99,6 +99,26 @@ the last work session left off without reading the whole file.
   stale third-party mirror (jlcsearch.tscircuit.com) — LCSC's own live
   page shows TPS25947 at 1,461 units and TPS22965 at 317, both healthy.
   Lesson: check LCSC/JLCPCB directly for stock, not third-party mirrors.
+- **Session 7 (2026-08-09):** Picked the USB-C connector part, closing the
+  oldest open item in the power-input section. **TYPE-C-31-M-12** (HRO
+  Electronics, LCSC **C165948**) — a 12-pin mid-mount USB-C receptacle,
+  rated 5A/20V. Checked against the design's actual needs: CC1/CC2 present
+  (required for CH224A's PD negotiation and cable-orientation detection),
+  VBUS/GND spread across multiple pins, DP1/DN1 + DP2/DN2 for the USB 2.0
+  debug/flashing line (mirrored pair, no SuperSpeed pins needed since no
+  USB 3.0 is planned). At the fixed 9V request and ~13W budget, actual
+  draw (~1.5A) sits well under the 5A rating, and 20V covers the 9V request
+  with margin. SBU1/SBU2 are broken out but unused (alt-mode/audio only) —
+  left no-connect. **Confirmed this part has through-hole mounting legs**
+  (2× Ø0.50 mounting holes), not pure SMT — same open question as the DF40
+  connector and M.2 socket on whether JLCPCB's assembly quote needs a
+  separate through-hole line item (see "Outstanding" below). It's also a
+  board-edge-mount part (datasheet calls out "PCB EDGE" against one side of
+  the footprint) — normal for any USB-C receptacle, just needs the board
+  outline to line up with it. Datasheet saved to
+  `Datasheets/C165948.pdf`. Next step: footprint (Bill starting this now),
+  then the Hailo-8L local converter (now the oldest unpicked part in the
+  power chain).
 
 ## Project summary
 
@@ -234,8 +254,11 @@ in late 2024), unlike the older, well-documented CM4.
   to run on plain 5V-only chargers (avoids weird brownout bugs). Backup
   plan if this gets complicated: switch to a plain USB-C connector with a
   standard 5.1V/5A charger, no negotiation.
-  **USB-C connector: added to the schematic 2026-08-01, exact part number
-  still not picked** (see "Outstanding" below).
+  **USB-C connector: TYPE-C-31-M-12** (HRO Electronics, LCSC **C165948**),
+  picked 2026-08-09 (Session 7) — 12-pin mid-mount receptacle, 5A/20V,
+  CC1/CC2 for PD, USB 2.0 data pairs (DP1/DN1, DP2/DN2, no SuperSpeed
+  needed). Through-hole mounting legs, board-edge-mount footprint. See
+  Session 7 note above for the full reasoning.
   Voltage converter: **MP2329GG-Z** (from MPS, LCSC part C5349327,
   confirmed in stock) — accepts 4.5-24V in, outputs an adjustable 0.6-13V,
   rated for 6.5A continuous / 7.5A peak, small QFN-11 package. This is the
@@ -598,16 +621,15 @@ everything from the board order onward is replaced by the paragraph above):
 - **Confirm the MP2329's resistor values** (R1 = 40.2k ohms, R2 = 5.49k
   ohms, C4 = 33pF, inductor = 3.3µH, from the datasheet) are actually
   available in current stock.
-- **USB-C connector part number not chosen yet** — new as of Session 4.
-  Placed on the schematic without a specific part behind it. Once picked,
-  confirm whether it has a through-hole shell (likely, for mechanical
-  strength) and whether that changes the assembly line-item question
-  flagged in "Decisions locked" above.
-- **Confirm JLCPCB's through-hole assembly terms** — new as of Session 4.
-  Does the switch to full machine assembly (no hand-soldering) need a
-  separate quote line for the DF40 connector, M.2 socket, and USB-C
-  connector versus regular surface-mount assembly? Not yet checked against
-  JLCPCB's assembly options.
+- **USB-C connector part picked (Session 7)** — TYPE-C-31-M-12, LCSC
+  C165948. Confirmed it has through-hole mounting legs, same as flagged
+  below. Footprint in progress.
+- **Confirm JLCPCB's through-hole assembly terms** — new as of Session 4,
+  now covers three parts: DF40 connector, M.2 socket, and the USB-C
+  connector (C165948, confirmed through-hole legs as of Session 7). Does
+  the switch to full machine assembly (no hand-soldering) need a separate
+  quote line for these versus regular surface-mount assembly? Not yet
+  checked against JLCPCB's assembly options.
 
 ## Working style (for future sessions)
 
