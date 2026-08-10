@@ -213,3 +213,45 @@ parallel paths.
 Next: Bill starts the footprint for C165948. Then the Hailo-8L's local
 converter (5V→3.3V, ≥2A) is the next open item — the last unpicked part in
 the power chain.
+
+---
+
+## 2026-08-10 — Main power path and USB-C/CH224A schematic decisions
+
+Started the power schematic from the USB-C input and resolved the naming and
+topology before adding the downstream regulators.
+
+**Fixed names.** The USB-C connector pins are named `VBUS`. The project net
+before the fuse is `USB_VBUS`; the first fuse is component `F1`; the net after
+F1 is `FUSED_VBUS`. FUSED_VBUS is a node, not another component. The CH224A
+pin names remain exactly as in its datasheet: pin 1 is `VHV`, pin 8 is `VBUS`,
+pin 6 is `CC2`, pin 7 is `CC1`, pin 4 is `DP`, and pin 5 is `DM`.
+
+**Main power path:** USB-C VBUS pins → USB_VBUS → F1 → FUSED_VBUS. From
+FUSED_VBUS, the CH224A VHV and VBUS pins are tied together, the TVS is a
+shunt to ground, and the TPS25947 input is connected. The TPS25947 output
+feeds the MP2329, whose output is `5V_MAIN`. The CH224A is a PD controller
+on the VBUS node, not a series power converter or a separate PD output stage.
+
+**CH224A configuration.** Use the CH224A/CH224Q reference schematic, not the
+CH224D drawing. A 6.8k ohm resistor from CFG1 to ground requests 9V. CFG2
+and CFG3 may remain floating when I2C control is not used. CC1 and CC2 stay
+separate and connect to the corresponding USB-C pins. If BC1.2 detection is
+not used, the CH224A DP and DM pins are no-connect; the connector USB 2.0
+D+ and D- remain separate signals for the CM5 flashing/debug connection.
+
+**C165948 pin mapping.** Tie A4/A9/B4/B9 together for VBUS; tie A1/A12/B1/B12
+together for ground; tie A6/B6 for USB D+; and tie A7/B7 for USB D-. Leave
+SBU1 (A8) and SBU2 (B8) no-connect. EH1 through EH4 are the connector
+shell/mounting contacts and connect to ground for this schematic.
+
+**Repository boundary.** The Altium directory was removed from the GitHub
+documentation repository. The authoritative Altium project remains at
+`C:\Users\Bill\Desktop\Bill's Folder\Altium\Project Watchdog` and is not
+part of the Obsidian documentation checkout. GitHub authentication uses a
+Personal Access Token in place of the account password; the token must not
+be stored in project files or documentation.
+
+Next: finish the power schematic from the locked FUSED_VBUS node through the
+eFuse and MP2329, then verify the CH224A and MP2329 reference circuits before
+adding the local Hailo and camera rails.

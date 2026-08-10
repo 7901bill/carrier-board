@@ -1,6 +1,6 @@
 # CLAUDE.md — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-08-09
+Last updated: 2026-08-10
 
 ## Session log — read this first
 
@@ -119,6 +119,23 @@ the last work session left off without reading the whole file.
   `Datasheets/C165948.pdf`. Next step: footprint (Bill starting this now),
   then the Hailo-8L local converter (now the oldest unpicked part in the
   power chain).
+
+- **Session 8 (2026-08-10):** Started the main power schematic from the
+  selected USB-C connector. Locked the working names and topology:
+  USB-C VBUS pins -> `USB_VBUS` -> fuse `F1` -> `FUSED_VBUS`; from
+  `FUSED_VBUS`, the CH224A, TVS, and TPS25947 input branch in parallel,
+  followed by the TPS25947 output -> MP2329 -> `5V_MAIN`. The CH224A is a
+  controller on the VBUS node, not a series converter. For the CH224A, use
+  the A/Q reference circuit, connect pin 1 `VHV` and pin 8 `VBUS` to the
+  same `FUSED_VBUS` net, and use 6.8k ohms from CFG1 to ground for the 9V
+  request. CFG2/CFG3 may float when I2C is not used; pins 4/5 DP/DM are
+  no-connect if BC1.2 is not used, while CC1/CC2 (pins 7/6) remain connected
+  to the USB-C connector. Confirmed the C165948 mapping: all VBUS contacts
+  together, all GND contacts together, A6/B6 as USB D+, A7/B7 as USB D-,
+  SBU1/SBU2 no-connect, and EH1-EH4 shell contacts to ground. Removed the
+  copied Altium directory from the GitHub documentation repository; the
+  authoritative Altium project is outside it at
+  `C:\Users\Bill\Desktop\Bill's Folder\Altium\Project Watchdog`.
 
 ## Project summary
 
@@ -242,7 +259,8 @@ in late 2024), unlike the older, well-documented CM4.
   higher voltage), set with a single 6.8k-ohm resistor. Chose CH224A over
   CH224K because CH224A's power-input pins can handle up to 32V versus
   CH224K's 13.5V, giving more safety margin for the protection stage. Two
-  extra pins (CFG2/CFG3) are wired to the CM5's control bus so the software
+  extra pins (CFG2/CFG3) are reserved for a possible CM5 control-bus
+  connection and may float in the fixed-resistor configuration. The software
   can check which voltage actually got negotiated and monitor live current
   during testing — this comes essentially for free with the resistor-based
   setup. The VBUS pin must be connected directly to the VHV pin per the
