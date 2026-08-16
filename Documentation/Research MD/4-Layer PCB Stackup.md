@@ -3,7 +3,7 @@
 Last updated: 2026-07-26
 
 A reference note explaining the board's layer-stack decision. This is
-background and options, not a locked design — CLAUDE.md already locks in
+background and options, not a locked design — documentation.md already locks in
 "4 layers, JLCPCB's controlled-impedance stackup" as a decision, but the
 *exact arrangement* (which layer does what) is still open. Laid out below
 as pros/cons for each option, so the final choice gets made on purpose,

@@ -3,14 +3,14 @@
 Last updated: 2026-07-29
 
 > **Note:** this note was written 2026-07-29, one day before the power
-> system got recalculated and some parts changed (see CLAUDE.md's Session 3
+> system got recalculated and some parts changed (see documentation.md's Session 3
 > and Session 4). A few specific facts below are now out of date — the
 > power negotiation chip is now **CH224A** (not CH224K), the main converter
 > is now **MP2329GG-Z** (not TPS54560), the board now requests **9V** (not
 > an undecided voltage), and the total power budget is **~13W** (not the
 > 15-25W range mentioned below). The general explanations of *how* each
 > stage works are still accurate — just double-check any specific part
-> number or number against CLAUDE.md, which is always the current source of
+> number or number against documentation.md, which is always the current source of
 > truth.
 
 This note walks through the actual path electricity takes on your board,
@@ -292,5 +292,5 @@ history.)*
 
 Five separate open action items sat inside "the power section," not one.
 That was normal for week 2 of the project — but worth seeing laid out
-plainly rather than folded into "just pick the last part." (See CLAUDE.md
+plainly rather than folded into "just pick the last part." (See documentation.md
 for what's since been resolved.)

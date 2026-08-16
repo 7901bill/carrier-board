@@ -255,3 +255,31 @@ be stored in project files or documentation.
 Next: finish the power schematic from the locked FUSED_VBUS node through the
 eFuse and MP2329, then verify the CH224A and MP2329 reference circuits before
 adding the local Hailo and camera rails.
+
+---
+
+## 2026-08-16 — Programming plan, current datasheets, and documentation cleanup
+
+Defined how the CM5 will be programmed and recovered. The carrier board does
+not contain a separate firmware microcontroller: the CM5 is flashed through
+USB boot mode, with the operating system and Watchdog software installed on
+the CM5's onboard eMMC. The normal boot chain is CM5 ROM → EEPROM bootloader
+→ eMMC → Linux → systemd → Watchdog services.
+
+Created `Research MD/programming.md`, covering factory eMMC flashing with
+`rpiboot`, normal SSH/Wi-Fi development, debug UART use, `nRPIBOOT` recovery,
+reset/power control, and the PCB connections required for bring-up. The
+programming design still needs a final choice between a dedicated USB
+programming connector and a factory pogo/test-pad connection.
+
+Re-read the current power-chain datasheets from the local Obsidian project
+folder and copied all eight into `Documentation/Datasheets`, including the
+current `TPS259470ARPWR` eFuse datasheet plus the capacitor and resistor
+datasheets. The main documentation file was renamed from `CLAUDE.md` to
+`documentation.md`.
+
+Tomorrow: read `Research MD/programming.md`, then connect the CH224A PD request
+node through the fuse, TVS, TPS259470ARPWR eFuse, and MP2329 buck converter
+using the current datasheets as the source of truth. Verify every eFuse pin,
+required passive, power net, and ground connection before continuing to the
+local rails.

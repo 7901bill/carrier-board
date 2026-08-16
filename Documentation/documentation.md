@@ -1,6 +1,6 @@
-# CLAUDE.md — Wireless Watchdog: CM5 Carrier Board
+# Documentation — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-08-10
+Last updated: 2026-08-16
 
 ## Session log — read this first
 
@@ -136,6 +136,19 @@ the last work session left off without reading the whole file.
   copied Altium directory from the GitHub documentation repository; the
   authoritative Altium project is outside it at
   `C:\Users\Bill\Desktop\Bill's Folder\Altium\Project Watchdog`.
+
+- **Session 9 (2026-08-16):** Defined the CM5 programming and boot plan. The
+  board is programmed by flashing the CM5's onboard eMMC, not by programming a
+  separate carrier-board microcontroller. The normal boot chain is CM5 ROM →
+  EEPROM bootloader → eMMC → Linux → systemd → Watchdog services. The PCB
+  needs an accessible USB 2.0 programming path, `nRPIBOOT` recovery control,
+  a 3.3V debug UART, reset/power control, and status indicators. Added
+  `Research MD/programming.md` with the full bring-up and recovery plan.
+  The current power-rail datasheets from the local Obsidian project folder
+  were copied into `Documentation/Datasheets`, including the current
+  `TPS259470ARPWR` datasheet. Tomorrow: read the programming note, finish
+  connecting the CH224A PD request node to the fuse, TVS, eFuse, and MP2329
+  using the current local datasheets, and review the resulting schematic.
 
 ## Project summary
 
