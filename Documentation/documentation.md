@@ -1,6 +1,33 @@
 # Documentation — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-08-16
+Last updated: 2026-09-03
+
+## Current design status — 2026-09-03
+
+The power-input and main 5V rail design is essentially complete. The current
+hardware work is wiring the CM5's two 100-pin connectors, the Hailo-8L M.2
+socket, the direct PCIe connection between the CM5 and M.2 socket, and the
+camera connector.
+
+The bring-up architecture is now defined. One USB-C connector is dedicated to
+board power. A second USB-C connector is dedicated to CM5 programming and
+recovery. The CM5's onboard eMMC is flashed through USB mass-storage mode; no
+external SD-card socket is needed for the full CM5 variant. An accessible
+`nRPIBOOT` jumper or pushbutton selects USB recovery mode during power-up. A
+separate three-pin UART debug connector exposes TX, RX, and GND for early boot
+diagnostics. Wi-Fi and SSH are used for normal development after Linux boots.
+
+The carrier board does not require a separate microcontroller or bridge chip
+for these functions. It routes the CM5 signals directly to the power circuit,
+USB programming connector, UART header, camera, and Hailo PCIe interface.
+See `Research MD/CM5-Connector-Wiring-and-Bringup.md` for the complete
+signal-level map and staged bring-up plan.
+
+Ethernet remains excluded from this revision. The CM5 already includes an
+Ethernet PHY, but the project currently has no wired-network or PoE
+requirement; adding the MagJack, protection, and four high-speed pairs would
+increase board area and routing complexity without being necessary for the
+Watchdog device.
 
 ## Session log — read this first
 

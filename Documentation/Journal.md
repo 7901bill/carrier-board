@@ -283,3 +283,49 @@ node through the fuse, TVS, TPS259470ARPWR eFuse, and MP2329 buck converter
 using the current datasheets as the source of truth. Verify every eFuse pin,
 required passive, power net, and ground connection before continuing to the
 local rails.
+---
+
+## 2026-09-03 — CM5 connector wiring and bring-up architecture
+
+Clarified the physical and software architecture for the CM5 carrier board
+before continuing the schematic. The CM5 is the complete computer: processor,
+Linux, bootloader, onboard eMMC, Wi-Fi, Bluetooth, USB, UART, I2C, GPIO, and
+PCIe are already inside the module. The carrier board does not need a separate
+MCU or bridge chip for the planned design; it routes the required CM5 signals
+through the two Amphenol 100-pin board-to-board connectors.
+
+Locked the bring-up connections:
+
+- One USB-C connector is dedicated to power. Its path is USB-C power input →
+  protection/PD circuitry → 9V internal rail → 5V regulator → CM5 5V pins.
+- A second USB-C connector is dedicated to CM5 programming and recovery. It
+  routes USB 2.0 D+/D− to the CM5 and lets a host computer expose the CM5's
+  onboard eMMC as USB mass storage for Raspberry Pi OS flashing.
+- Pin 93 (`nRPIBOOT`) gets an accessible jumper or pushbutton to ground. This
+  selects USB recovery mode during power-up; it does not provide power or do
+  the flashing itself.
+- A separate three-pin UART debug connector exposes TX, RX, and GND for an
+  external 3.3V USB-to-UART adapter. UART is the early-boot diagnostic path;
+  USB programming and UART are separate physical connections.
+
+The full CM5 variant has onboard eMMC, so it does not need a physical SD-card
+socket. Initial bring-up will be staged: power and CM5 only; USB flash; eMMC
+boot; UART verification; Wi-Fi/SSH; camera; then Hailo-8L.
+
+The communication roles were separated clearly. Camera video uses CSI-2;
+camera configuration uses I2C; Hailo-8L communication uses PCIe; UART is for
+the CM5 debug console; SPI is not currently needed. Hardware routing comes
+first, but Linux Device Tree configuration, drivers, HailoRT, camera support,
+and application software are still required after the board is assembled.
+
+Before committing to the custom Hailo connection, the Hailo-8L currently
+installed on the Raspberry Pi M.2 HAT+ should be tested on a Raspberry Pi 5.
+That test verifies the module, power, PCIe communication, firmware, HailoRT,
+and inference software. It does not fully validate the custom CM5 carrier
+board's PCIe routing, because the Raspberry Pi AI Kit is commonly configured
+for PCIe Gen 3 while the CM5 carrier board is designed for supported PCIe Gen
+2 x1 operation.
+
+Ethernet was considered and remains out of scope for this revision. Wi-Fi is
+already built into the selected CM5, and Ethernet would require the MagJack,
+ESD protection, four 100-ohm differential pairs, and additional board area.

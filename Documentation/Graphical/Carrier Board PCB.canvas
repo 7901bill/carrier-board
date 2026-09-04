@@ -1,0 +1,41 @@
+{
+	"nodes":[
+		{"id":"board","type":"text","text":"Main Carrier Board","x":0,"y":1145,"width":250,"height":60},
+		{"id":"root","type":"text","text":"Main Compute Module","x":400,"y":685,"width":250,"height":60},
+		{"id":"power","type":"text","text":"Power & Protection","x":400,"y":1610,"width":250,"height":50},
+		{"id":"cm5","type":"text","text":"CM5","x":800,"y":185,"width":250,"height":60},
+		{"id":"hailo","type":"text","text":"Hailo-8L","x":800,"y":715,"width":250,"height":60},
+		{"id":"csi","type":"text","text":"CSI Camera","x":800,"y":1245,"width":250,"height":60},
+		{"id":"cm5-conn","type":"text","text":"Connector\n- [ ] 2x Amphenol 10164227-1001A1RLF (1.5mm)","x":1200,"y":0,"width":400,"height":130},
+		{"id":"cm5-power","type":"text","text":"Power\n- [ ] Rails from buck (TBD)","x":1200,"y":150,"width":400,"height":130},
+		{"id":"cm5-sig","type":"text","text":"Signal Integrity\n- [ ] DF40 breakout to PCIe/CSI/USB","x":1200,"y":300,"width":400,"height":130},
+		{"id":"hailo-conn","type":"text","text":"Connector\n- [ ] UMAX 91302-42-067RDM, M.2 M-key (2242)","x":1200,"y":530,"width":400,"height":130},
+		{"id":"hailo-power","type":"text","text":"Power\n- [ ] 3.3V/2A+ buck POL for Hailo-8L (6.6W/2A max load, LDO ruled out, part TBD)","x":1200,"y":680,"width":400,"height":130},
+		{"id":"hailo-sig","type":"text","text":"Signal Integrity\n- [ ] PCIe TX/RX/refclk + PERST#/CLKREQ#","x":1200,"y":830,"width":400,"height":130},
+		{"id":"csi-conn","type":"text","text":"Connector\n- [ ] Hirose FH12-22S-0.5SH(55), 22P FFC","x":1200,"y":1060,"width":400,"height":130},
+		{"id":"csi-power","type":"text","text":"Power\n- [ ] AP2112K-3.3 LDO, 600mA (LCSC C51118)","x":1200,"y":1210,"width":400,"height":130},
+		{"id":"csi-sig","type":"text","text":"Signal Integrity\n- [ ] 4 data pairs + clock, length-matched","x":1200,"y":1360,"width":400,"height":130},
+		{"id":"pwr-pd","type":"text","text":"PD Sink\n- [ ] CH224K, resistor-strapped, no firmware (LCSC C970725)","x":800,"y":1530,"width":450,"height":130},
+		{"id":"pwr-prot","type":"text","text":"Protection\n- [ ] USBLC6-2SC6 TVS on VBUS (LCSC C7519)\n- [ ] TPS25947 eFuse, 23V-rated (verify LCSC stock)\n- [ ] Fuse","x":800,"y":1680,"width":450,"height":160},
+		{"id":"pwr-buck","type":"text","text":"Buck Backbone\n- [ ] TPS54560, 5V/5A, 60V-rated in (LCSC C31966)","x":800,"y":1860,"width":450,"height":130}
+	],
+	"edges":[
+		{"id":"e0","fromNode":"board","fromSide":"right","toNode":"root","toSide":"left"},
+		{"id":"e4","fromNode":"board","fromSide":"right","toNode":"power","toSide":"left"},
+		{"id":"e1","fromNode":"root","fromSide":"right","toNode":"cm5","toSide":"left"},
+		{"id":"e2","fromNode":"root","fromSide":"right","toNode":"hailo","toSide":"left"},
+		{"id":"e3","fromNode":"root","fromSide":"right","toNode":"csi","toSide":"left"},
+		{"id":"e5","fromNode":"cm5","fromSide":"right","toNode":"cm5-conn","toSide":"left"},
+		{"id":"e6","fromNode":"cm5","fromSide":"right","toNode":"cm5-power","toSide":"left"},
+		{"id":"e7","fromNode":"cm5","fromSide":"right","toNode":"cm5-sig","toSide":"left"},
+		{"id":"e8","fromNode":"hailo","fromSide":"right","toNode":"hailo-conn","toSide":"left"},
+		{"id":"e9","fromNode":"hailo","fromSide":"right","toNode":"hailo-power","toSide":"left"},
+		{"id":"e10","fromNode":"hailo","fromSide":"right","toNode":"hailo-sig","toSide":"left"},
+		{"id":"e11","fromNode":"csi","fromSide":"right","toNode":"csi-conn","toSide":"left"},
+		{"id":"e12","fromNode":"csi","fromSide":"right","toNode":"csi-power","toSide":"left"},
+		{"id":"e13","fromNode":"csi","fromSide":"right","toNode":"csi-sig","toSide":"left"},
+		{"id":"e14","fromNode":"power","fromSide":"right","toNode":"pwr-pd","toSide":"left"},
+		{"id":"e15","fromNode":"power","fromSide":"right","toNode":"pwr-prot","toSide":"left"},
+		{"id":"e16","fromNode":"power","fromSide":"right","toNode":"pwr-buck","toSide":"left"}
+	]
+}
