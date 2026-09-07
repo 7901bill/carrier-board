@@ -329,3 +329,21 @@ for PCIe Gen 3 while the CM5 carrier board is designed for supported PCIe Gen
 Ethernet was considered and remains out of scope for this revision. Wi-Fi is
 already built into the selected CM5, and Ethernet would require the MagJack,
 ESD protection, four 100-ohm differential pairs, and additional board area.
+
+---
+
+## 2026-09-07 — Simplified first revision and connector schematic work
+
+Removed the TPS25947 eFuse from the first board revision. The eFuse adds
+design and bring-up complexity that is not justified for this iteration. The
+previous eFuse selection and fuse → TVS → eFuse discussion remain above as
+historical research; they no longer describe the active schematic.
+
+The active schematic work is now the CM5 interface: the two 100-pin CM5
+connectors and the M.2 socket for the Hailo-8L M+B-key card. This includes the
+CM5-to-M.2 PCIe connection, the associated power and ground connections, and
+the required control signals.
+
+The board will retain UART for early-boot debugging and recovery pins,
+including `nRPIBOOT`, for CM5 USB recovery. Exact recovery-pin connections
+will be recorded with the schematic wiring once they are finalized.

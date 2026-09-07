@@ -1,21 +1,27 @@
 # Documentation — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-09-03
+Last updated: 2026-09-07
 
-## Current design status — 2026-09-03
+## Current design status — 2026-09-07
 
-The power-input and main 5V rail design is essentially complete. The current
-hardware work is wiring the CM5's two 100-pin connectors, the Hailo-8L M.2
-socket, the direct PCIe connection between the CM5 and M.2 socket, and the
-camera connector.
+The first revision uses a simpler power-input design: the TPS25947 eFuse has
+been removed because its added complexity is not appropriate for this first
+board. The earlier eFuse selection and topology discussion remain in the
+project history, but the eFuse is not part of the current schematic.
+
+The current hardware work is wiring the CM5's two 100-pin connectors and the
+M.2 socket for the Hailo-8L M+B-key card. This includes the direct PCIe
+connection between the CM5 and M.2 socket, power and ground, and the required
+control signals. The camera connector follows after this work.
 
 The bring-up architecture is now defined. One USB-C connector is dedicated to
 board power. A second USB-C connector is dedicated to CM5 programming and
 recovery. The CM5's onboard eMMC is flashed through USB mass-storage mode; no
-external SD-card socket is needed for the full CM5 variant. An accessible
-`nRPIBOOT` jumper or pushbutton selects USB recovery mode during power-up. A
-separate three-pin UART debug connector exposes TX, RX, and GND for early boot
-diagnostics. Wi-Fi and SSH are used for normal development after Linux boots.
+external SD-card socket is needed for the full CM5 variant. Accessible recovery
+pins, including `nRPIBOOT`, are being included for USB recovery during
+power-up. A separate three-pin UART debug connector exposes TX, RX, and GND
+for early-boot diagnostics. Wi-Fi and SSH are used for normal development
+after Linux boots.
 
 The carrier board does not require a separate microcontroller or bridge chip
 for these functions. It routes the CM5 signals directly to the power circuit,
@@ -327,38 +333,12 @@ in late 2024), unlike the older, well-documented CM4.
   capacity. The 5V-output resistor values (from the datasheet): R1 =
   40.2k ohms, R2 = 5.49k ohms, C4 = 33pF, inductor = 3.3µH — still need to
   confirm these exact parts are currently in stock (open item).
-- **Input protection — all three parts picked 2026-08-08 (Session 5).**
-  Three separate layers, each catching a different kind of fault:
-  - **Backup fuse: 1206T3A63V** (Walter Elec, LCSC **C354897**, 3A/63V,
-    fast-acting, 1206 SMD, 18.4k units in stock) — the dumb, unconditional
-    last resort. Doesn't watch voltage or current thresholds, just opens
-    permanently once too much current flows for too long. Exists for the
-    case where the *smart* protection (the TVS or the eFuse) itself fails.
-  - **TVS: SMBJ12A** (Littelfuse, LCSC **C151251**, 600W, 12V standoff,
-    unidirectional, DO-214AA/SMB) — a shunt diode across VBUS/GND that
-    absorbs fast transients (ESD from the connector, hot-plug cable
-    ringing) in nanoseconds by clamping the spike voltage. 12V standoff
-    gives ~3V headroom over the fixed 9V request; clamps to ~19.9V, under
-    both TPS25947's 23V rating and the MP2329's 26V absolute max.
-  - **eFuse: TPS25947** (LCSC **C3662799**, TPS259470ARPWR, 2.7-23V, 5.5A,
-    28mΩ, true reverse-polarity blocking via back-to-back FETs) — the
-    active layer: watches voltage and current continuously and opens the
-    internal FET if either goes out of bounds. Picked over **TPS25940**
-    (LCSC C2867756, 18V rating) — now that the design only requests 9V,
-    TPS25940's 18V margin is no longer actually tight, but TPS25947 gives
-    more headroom for similar cost, lower on-resistance (less heat at our
-    ~1.5A load), and real reverse-polarity blocking instead of just
-    reverse-current sensing.
-  - **Order matters: fuse → TVS → eFuse**, not the reverse. A fuse placed
-    *after* the TVS wouldn't catch a TVS that fails shorted (a real TVS
-    failure mode under an over-energy event) — that fault would short VBUS
-    to ground upstream of the fuse and never trip it. Putting the fuse
-    first means it backs up everything downstream of it, including both
-    the TVS and the eFuse failing. **Not yet checked against a reference
-    design** — see Session 5 note above.
-  - Also still in the input-protection chain: surge/ESD protector
-    **USBLC6-2SC6** (protects the power line and the two USB data lines,
-    LCSC part C7519, a common basic part, unchanged).
+- **Input protection — simplified for the first revision (2026-09-07).**
+  The TPS25947 eFuse has been removed from the schematic because it adds
+  complexity that is not justified for this first board. The earlier eFuse
+  choice and fuse → TVS → eFuse topology are historical decisions, not the
+  current implementation. Retain and document only the protection parts that
+  remain in the schematic after the simplified power path is finalized.
 - **Handling weak chargers:** the negotiation chip's status output lights
   an LED at minimum (so you can see if a weak charger is connected);
   optionally also wired to a CM5 input pin so software can check the
@@ -398,7 +378,7 @@ dropping it for simplicity.
 
 ```
 USB-C power in ──→ CH224A (asks for 9V, passes it straight through — no conversion)
-               ──→ backup fuse (1206T3A63V) → TVS (SMBJ12A, shunt to GND) → eFuse (TPS25947)
+               ──→ simplified input-protection path (no TPS25947 eFuse)
                ──→ MP2329 voltage converter (drops 9V to 5V; current rises to match load, ~95% efficient)
                ──→ 5V/5A main power rail (a shared bus, not a fixed split)
                     ├──→ CM5 (uses 5V directly; its own internal power chip handles further conversion)
@@ -666,12 +646,14 @@ everything from the board order onward is replaced by the paragraph above):
   software support.
 - **Pick the exact camera model** — needed to confirm whether it needs a
   1.8V rail and to check its control-bus address/resistor details.
-- **Protection stage parts picked (Session 5)** — TVS (SMBJ12A), eFuse
-  (TPS25947), backup fuse (1206T3A63V), surge protector (USBLC6-2SC6), and
-  converter (MP2329) are all confirmed. **Still open:** verify the
-  fuse → TVS → eFuse topology against a real reference design (see Session
-  5 note) before it's final; a separate small protection chip for the USB
-  data lines (TPD4E02B04-type) also not yet confirmed in stock.
+- **Finish documenting the simplified input-protection path** — the TPS25947
+  eFuse is removed for this first revision. Confirm the remaining protection
+  parts and final schematic topology; the earlier fuse → TVS → eFuse review
+  is no longer applicable.
+- **Wire the CM5 interfaces now in progress** — complete the two 100-pin CM5
+  connectors, the M.2 socket for the Hailo-8L M+B-key card, the PCIe link,
+  UART, and the selected recovery pins from the authoritative CM5 reference
+  design and datasheet.
 - **Power-up sequencing part** — delay circuit vs. dedicated switch chip
   approach not decided yet (needed so the 3.3V rail is stable before the
   Hailo-8L's reset signal releases). TPS22965/TPS22918 are candidate parts
