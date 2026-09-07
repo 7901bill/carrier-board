@@ -351,3 +351,10 @@ The board retains UART for early-boot debugging: CM5 pin 55 (`GPIO14` /
 recovery during power-up. CM5 pins 94 and 96 (`CC1` and `CC2`) remain
 intentionally unconnected because the separate CH224A power-input circuit owns
 its USB-C CC signals.
+
+**Connector 1 GPIO reference completed.** CM5 pin 78 (`GPIO_VREF`) is tied to
+the 3.3 V output net from pins 84 and 86. Pin 78 is a reference input, so this
+sets the CM5 GPIO bank to 3.3 V signaling; it is not another 3.3 V supply
+output. The next schematic task is the second 100-pin CM5 connector. Detailed
+decisions about the remaining pin uses and wiring are deferred until that
+sheet is in place.

@@ -9,10 +9,12 @@ been removed because its added complexity is not appropriate for this first
 board. The earlier eFuse selection and topology discussion remain in the
 project history, but the eFuse is not part of the current schematic.
 
-The current hardware work is wiring the CM5's two 100-pin connectors and the
-M.2 socket for the Hailo-8L M+B-key card. This includes the direct PCIe
-connection between the CM5 and M.2 socket, power and ground, and the required
-control signals. The camera connector follows after this work.
+The first 100-pin CM5 connector now has its GPIO reference decision: pin 78
+(`GPIO_VREF`) ties to the CM5's 3.3 V output pins 84 and 86, selecting 3.3 V
+GPIO signaling. The next schematic task is the second 100-pin CM5 connector,
+followed by the M.2 socket for the Hailo-8L M+B-key card. Detailed choices for
+which remaining pins to use and how to wire them are deferred until that second
+connector schematic is complete.
 
 The bring-up architecture is now defined. One USB-C connector is dedicated to
 board power. A second USB-C connector is dedicated to CM5 programming and

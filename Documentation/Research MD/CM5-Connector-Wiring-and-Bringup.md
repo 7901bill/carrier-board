@@ -47,6 +47,7 @@ first 100-pin CM5 connector:
 
 | CM5 pin | Signal | Schematic label / connection |
 |---:|---|---|
+| 78 | `GPIO_VREF` | Tie to the 3.3 V output net from pins 84 and 86 |
 | 51 | `GPIO15` / `UART0_RX` | `DEBUG_UART_RX` → debug adapter TX |
 | 55 | `GPIO14` / `UART0_TX` | `DEBUG_UART_TX` → debug adapter RX |
 | 80 | `SCL0` | `CAM_I2C_SCL` |
@@ -61,7 +62,9 @@ Pins 94 and 96 must not connect to either board USB-C connector: the CH224A
 handles power-port CC negotiation, and the programming USB-C port uses its own
 device-side CC arrangement. Pins 56 (`GPIO3` / `I2C1_SCL`) and 58 (`GPIO2` /
 `I2C1_SDA`) remain available as the general-purpose I2C bus; they are not the
-camera control bus.
+camera control bus. Pin 78 is a GPIO voltage-reference input, not a 3.3 V
+output; tying it to the 3.3 V output net on pins 84 and 86 establishes the
+CM5's 3.3 V GPIO signal level.
 
 ## Initial flashing and normal boot
 
