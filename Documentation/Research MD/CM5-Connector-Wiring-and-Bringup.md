@@ -40,6 +40,29 @@ them separate avoids making the development computer responsible for powering
 the complete carrier board and avoids mixing the USB-PD power path with the
 CM5 USB recovery path.
 
+## CM5 connector 1 assignments
+
+The following assignments are fixed for the current schematic work on the
+first 100-pin CM5 connector:
+
+| CM5 pin | Signal | Schematic label / connection |
+|---:|---|---|
+| 51 | `GPIO15` / `UART0_RX` | `DEBUG_UART_RX` → debug adapter TX |
+| 55 | `GPIO14` / `UART0_TX` | `DEBUG_UART_TX` → debug adapter RX |
+| 80 | `SCL0` | `CAM_I2C_SCL` |
+| 82 | `SDA0` | `CAM_I2C_SDA` |
+| 93 | `nRPIBOOT` | Accessible jumper or pushbutton to GND for USB recovery |
+| 94 | `CC1` | No connect |
+| 96 | `CC2` | No connect |
+| 97 | `CAM_GPIO0` | Camera power/enable control |
+| 100 | `CAM_GPIO1` | Camera auxiliary control |
+
+Pins 94 and 96 must not connect to either board USB-C connector: the CH224A
+handles power-port CC negotiation, and the programming USB-C port uses its own
+device-side CC arrangement. Pins 56 (`GPIO3` / `I2C1_SCL`) and 58 (`GPIO2` /
+`I2C1_SDA`) remain available as the general-purpose I2C bus; they are not the
+camera control bus.
+
 ## Initial flashing and normal boot
 
 The full CM5 variant has factory-installed eMMC storage. It does not require a

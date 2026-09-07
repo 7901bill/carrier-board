@@ -17,11 +17,12 @@ control signals. The camera connector follows after this work.
 The bring-up architecture is now defined. One USB-C connector is dedicated to
 board power. A second USB-C connector is dedicated to CM5 programming and
 recovery. The CM5's onboard eMMC is flashed through USB mass-storage mode; no
-external SD-card socket is needed for the full CM5 variant. Accessible recovery
-pins, including `nRPIBOOT`, are being included for USB recovery during
-power-up. A separate three-pin UART debug connector exposes TX, RX, and GND
-for early-boot diagnostics. Wi-Fi and SSH are used for normal development
-after Linux boots.
+external SD-card socket is needed for the full CM5 variant. CM5 pin 93
+(`nRPIBOOT`) is connected to an accessible jumper or pushbutton to ground for
+USB recovery during power-up. The three-pin UART debug connector uses pin 55
+(`GPIO14` / `UART0_TX`) and pin 51 (`GPIO15` / `UART0_RX`), plus ground, for
+early-boot diagnostics. Wi-Fi and SSH are used for normal development after
+Linux boots.
 
 The carrier board does not require a separate microcontroller or bridge chip
 for these functions. It routes the CM5 signals directly to the power circuit,

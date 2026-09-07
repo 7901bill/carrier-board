@@ -344,6 +344,10 @@ connectors and the M.2 socket for the Hailo-8L M+B-key card. This includes the
 CM5-to-M.2 PCIe connection, the associated power and ground connections, and
 the required control signals.
 
-The board will retain UART for early-boot debugging and recovery pins,
-including `nRPIBOOT`, for CM5 USB recovery. Exact recovery-pin connections
-will be recorded with the schematic wiring once they are finalized.
+The board retains UART for early-boot debugging: CM5 pin 55 (`GPIO14` /
+`UART0_TX`) connects to the debug adapter's RX input, and CM5 pin 51
+(`GPIO15` / `UART0_RX`) connects to the adapter's TX output. CM5 pin 93
+(`nRPIBOOT`) connects to an accessible jumper or pushbutton to ground for USB
+recovery during power-up. CM5 pins 94 and 96 (`CC1` and `CC2`) remain
+intentionally unconnected because the separate CH224A power-input circuit owns
+its USB-C CC signals.
