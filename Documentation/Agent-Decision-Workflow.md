@@ -12,6 +12,24 @@ This project uses two shared Markdown files as its durable memory across Codex s
 `documentation.md` answers: "What are we doing now?"
 `Journal.md` answers: "What did we learn, decide, or change, and why?"
 
+## GitHub access method
+
+Always work from a real Git checkout. Do not use GitHub's **Download ZIP**
+option or treat an extracted repository snapshot as a working copy, because a
+ZIP does not contain the `.git` history, configured remote, branch-tracking
+information, or a reliable way to determine what must be pushed.
+
+- If no checkout exists, clone the repository once with
+  `git clone https://github.com/7901bill/carrier-board.git`.
+- If a checkout already exists, reuse it. Start the session with
+  `git fetch origin` and update the working branch with `git pull --ff-only`
+  after checking for local changes.
+- Before committing or pushing, confirm that `origin` points to the expected
+  repository and compare the local branch with `origin/master`.
+- Never clone over, replace, or delete a folder containing uncommitted work.
+  If the supplied project folder is not a Git checkout, clone into a separate
+  directory and deliberately compare/import the project files.
+
 ## Normal sequential workflow
 
 Agents work one at a time against the same GitHub branch. At the beginning of each session, the agent pulls the latest changes and reads both documentation files. That makes the previous agent's recorded conclusions available before new work begins.
