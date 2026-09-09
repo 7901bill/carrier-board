@@ -358,3 +358,149 @@ sets the CM5 GPIO bank to 3.3 V signaling; it is not another 3.3 V supply
 output. The next schematic task is the second 100-pin CM5 connector. Detailed
 decisions about the remaining pin uses and wiring are deferred until that
 sheet is in place.
+
+---
+
+## 2026-09-08 — Hailo-8L M.2 custom-symbol pinout locked
+
+Verified the custom M.2 socket assignment against the Hailo-8L M.2 Key B+M
+ET Module Data Sheet Rev. 4.0, section 2.2, and the current Raspberry Pi CM5
+datasheet. The board uses the UMAX `91302-42-067RDM` 67-contact M-key socket
+(LCSC `C601195`); the Hailo-8L B+M-key module fits this socket.
+
+The custom symbol is grouped by function as follows:
+
+- Power: pins 2, 4, 70, 72, and 74 are `3V3_HAILO`. Ground: pins 3, 27,
+  33, 39, 45, 51, 57, 71, and 73 are `GND`.
+- PCIe lane 0: pin 41 `PETn0` → CM5 pin 118 `PCIe_RX_N`; pin 43 `PETp0`
+  → CM5 pin 116 `PCIe_RX_P`; pin 47 `PERn0` → CM5 pin 124 `PCIe_TX_N`;
+  pin 49 `PERp0` → CM5 pin 122 `PCIe_TX_P`.
+- Clock/control: pin 53 `REFCLKn` → CM5 pin 112 `PCIe_CLK_N`; pin 55
+  `REFCLKp` → CM5 pin 110 `PCIe_CLK_P`; pin 50 `PERST#` → CM5 pin 109
+  `PCIe_nRST`; pin 52 `CLKREQ#` → CM5 pin 102 `PCIe_CLK_nREQ`. Pin 54
+  `PEWAKE#` can connect to CM5 pin 104 `PCIE_nWAKE`, but wake is currently
+  unsupported by CM5 software and this signal may be left unconnected.
+- PCIe lane 1 is deliberately unused because CM5 exposes only x1: pins 29
+  `PETn1`, 31 `PETp1`, 35 `PERn1`, and 37 `PERp1` get explicit no-connects.
+- Configuration contacts describe the module: pins 1, 21, and 75 are the
+  module-grounded configuration bits and pin 69 is the module's NC
+  configuration bit. They are detection signals, not extra power grounds;
+  leave the carrier side open unless module-type detection is implemented.
+- All remaining M-key socket contacts are unused for this Hailo module and
+  get explicit no-connect markers. Pins 59–66 are absent because they form
+  the M-key notch. The imported `C601195.SchLib` reports 68 pins, so its one
+  extra pin must be checked against the connector drawing as a shield or
+  mechanical contact before it is tied to ground.
+
+**Power wiring still required.** `5V_MAIN` must feed a local 5 V-to-3.3 V
+switching converter rated for at least 2 A, then the sequenced/switched
+`3V3_HAILO` rail must connect to all five M.2 power pins. Raw 5 V must never
+be connected to the Hailo M.2 socket. A separate camera branch is also still
+unfinished: `5V_MAIN` must feed the selected camera regulator, and its
+verified output rail(s) must connect to the CSI-2 camera connector power pins.
+Confirm the exact camera module voltage requirements and connector pin map
+before wiring that branch. Both local rails need nearby decoupling, test
+points, and a common ground return.
+
+> Later the same day, the component-selection portion of this open item was
+> closed by the “Local Hailo and camera power rails selected” entry below.
+> Physical schematic wiring and Hailo reset sequencing remain open.
+
+The detailed pin table is recorded in
+`Research MD/PCIe-x1-Differential-Pairs-Explainer.md`. No schematic-library
+binary was modified during this documentation pass, and nothing was pushed.
+
+---
+
+## 2026-09-08 — Repository and design-state audit
+
+**Status: Findings and proposed work; no architecture decision superseded.**
+
+Reviewed the current documentation, Git state, Altium project membership, CAD
+file inventory, and schematic previews. The detailed ranked findings are in
+`Design-Audit-2026-09-08.md`.
+
+The audit confirmed that the two CM5 connector-library corrections in the
+root README remain the highest-priority release blockers. It also found that
+there is no PCB layout document, both CM5 sheets remain largely unwired, the
+tracked M.2 sheet is blank, and the new blank `Buck to M.2 & CSI.SchDoc` is
+untracked and not included in the Altium project. The documented August layout
+deadline and approximately September 16 order date are no longer credible.
+
+The next decisions are to choose the Rev A scope, choose the authoritative
+M.2/CSI sheet structure, finish the Hailo regulator and sequencing design,
+define behavior before successful 9 V USB-PD negotiation, and select the exact
+camera. Programming/recovery circuitry, mechanical constraints, PCB rules, and
+manufacturing verification remain required before release.
+
+No design choice was made on Bill's behalf. Existing local documentation,
+library, history, and schematic changes were preserved. These documentation
+edits are local only; nothing was committed or pushed.
+
+---
+
+## 2026-09-08 — Local Hailo and camera power rails selected
+
+**Confirmed:** keep two separate local branches from `5V_MAIN`. The Hailo-8L
+has large and fast load changes, so its 3.3 V switching rail must not be shared
+directly with the camera. The rails still share the upstream 5 V source and
+ground, but separate regulation, local decoupling, and careful layout reduce
+the noise and voltage-transient coupling into the camera supply.
+
+The Hailo branch now uses Texas Instruments **TPS54302DDCR**,
+JLCPCB/LCSC **C311983**. It is a 4.5 V to 28 V input, adjustable 3 A,
+400 kHz synchronous buck in TSOT-23-6 and provides margin above the Hailo
+module's documented 3.3 V/2 A maximum. For a 3.3 V output, the TI datasheet
+starting values are 100 kΩ output-to-FB, 22.1 kΩ FB-to-ground, 47 pF across
+the upper feedback resistor, 6.8 µH inductance, at least 10 µF ceramic input
+decoupling, 0.1 µF BOOT-to-SW, and 44 µF effective ceramic output capacitance.
+Use an inductor rated for at least 3 A RMS and preferably above 4 A saturation.
+The IC has internal soft-start but no power-good output, so stable-rail versus
+PCIe-reset sequencing remains unresolved by the regulator alone.
+
+The camera branch uses the previously selected genuine Diodes Incorporated
+**AP2112K-3.3TRG1**, JLCPCB/LCSC **C51118**, a fixed 3.3 V/600 mA LDO in
+SOT-25-5. Use at least 1 µF X5R/X7R capacitors directly at its input and
+output. JLCPCB showed 64,064 units in stock during this check; C311983 also
+had healthy distributor availability. Stock is a dated snapshot and must be
+checked again when the assembly order is prepared.
+
+**Confirmed CSI power correction:** the standard Raspberry Pi 22-pin CSI
+connector has one 3.3 V supply input on pin 22. It does not require a separate
+1.8 V supply from the carrier. Camera Module 3 generates its lower internal
+rails on the camera PCB. Raspberry Pi budgets approximately 250 mA for a
+camera, or about 0.825 W at 3.3 V. The AP2112 dissipates approximately 0.425 W
+at that load from 5 V, so it needs useful copper area and should not be assumed
+to deliver its full electrical 600 mA rating continuously from 5 V without a
+thermal check.
+
+**Superseded:** the older note requiring external 1.8 kΩ camera I2C pull-ups.
+The current CM5 datasheet states that SCL0 and SDA0 already have internal
+1.8 kΩ pull-ups to `CM5_3.3V`. Do not fit another pair by default because the
+parallel result would be approximately 900 Ω.
+
+Documentation only was changed. No Altium binary was edited, and no commit or
+push was requested.
+
+---
+
+## 2026-09-09 — M.2 and local-power documentation normalized
+
+Placed each current decision in its intended long-term reference:
+
+- `Research MD/PCIe-x1-Differential-Pairs-Explainer.md` is the detailed source
+  of truth for the Hailo M.2 socket pins, lane directions, CM5 mapping,
+  no-connects, and power contacts.
+- `Research MD/power-design-explainer.md` is the detailed source of truth for
+  the separate `5V_MAIN` → TPS54302 → `3V3_HAILO` and `5V_MAIN` → AP2112K →
+  `3V3_CAMERA` branches.
+- `documentation.md` holds the current design summary and session index, while
+  this journal preserves the chronological decisions and resume checkpoint.
+- `Design-Audit-2026-09-08.md` now marks selection of the Hailo regulator as
+  resolved after the audit without closing the remaining implementation work.
+
+Next CAD work remains: draw and verify both regulator branches and their
+required passives/decoupling, connect `3V3_HAILO` to M.2 pins 2, 4, 70, 72,
+and 74, connect `3V3_CAMERA` to CSI pin 22, and ensure the Hailo rail is stable
+before `PERST#` is released. No Altium binary was changed by this
+documentation pass, and nothing was committed or pushed.

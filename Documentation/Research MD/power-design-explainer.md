@@ -1,6 +1,6 @@
 # Power Design, Outlet to Component — A Working Explainer
 
-Last updated: 2026-07-29
+Last updated: 2026-09-09
 
 > **Note:** this note was written 2026-07-29, one day before the power
 > system got recalculated and some parts changed (see documentation.md's Session 3
@@ -12,6 +12,34 @@ Last updated: 2026-07-29
 > stage works are still accurate — just double-check any specific part
 > number or number against documentation.md, which is always the current source of
 > truth.
+
+## Current implementation checkpoint — 2026-09-09
+
+The current local-rail choices and required schematic connections are:
+
+```text
+5V_MAIN
+    ├──> TPS54302DDCR (C311983), configured for 3.3 V
+    │       └──> 3V3_HAILO
+    │               └──> M.2 pins 2, 4, 70, 72, and 74
+    │
+    └──> AP2112K-3.3TRG1 (C51118)
+            └──> 3V3_CAMERA
+                    └──> Raspberry Pi 22-pin CSI connector pin 22
+```
+
+These branches share `5V_MAIN` and the board ground plane, but they do not
+share a 3.3 V output rail. The Hailo-8L is rated for as much as 2 A at 3.3 V,
+so raw 5 V must never reach the M.2 power contacts. The camera connector needs
+one 3.3 V supply on pin 22; the standard Raspberry Pi camera module generates
+its lower internal rails on the camera PCB.
+
+Part selection is complete, but CAD implementation and verification are not.
+The schematic still needs the two regulator branches, their datasheet-required
+passives and local decoupling, test points, and the connections to the M.2 and
+CSI connectors. Hailo reset sequencing also remains open because the
+TPS54302DDCR has soft-start but no power-good output: `3V3_HAILO` must be
+stable before `PERST#` is released.
 
 This note walks through the actual path electricity takes on your board,
 one stage at a time. Each stage answers one question: *what is this here
@@ -201,6 +229,11 @@ determine the voltage quality that sensitive chip sees. The local regulator
 | ---------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | Camera | <500mA          | Low current × small voltage drop (5V→3.3V) = very little wasted heat. A linear regulator is simpler and quieter (no switching noise near a sensitive camera signal — this matters!). | —                                                                                                                                      |
 | Hailo-8L   | up to 2A / 6.6W | —                                                                                                                                                                 | A linear regulator here would waste about 3.4W as heat (a real, noticeable hot spot on the board). Needs a real switching converter for efficiency. |
+
+The selected camera regulator is `AP2112K-3.3TRG1` (`C51118`). The selected
+Hailo regulator is `TPS54302DDCR` (`C311983`), a 3 A synchronous buck
+configured for 3.3 V. Selection does not close the remaining schematic,
+thermal, transient, and reset-sequencing verification.
 
 This is also *why* a linear regulator is preferred for the camera
 specifically, beyond just "low current" — switching converters are

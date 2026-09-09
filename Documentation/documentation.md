@@ -1,8 +1,17 @@
 # Documentation — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-09-07
+Last updated: 2026-09-09
 
-## Current design status — 2026-09-07
+## Current design status — 2026-09-09
+
+> **Design audit:** The current repository and Altium-state review is recorded
+> in [`Design-Audit-2026-09-08.md`](Design-Audit-2026-09-08.md). The immediate
+> blockers are correction of both CM5 connector libraries, a revised Rev A
+> scope/schedule, cleanup of the blank/duplicate M.2 and CSI sheet structure,
+> completion of the CM5 interfaces, implementation and verification of the
+> selected Hailo power rail, closure of USB-PD startup behavior, and the
+> remaining camera decisions. This audit records findings and proposed work;
+> it does not silently change the locked architecture below.
 
 The first revision uses a simpler power-input design: the TPS25947 eFuse has
 been removed because its added complexity is not appropriate for this first
@@ -11,10 +20,21 @@ project history, but the eFuse is not part of the current schematic.
 
 The first 100-pin CM5 connector now has its GPIO reference decision: pin 78
 (`GPIO_VREF`) ties to the CM5's 3.3 V output pins 84 and 86, selecting 3.3 V
-GPIO signaling. The next schematic task is the second 100-pin CM5 connector,
-followed by the M.2 socket for the Hailo-8L M+B-key card. Detailed choices for
-which remaining pins to use and how to wire them are deferred until that second
-connector schematic is complete.
+GPIO signaling. The Hailo-8L M.2 custom-symbol pinout is now also locked from
+the Hailo module datasheet: all five 3.3 V contacts and nine grounds are used,
+PCIe lane 0 connects to the CM5 with endpoint TX/RX crossed correctly, lane 1
+is explicitly no-connect, and the reference-clock/reset/clock-request signals
+are assigned. See `Research MD/PCIe-x1-Differential-Pairs-Explainer.md` for
+the pin-by-pin table.
+
+The two local 3.3 V power branches are now selected. `5V_MAIN` from the
+MP2329 feeds a dedicated **TPS54302DDCR** 3 A switching regulator (JLCPCB/LCSC
+**C311983**) for `3V3_HAILO`; 5 V must not be applied directly to the Hailo
+module. A separate `5V_MAIN` branch feeds an **AP2112K-3.3TRG1** 600 mA LDO
+(JLCPCB/LCSC **C51118**) for `3V3_CAMERA`. The standard Raspberry Pi 22-pin
+CSI connector requires only 3.3 V on pin 22; the camera module makes its lower
+internal rails locally. The branches remain separate so Hailo load transients
+and switching noise do not directly share the camera's 3.3 V rail.
 
 The bring-up architecture is now defined. One USB-C connector is dedicated to
 board power. A second USB-C connector is dedicated to CM5 programming and
@@ -185,6 +205,33 @@ the last work session left off without reading the whole file.
   `TPS259470ARPWR` datasheet. Tomorrow: read the programming note, finish
   connecting the CH224A PD request node to the fuse, TVS, eFuse, and MP2329
   using the current local datasheets, and review the resulting schematic.
+- **Session 10 (2026-09-08):** Locked the Hailo-8L M.2 custom-symbol pinout
+  from the Hailo Rev. 4.0 module datasheet and mapped PCIe lane 0, reference
+  clock, reset, and clock request to the current CM5 pins. Lane 1 and all
+  Hailo-unused contacts are explicit no-connects; configuration contacts are
+  reserved for optional module detection. Recorded that `5V_MAIN` still
+  needs two separate local power branches: a ≥2 A 3.3 V switching rail for
+  the M.2 socket and a camera regulator feeding the CSI-2 connector after its
+  voltage/pinout is verified. No Altium binary was changed and nothing was
+  pushed. The component-selection and CSI-voltage portions of this checkpoint
+  were superseded by Session 11; CAD wiring and sequencing remain open.
+- **Session 11 (2026-09-08):** Closed the two local 3.3 V power-rail choices.
+  The Hailo M.2 branch uses TI **TPS54302DDCR**, JLCPCB/LCSC **C311983**, a
+  3 A synchronous adjustable buck configured for 3.3 V. The camera branch
+  remains separate and uses Diodes Incorporated **AP2112K-3.3TRG1**,
+  JLCPCB/LCSC **C51118**, a fixed 3.3 V/600 mA LDO. Confirmed the Raspberry Pi
+  22-pin CSI connector takes 3.3 V on pin 22 and does not require a carrier
+  1.8 V input. Stock checked during selection: C51118 had 64,064 units at
+  JLCPCB and C311983 had healthy distributor stock. No commit or push was
+  requested.
+- **Session 12 (2026-09-09):** Normalized the M.2 and local-power information
+  across the project documentation. The PCIe explainer is the detailed source
+  of truth for the Hailo socket pin map; the power-design explainer is the
+  detailed source of truth for the `5V_MAIN` → `3V3_HAILO` and `3V3_CAMERA`
+  branches; this file and `Journal.md` retain the concise status/history.
+  Updated the design audit to show the Hailo regulator selection as resolved
+  while keeping CAD implementation, power verification, and reset sequencing
+  open. Documentation changes are local only; nothing was pushed.
 
 ## Project summary
 
@@ -246,10 +293,10 @@ in late 2024), unlike the older, well-documented CM4.
     stays the same). The data going back and forth (detection boxes and
     labels, not raw video) is small enough that the slower connection is
     still plenty fast.
-  - The M.2 connector footprint on the board should support the full B+M
-    spec (both sets of PCIe wire pairs, since that's what the standard
-    connector part provides), but only one set (lane 0) actually needs to
-    be wired up — the second set can be left unconnected.
+  - The board uses a 67-contact M-key socket that accepts the Hailo-8L's
+    B+M-key edge. The socket exposes both Hailo PCIe lane sets, but only one
+    set (lane 0) is wired because the CM5 exposes only x1; lane 1 is left
+    unconnected.
 - **Camera**: connects over CSI-2 (a 4-wire-pair video interface, plus a
   clock wire, wire lengths need to be closely matched) to the CM5. Also
   needs a **separate 2-wire control connection (I2C)** for camera settings
@@ -385,8 +432,8 @@ USB-C power in ──→ CH224A (asks for 9V, passes it straight through — no 
                ──→ MP2329 voltage converter (drops 9V to 5V; current rises to match load, ~95% efficient)
                ──→ 5V/5A main power rail (a shared bus, not a fixed split)
                     ├──→ CM5 (uses 5V directly; its own internal power chip handles further conversion)
-                    ├──→ local converter (5V→3.3V, ≥2A) → Hailo-8L M.2 slot
-                    └──→ local linear regulator (5V→3.3V, maybe 1.8V) → Camera
+                    ├──→ TPS54302 buck (5V→3.3V, 3A) → Hailo-8L M.2 slot
+                    └──→ AP2112K-3.3 LDO (5V→3.3V, 600mA) → CSI pin 22
 ```
 
 Voltage and current trade off against each other at roughly constant power
@@ -408,20 +455,33 @@ straight off the main converter:
   the Hailo-8L can draw up to 6.6W / 2A at 3.3V (1.5W typical)** — from the
   chip's own datasheet (`Datasheets/4746521.pdf`), much higher than the
   "few hundred mA" first assumed. This rules out a simple linear regulator
-  here (it would waste about 3.4W as heat at max load) — needs a real
-  switching converter rated for ≥2A; a specific in-stock part hasn't been
-  picked yet, still an open item. When picking one, prefer a well-known
-  brand (TI or MPS) over a lesser-known part that does the same job — same
-  price and stock availability, but much better design-software library
-  support.
-- Camera: a local 3.3V (and possibly 1.8V — check once the camera model is
-  picked) regulator near the connector. Draw is well under 500mA, so a
-  simple linear regulator works fine: **AP2112K-3.3** (rated 600mA, LCSC
-  part C51118, well-stocked) is the confirmed choice.
+  here (it would waste about 3.4W as heat at max load). The selected part is
+  TI **TPS54302DDCR** (JLCPCB/LCSC **C311983**), a 4.5V-to-28V-input, 3A,
+  400kHz synchronous adjustable buck in TSOT-23-6. Configure it for 3.3V
+  with 100kΩ from output to FB, 22.1kΩ from FB to ground, 47pF across the
+  upper resistor, a 6.8µH inductor, at least 10µF ceramic input decoupling,
+  0.1µF from BOOT to SW, and 44µF effective ceramic output capacitance as
+  the TI datasheet starting point. The inductor must be rated for at least
+  3A RMS and preferably more than 4A saturation. The converter has no
+  power-good output, so PCIe reset sequencing remains a separate requirement.
+- Camera: the standard Raspberry Pi 22-pin CSI connector accepts one 3.3V
+  supply on pin 22. It does not need a separate 1.8V carrier rail; Raspberry
+  Pi Camera Module 3 makes its 2.8V, 1.8V, and 1.1V rails on the camera PCB.
+  The dedicated camera regulator is Diodes Incorporated
+  **AP2112K-3.3TRG1** (JLCPCB/LCSC **C51118**), a fixed 3.3V, 600mA LDO in
+  SOT-25-5. Use at least 1µF X5R/X7R directly at both VIN and VOUT. The
+  Raspberry Pi camera allowance is about 250mA; at that load the LDO
+  dissipates roughly 0.425W from a 5V input, so give it useful copper area
+  and do not assume its electrical 600mA rating is thermally available from
+  5V continuously.
 
 Why use local regulators instead of one big one: shorter wire runs to each
 part (less voltage loss, cleaner power), each rail can be tested/tuned on
-its own, and a problem on one rail doesn't take down the whole board.
+its own, and a problem on one rail doesn't take down the whole board. More
+importantly here, the Hailo-8L has large, fast load changes. Keeping its
+switching 3.3V rail separate prevents those transients and most of that rail's
+noise from being applied directly to the camera supply. Both branches still
+share `5V_MAIN` and ground, so layout and local decoupling remain important.
 
 Also still needs to be figured out:
 - **Power-up sequencing** (a delay circuit or a switch chip on each power
@@ -796,17 +856,20 @@ Update this section (or split it into its own note, e.g.
     External adapter: CP2102/FT232RL-type with a 3.3V/5V switch, verify
     the switch position before connecting (default position varies by
     board).
-  - **Camera control-wire resistors**: Raspberry Pi's own camera modules
-    (Camera Module 3 / IMX708) don't include the pull-up resistors these
-    control wires need — carrier board must add 1.8k-ohm resistors to
-    3.3V on each of the two wires.
+  - **Camera control-wire resistors (superseded 2026-09-08)**: the earlier
+    conclusion was that the carrier must add 1.8kΩ pull-ups. The current CM5
+    datasheet instead specifies internal 1.8kΩ pull-ups from SCL0 and SDA0
+    to `CM5_3.3V`, so do not add another pair unless later signal-integrity
+    testing establishes a need. Parallel 1.8kΩ pairs would produce an
+    unnecessarily strong 900Ω effective pull-up.
   - **Hailo-8L's real power draw**: 6.6W / 2A max at 3.3V, 1.5W typical
     (from the chip's own datasheet, `Datasheets/4746521.pdf`) — much higher
     than the "few hundred mA" first assumed. Rules out a simple linear
-    regulator for that power rail; needs a ≥2A converter, not yet picked
-    (open item).
-  - **Camera power rail**: AP2112K-3.3 linear regulator (LCSC C51118,
-    600mA) confirmed fine given the camera's draw is under 500mA.
+    regulator for that power rail. The converter selection was closed on
+    2026-09-08 with TPS54302DDCR, C311983, rated 3A.
+  - **Camera power rail**: AP2112K-3.3TRG1 linear regulator (LCSC C51118,
+    600mA) supplies 3.3V to CSI pin 22. The older possible-1.8V carrier rail
+    is not required for the standard Raspberry Pi camera connection.
   - **Power-sequencing switch chips**: TPS22965 (6A, LCSC C347592) for the
     M.2 rail, TPS22918 (2A, LCSC C131941) for the camera rail.
 

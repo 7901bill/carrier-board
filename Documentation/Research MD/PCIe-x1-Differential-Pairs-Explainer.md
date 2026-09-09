@@ -1,6 +1,6 @@
 # PCIe x1 and Matched Wire Pairs — A Working Explainer
 
-Last updated: 2026-07-30
+Last updated: 2026-09-09
 
 This note covers two ideas together because on your board they're really
 one topic: the Hailo-8L talks to the CM5 over PCIe, and PCIe (like the
@@ -114,13 +114,85 @@ out as a specific requirement, not just a general "power everything up"
 note.
 
 **Connector footprint vs. actual wiring — a distinction worth knowing:**
-The M.2 socket footprint on the board is wired for the *full* B+M
-connector spec (both PCIe lane pairs physically present, since that's what
-the standard connector part provides), but only **lane 0** is actually
-wired from the main connector to the socket. Lane 1's pins are left
-unconnected — there's nothing on the CM5 side to drive them, since it only
-exposes 1 lane. This isn't wasted design work; it's just using a standard
-connector part that happens to support more than what's actually wired up.
+The board uses a 67-contact **M-key socket**, while the Hailo-8L module has
+B+M edge notches and is mechanically compatible with that socket. The socket
+has contacts for both PCIe lane sets used by the Hailo module, but only
+**lane 0** is wired from the CM5. Lane 1 is left unconnected because the CM5
+exposes only one lane.
+
+---
+
+## Hailo-8L M.2 socket pin assignment
+
+The custom Altium symbol is for the UMAX `91302-42-067RDM` 67-contact M-key
+socket (LCSC `C601195`). The inserted Hailo-8L module is B+M keyed. The
+following names and directions come from the Hailo-8L M.2 Key B+M ET Module
+Data Sheet Rev. 4.0, section 2.2. Directions are from the module's point of
+view.
+
+### Power and ground
+
+| M.2 pin(s) | Symbol name | Carrier-board connection |
+|---:|---|---|
+| 2, 4, 70, 72, 74 | `3V3_HAILO` | Regulated 3.3 V ±5%; all five pins connected |
+| 3, 27, 33, 39, 45, 51, 57, 71, 73 | `GND` | Solid board ground; all nine pins connected |
+
+The Hailo-8L can draw 2 A maximum at 3.3 V. Do not connect `5V_MAIN`
+directly to any M.2 power pin. The selected path is `5V_MAIN` from the main
+buck converter → `TPS54302DDCR` (`C311983`) configured for 3.3 V → optional
+M.2 load switch/power sequencing → all five `3V3_HAILO` pins, with local bulk
+and high-frequency decoupling at the socket. The part is selected; drawing and
+verifying this path in the Altium schematic remains unfinished.
+
+### PCIe lane 0 — used
+
+| M.2 pin | Hailo signal | Function | CM5 connection |
+|---:|---|---|---|
+| 41 | `PETn0` | Hailo transmit negative | Pin 118 `PCIe_RX_N` |
+| 43 | `PETp0` | Hailo transmit positive | Pin 116 `PCIe_RX_P` |
+| 47 | `PERn0` | Hailo receive negative | Pin 124 `PCIe_TX_N` |
+| 49 | `PERp0` | Hailo receive positive | Pin 122 `PCIe_TX_P` |
+
+`PET` is transmit from the M.2 module and therefore connects to CM5 receive.
+`PER` is receive at the M.2 module and therefore connects to CM5 transmit.
+The M.2 module includes the required transmit-side AC coupling capacitors;
+do not add a second series capacitor set without a reviewed reason.
+
+### Reference clock and control — used or intentionally optional
+
+| M.2 pin | Hailo signal | CM5 connection | Status |
+|---:|---|---|---|
+| 53 | `REFCLKn` | Pin 112 `PCIe_CLK_N` | Required |
+| 55 | `REFCLKp` | Pin 110 `PCIe_CLK_P` | Required |
+| 50 | `PERST#` | Pin 109 `PCIe_nRST` | Required |
+| 52 | `CLKREQ#` | Pin 102 `PCIe_CLK_nREQ` | Required by CM5 guidance |
+| 54 | `PEWAKE#` | Pin 104 `PCIE_nWAKE` | Optional; CM5 wake is currently unsupported and may be left unconnected |
+
+### PCIe lane 1 — deliberately not used
+
+| M.2 pin | Symbol name | Carrier-board connection |
+|---:|---|---|
+| 29 | `PETn1` | No connect |
+| 31 | `PETp1` | No connect |
+| 35 | `PERn1` | No connect |
+| 37 | `PERp1` | No connect |
+
+### Module configuration and remaining contacts
+
+| M.2 pin | Hailo-defined state | Carrier-board use |
+|---:|---|---|
+| 1 | `CONFIG_3` = GND on module | Detection only; leave open if detection is not implemented |
+| 21 | `CONFIG_0` = GND on module | Detection only; leave open if detection is not implemented |
+| 69 | `CONFIG_1` = NC on module | Leave open |
+| 75 | `CONFIG_2` = GND on module | Detection only; leave open if detection is not implemented |
+
+All other socket contacts are unused by the Hailo datasheet and should be
+given explicit no-connect markers in the first revision: pins 5–20, 22–26,
+28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 56, 58, 67, and 68. Pins 59–66
+are the M-key notch and do not exist as electrical contacts on this 67-contact
+socket. The imported library reports 68 schematic pins even though the part
+has 67 electrical contacts; identify the extra library pin as a shield or
+mechanical contact from the connector drawing before assigning it to ground.
 
 ---
 
@@ -145,7 +217,7 @@ camera connection does too.
 |---|---|
 | Lane count / Gen | Locked: 1 lane, Gen2 (drops down automatically from the Hailo-8L's native 2 lanes, Gen3) |
 | Wire list | Locked: TX0±, RX0±, REFCLK±, PERST#, CLKREQ# (8 wires) + 3.3V/ground |
-| M.2 socket | Sourced: UMAX 91302-42-067RDM, LCSC C601195, full B+M footprint |
+| M.2 socket | Sourced: UMAX 91302-42-067RDM, LCSC C601195, 67-contact M-key socket; accepts the Hailo B+M module |
 | Lane wiring | Only lane 0 wired from the main connector to the socket; lane 1 left unconnected |
 | Reset signal timing | Requirement identified (3.3V stable before release); exact circuit not designed yet, see the power architecture notes |
 | Length matching / layer rules | Not done yet — planned as "set up the layer stack and design rules first, then route the wires," part of the layout phase |
