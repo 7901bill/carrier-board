@@ -696,6 +696,23 @@ GenerateClassCluster=0
 DocumentUniqueId=LXJWQXJN
 
 [Document39]
+DocumentPath=Schematics & PCB\Buck to M.2 & CSI.SchDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=0
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=EJMDLYJQ
+
+[Document40]
 DocumentPath=Component Libraries\Power\SCH\C6782225_Part 1.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -712,7 +729,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=XQJ64ZQZ
 
-[Document40]
+[Document41]
 DocumentPath=Component Libraries\Power\SCH\C6782225_Part 2.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1

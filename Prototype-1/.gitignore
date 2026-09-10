@@ -1,0 +1,19 @@
+# --- Secrets (never commit real credentials) ---
+secrets.h
+
+# --- Altium ---
+History/
+__Previews/
+Project Logs for*/
+*.~*
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# --- Build artifacts ---
+*.hex
+*.elf
+build/
