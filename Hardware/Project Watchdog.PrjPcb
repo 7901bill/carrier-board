@@ -628,7 +628,7 @@ GenerateClassCluster=0
 DocumentUniqueId=BSJIVRCF
 
 [Document35]
-DocumentPath=Schematics & PCB\5V Buck Converter.SchDoc
+DocumentPath=Schematics & PCB\Power Rails.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -696,7 +696,7 @@ GenerateClassCluster=0
 DocumentUniqueId=LXJWQXJN
 
 [Document39]
-DocumentPath=Schematics & PCB\Buck to M.2 & CSI.SchDoc
+DocumentPath=Schematics & PCB\FPC(Flexible Printed Circuit).SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -710,7 +710,7 @@ ClassGenCCAutoRoomEnabled=0
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=EJMDLYJQ
+DocumentUniqueId=ERPNOHCE
 
 [Document40]
 DocumentPath=Component Libraries\Power\SCH\C6782225_Part 1.SchLib
@@ -745,6 +745,74 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=OXOFYQKN
+
+[Document42]
+DocumentPath=Component Libraries\Power\PCB\C5182313.PcbLib
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=0
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=PGKNABPU
+
+[Document43]
+DocumentPath=Component Libraries\Power\SCH\C5182313.SchLib
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=0
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=TFL5UMU8
+
+[Document44]
+DocumentPath=Component Libraries\Power\PCB\C311983.PcbLib
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=0
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=CKYWVOMV
+
+[Document45]
+DocumentPath=Component Libraries\Power\SCH\C311983.SchLib
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=0
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=786YBJKG
 
 [Configuration1]
 Name=Sources
