@@ -1,17 +1,30 @@
 # Documentation — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-09-09
+Last updated: 2026-09-19
 
-## Current design status — 2026-09-09
+## Current design status — 2026-09-19
 
-> **Design audit:** The current repository and Altium-state review is recorded
-> in [`Design-Audit-2026-09-08.md`](Design-Audit-2026-09-08.md). The immediate
-> blockers are correction of both CM5 connector libraries, a revised Rev A
-> scope/schedule, cleanup of the blank/duplicate M.2 and CSI sheet structure,
-> completion of the CM5 interfaces, implementation and verification of the
-> selected Hailo power rail, closure of USB-PD startup behavior, and the
-> remaining camera decisions. This audit records findings and proposed work;
-> it does not silently change the locked architecture below.
+> **Resume checkpoint:** The historical repository audit remains in
+> [`Design-Audit-2026-09-08.md`](Design-Audit-2026-09-08.md), but its blank and
+> duplicate M.2/CSI sheet findings are resolved. The active per-subsystem
+> status is in [`Schematic-Subsystems/README.md`](Schematic-Subsystems/README.md).
+> The current Altium project uses consolidated `Amphenol ICC.SchDoc` and
+> `M.2 & CSI2.SchDoc` sheets.
+
+The TPS54302 `3V3_HAILO` buck, AP2112 `3V3_CAMERA` LDO, Hailo M.2-to-CM5 PCIe
+interface, and complete 22-pin CSI-to-CM5 interface are drawn. The M.2 link
+uses PCIe lane 0, reference clock, `PERST#`, and `CLKREQ#`; lane 1,
+`PEWAKE#`, CM5 `PCIE_nWAKE`, and CM5 `PCIE_PWR_EN` are intentionally unused
+in Rev A. The CSI interface wires all four MIPI0 data lanes, MIPI0 clock,
+`SCL0`/`SDA0`, `CAM_GPIO0`/`CAM_GPIO1`, `3V3_CAMERA`, and grounds. The
+authoritative MIPI0 CM5 pins are 115/117, 121/123, 127/129, 133/135, and
+139/141; pin 141 is lane 3 positive, not lane 0 negative.
+
+Next work is the remaining CM5 base wiring, programming/recovery USB,
+`nRPIBOOT`, debug UART, reset timing, status/test points, then a full compile
+and ERC pass. PCB work follows: verify FPC orientation, select the JLCPCB
+stackup, define 85 Ω PCIe and appropriate MIPI differential rules, then route
+and tune each P/N pair over continuous ground.
 
 The first revision uses a simpler power-input design: the TPS25947 eFuse has
 been removed because its added complexity is not appropriate for this first
@@ -232,6 +245,13 @@ the last work session left off without reading the whole file.
   Updated the design audit to show the Hailo regulator selection as resolved
   while keeping CAD implementation, power verification, and reset sequencing
   open. Documentation changes are local only; nothing was pushed.
+- **Session 13 (2026-09-18 to 2026-09-19):** Completed and sourced the
+  TPS54302 Hailo buck passives, completed the AP2112 camera LDO, consolidated
+  the CM5 and M.2/CSI schematic sheets, and wired the M.2 PCIe and full 22-pin
+  CSI interfaces to the CM5. Corrected misleading CM5 MIPI display labels and
+  locked the authoritative pin map. Changes were committed and pushed through
+  commit `4f6d2bf`; PCB differential routing and remaining base-interface/ERC
+  work are the next phase.
 
 ## Project summary
 
@@ -705,25 +725,21 @@ everything from the board order onward is replaced by the paragraph above):
   unsettled. **Update: ordered as of Session 4** (see the checkmark under
   Timeline, Week 1) — keeping this line for history, can be deleted next
   cleanup.
-- **Find a real ≥2A, 3.3V converter for the Hailo-8L's power rail** —
-  confirmed 6.6W/2A max draw rules out a simple linear regulator here; no
-  specific in-stock part found yet (looked at TPS62088/MP2143-type parts,
-  not yet confirmed). Prefer a well-known brand (TI/MPS) for better design
-  software support.
-- **Pick the exact camera model** — needed to confirm whether it needs a
-  1.8V rail and to check its control-bus address/resistor details.
+- **Hailo converter is resolved:** TPS54302DDCR (`C311983`) with the final
+  documented passives supplies `3V3_HAILO`; do not reopen converter selection
+  unless testing exposes a real problem.
+- **Camera basis is resolved:** standard Raspberry Pi Camera Module 3 / an
+  electrically compatible Arducam-class module, powered from `3V3_CAMERA`.
 - **Finish documenting the simplified input-protection path** — the TPS25947
   eFuse is removed for this first revision. Confirm the remaining protection
   parts and final schematic topology; the earlier fuse → TVS → eFuse review
   is no longer applicable.
-- **Wire the CM5 interfaces now in progress** — complete the two 100-pin CM5
-  connectors, the M.2 socket for the Hailo-8L M+B-key card, the PCIe link,
-  UART, and the selected recovery pins from the authoritative CM5 reference
-  design and datasheet.
-- **Power-up sequencing part** — delay circuit vs. dedicated switch chip
-  approach not decided yet (needed so the 3.3V rail is stable before the
-  Hailo-8L's reset signal releases). TPS22965/TPS22918 are candidate parts
-  already listed above, but which approach to use isn't decided.
+- **M.2 and CSI interfaces are drawn.** Remaining CM5 work is base
+  power/ground/no-connect treatment, programming USB, UART, recovery controls,
+  and whole-project compile/ERC verification.
+- **Hailo reset timing remains open.** Rev A omits TPS22965/TPS22918 and uses
+  always-on local rails; verify that CM5 `PCIe_nRST` remains asserted until
+  `3V3_HAILO` is stable, and add circuitry only if that check fails.
 - **Confirm the MP2329's resistor values** (R1 = 40.2k ohms, R2 = 5.49k
   ohms, C4 = 33pF, inductor = 3.3µH, from the datasheet) are actually
   available in current stock.
@@ -836,11 +852,11 @@ Update this section (or split it into its own note, e.g.
     card physically fits this single-keyed socket by design — dual-keying
     exists exactly so a card like this can fit either kind of socket — so
     no special part is needed. JLCPCB part **C601195**.
-  - **Camera connector (CSI-2 flex cable connector)**: the official
-    Raspberry Pi part (Molex 54548-2271, 22-pin, 0.5mm spacing) is now
-    discontinued. A drop-in equivalent, same spec, available on JLCPCB/LCSC:
-    **Hirose FH12-22S-0.5SH(55)**, part **C596813** (listed as pre-order —
-    recheck stock before ordering parts for the schematic phase).
+  - **Camera connector (CSI-2 flex cable connector):** current selected part
+    is Hirose **FH55-22S-0.5SH**, LCSC **C5182313**, a 22-position 0.5 mm
+    bottom-contact front-flip connector. Verify contact orientation against
+    the selected Raspberry Pi camera cable before PCB release. The older
+    FH12/C596813 note is superseded.
 - **Power-input, debug/control wiring, and local-regulator parts
   researched (JLCPCB/LCSC, cross-checked against DigiKey), 2026-07-25:**
   - **Power negotiation chip**: CH224K, LCSC C970725 — confirmed

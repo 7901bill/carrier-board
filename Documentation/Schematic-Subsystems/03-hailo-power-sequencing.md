@@ -1,6 +1,6 @@
 # 03 — Hailo Power and Reset Sequencing
 
-Last updated: 2026-09-18
+Last updated: 2026-09-19
 
 ## Purpose
 
@@ -9,8 +9,10 @@ in reset until its supply is stable.
 
 ## Current status
 
-**Rough draft.** The regulator and output requirements are confirmed. The
-schematic implementation and verification of reset timing remain unfinished.
+**Buck circuit and M.2 power wiring complete.** The TPS54302 circuit is drawn,
+its final sourced passives are recorded, and `3V3_HAILO` reaches all five M.2
+power contacts. Reset-release timing, ERC, and prototype electrical/thermal
+verification remain open.
 
 ## Confirmed design
 
@@ -32,16 +34,31 @@ schematic implementation and verification of reset timing remain unfinished.
   - 44 µF effective ceramic output capacitance.
 - The inductor must support at least 3 A RMS and preferably more than 4 A
   saturation current.
+- Final selected passives are:
+  - 6.8 µH molded inductor `C7461350`, 3.5 A rated and 5 A saturation;
+  - 100 kΩ upper feedback resistor `C25803`;
+  - 22.1 kΩ lower feedback resistor `C723484`;
+  - 47 pF C0G feed-forward capacitor `C1671`;
+  - two 22 µF output capacitors `C45783`;
+  - 100 nF bootstrap capacitor `C14663`.
 - `3V3_HAILO` must be stable before M.2 `PERST#` is released.
 
-## Planned schematic content
+## Completed schematic content
 
 - Complete TPS54302 circuit and datasheet-required passives.
 - Local bulk and high-frequency decoupling at the M.2 socket.
 - Regulator enable and CM5-controlled reset connections; no separate load
   switch.
-- Test points for `5V_MAIN`, `3V3_HAILO`, enable, reset, and ground.
 - Connection to all five M.2 power contacts.
+
+## Verification remaining
+
+- Confirm useful test access for `5V_MAIN`, `3V3_HAILO`, reset, and ground.
+- Compile and run ERC after the remaining schematic subsystems are complete.
+- Measure startup and confirm `PCIe_nRST` remains asserted until
+  `3V3_HAILO` is stable.
+- Verify ripple, load transient response, inductor temperature, and effective
+  ceramic capacitance on the prototype.
 
 ## Load-switch decision
 
@@ -72,3 +89,5 @@ schematic implementation and verification of reset timing remain unfinished.
 ## Session notes
 
 - 2026-09-18: Initial subsystem draft created from confirmed project records.
+- 2026-09-19: Completed the sourced TPS54302 circuit and all M.2 power
+  connections; reset-timing and prototype validation remain open.

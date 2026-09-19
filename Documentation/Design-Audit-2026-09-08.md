@@ -1,5 +1,12 @@
 # Design Audit — 2026-09-08
 
+> **Status update, 2026-09-19:** This file is a historical audit snapshot.
+> Its blank/duplicate M.2 and CSI sheet findings are resolved: the current
+> project uses `Amphenol ICC.SchDoc` and `M.2 & CSI2.SchDoc`, and the M.2,
+> Hailo buck, camera LDO, and CSI connector circuits are drawn. Current open
+> work is tracked in `Schematic-Subsystems/README.md`; do not use the old
+> sheet-state findings below as the resume checkpoint.
+
 ## Status and scope
 
 This is a local repository and CAD-state review, not a fabrication approval.

@@ -166,7 +166,7 @@ do not add a second series capacitor set without a reviewed reason.
 | 55 | `REFCLKp` | Pin 110 `PCIe_CLK_P` | Required |
 | 50 | `PERST#` | Pin 109 `PCIe_nRST` | Required |
 | 52 | `CLKREQ#` | Pin 102 `PCIe_CLK_nREQ` | Required by CM5 guidance |
-| 54 | `PEWAKE#` | Pin 104 `PCIE_nWAKE` | Optional; CM5 wake is currently unsupported and may be left unconnected |
+| 54 | `PEWAKE#` | Pin 104 `PCIE_nWAKE` | Rev A decision: leave both ends unconnected |
 
 ### PCIe lane 1 — deliberately not used
 
@@ -216,8 +216,8 @@ camera connection does too.
 | Item | Status |
 |---|---|
 | Lane count / Gen | Locked: 1 lane, Gen2 (drops down automatically from the Hailo-8L's native 2 lanes, Gen3) |
-| Wire list | Locked: TX0±, RX0±, REFCLK±, PERST#, CLKREQ# (8 wires) + 3.3V/ground |
+| Wire list | Drawn: TX0±, RX0±, REFCLK±, PERST#, CLKREQ# (8 wires) + 3.3V/ground |
 | M.2 socket | Sourced: UMAX 91302-42-067RDM, LCSC C601195, 67-contact M-key socket; accepts the Hailo B+M module |
-| Lane wiring | Only lane 0 wired from the main connector to the socket; lane 1 left unconnected |
+| Lane wiring | Complete in schematic: lane 0 wired from CM5 to socket; lane 1 explicitly unconnected |
 | Reset signal timing | Requirement identified (3.3V stable before release); exact circuit not designed yet, see the power architecture notes |
 | Length matching / layer rules | Not done yet — planned as "set up the layer stack and design rules first, then route the wires," part of the layout phase |

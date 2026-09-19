@@ -1,6 +1,6 @@
 # 05 — CM5 Connectors and Base Connections
 
-Last updated: 2026-09-18
+Last updated: 2026-09-19
 
 ## Purpose
 
@@ -10,9 +10,11 @@ subsystems.
 
 ## Current status
 
-**Release blocker / rough draft.** Both connector libraries require correction
-or verification before PCB transfer. The two schematic sheets are not yet
-considered complete.
+**In progress / release blocker.** The two connector symbols are consolidated
+in `Amphenol ICC.SchDoc`. The M.2/PCIe and CSI-2 nets are connected, and the
+misleading MIPI friendly labels were corrected. Remaining CM5 base power,
+ground, recovery/debug wiring, no-connect treatment, and final schematic-to-
+footprint pin-map verification must be completed before PCB transfer.
 
 ## Confirmed design
 
@@ -33,6 +35,9 @@ considered complete.
   this design; neither board USB-C connector uses them.
 - CM5 pin 80 `SCL0` and pin 82 `SDA0` are assigned to camera control.
 - CM5 pin 97 `CAM_GPIO0` and pin 100 `CAM_GPIO1` are assigned to camera control.
+- CM5 MIPI0 mapping is verified as pins 115/117 for data lane 0, 121/123 for
+  lane 1, 127/129 for clock, 133/135 for lane 2, and 139/141 for lane 3.
+- CM5 pin 141 is `MIPI0_D3_P`; it is not camera lane 0 negative.
 - The full CM5 variant has eMMC and does not require a microSD connector.
 
 ## Planned schematic content
@@ -74,3 +79,7 @@ considered complete.
 
 - 2026-09-18: Initial subsystem draft created; connector corrections remain
   the first schematic priority.
+- 2026-09-19: Consolidated the connector sheets, connected the complete M.2
+  and CSI interfaces, and corrected the imported symbol's displayed camera
+  lane labels. Full connector power/ground and footprint mapping still require
+  the release review described above.
