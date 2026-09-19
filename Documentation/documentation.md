@@ -20,11 +20,14 @@ in Rev A. The CSI interface wires all four MIPI0 data lanes, MIPI0 clock,
 authoritative MIPI0 CM5 pins are 115/117, 121/123, 127/129, 133/135, and
 139/141; pin 141 is lane 3 positive, not lane 0 negative.
 
-Next work is the remaining CM5 base wiring, programming/recovery USB,
-`nRPIBOOT`, debug UART, reset timing, status/test points, then a full compile
-and ERC pass. PCB work follows: verify FPC orientation, select the JLCPCB
-stackup, define 85 Ω PCIe and appropriate MIPI differential rules, then route
-and tune each P/N pair over continuous ground.
+Schematic V1 and its PCB transfer are complete. Both connector instances use
+100 unique physical pin designators `1–100`, all required grounds are grounded,
+and unused pins have intentional treatment. Programming/recovery USB,
+`nRPIBOOT`, and the JST GH debug UART are implemented. On 2026-09-19 the
+project compile/ECO completed with no reported errors or warnings, and all
+components were imported into `Watchdog PCB.PcbDoc`. Next work is PCB board
+outline and component placement, followed by stackup/rule definition, routing,
+pair tuning, DRC, and fabrication review.
 
 The first revision uses a simpler power-input design: the TPS25947 eFuse has
 been removed because its added complexity is not appropriate for this first
@@ -40,6 +43,13 @@ is explicitly no-connect, and the reference-clock/reset/clock-request signals
 are assigned. See `Research MD/PCIe-x1-Differential-Pairs-Explainer.md` for
 the pin-by-pin table.
 
+Rev A leaves `LED_nACT` (pin 21), `VBAT` (76), `PWR_BUT` (92), `LED_nPWR`
+(95), and `PMIC_ENABLE` (99) unused; they receive no-connect markers.
+`nRPIBOOT` (93) remains required for recovery. Optional status work may add
+resistor-limited LEDs across `5V_MAIN`, `CM5_3.3V`, `3V3_HAILO`, and
+`3V3_CAMERA`. Rail LEDs indicate voltage presence only; they do not prove
+load capacity or every connector-pin connection.
+
 The two local 3.3 V power branches are now selected. `5V_MAIN` from the
 MP2329 feeds a dedicated **TPS54302DDCR** 3 A switching regulator (JLCPCB/LCSC
 **C311983**) for `3V3_HAILO`; 5 V must not be applied directly to the Hailo
@@ -53,8 +63,8 @@ The bring-up architecture is now defined. One USB-C connector is dedicated to
 board power. A second USB-C connector is dedicated to CM5 programming and
 recovery. The CM5's onboard eMMC is flashed through USB mass-storage mode; no
 external SD-card socket is needed for the full CM5 variant. CM5 pin 93
-(`nRPIBOOT`) is connected to an accessible jumper or pushbutton to ground for
-USB recovery during power-up. The three-pin UART debug connector uses pin 55
+(`nRPIBOOT`) will connect to an accessible pushbutton and test point for USB
+recovery during power-up. The three-pin UART debug connector uses pin 55
 (`GPIO14` / `UART0_TX`) and pin 51 (`GPIO15` / `UART0_RX`), plus ground, for
 early-boot diagnostics. Wi-Fi and SSH are used for normal development after
 Linux boots.

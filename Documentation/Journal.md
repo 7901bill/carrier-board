@@ -578,3 +578,38 @@ lane 2, and 139/141 for lane 3.
 Both interfaces are schematically complete. Controlled-impedance rules,
 differential-pair routing, intra-pair length tuning, continuous reference-plane
 verification, and final FPC cable-orientation review remain PCB-layout tasks.
+
+---
+
+## 2026-09-19 — CM5 connector numbering and base audit corrected
+
+Both placed Amphenol connector instances now contain 100 unique physical pin
+designators numbered 1–100. `CN1` represents CM5 logical pins 1–100 and `CN2`
+represents logical pins 101–200; their component designators distinguish the
+two identical footprints. The prior documentation claiming CN1 pins 3–6,
+9–12, and 15–20 were grounds was incorrect. They are Ethernet, fan, LED,
+sync, and EEPROM-control signals and remain unused for Rev A.
+
+Verified all 21 CN1 grounds and all 30 CN2 grounds are connected. Unused GPIOs
+have no-connect markers; pins 51/55 remain for UART and pins 97/100 for camera
+control. Pins 21, 76, 92, 95, and 99 are unused and still need explicit
+no-connect markers; pin 93 remains reserved for `nRPIBOOT` recovery.
+
+A potential later status task is to add resistor-limited rail-presence LEDs
+for `5V_MAIN`, `CM5_3.3V`, `3V3_HAILO`, and `3V3_CAMERA`, plus buffered CM5
+power/activity indication only if it provides useful diagnostics.
+
+---
+
+## 2026-09-19 — Schematic V1 closed and transferred to PCB
+
+Completed the programming USB-C, `nRPIBOOT` recovery control, three-pin JST GH
+UART, remaining intentional no-connects, and final component placement on the
+schematic sheets. The unavailable 3.3 µH main-rail inductor `C19268642` was
+replaced by stocked SHOU HAN `CYA1250-3.3UH` (`C19268654`), rated 20 A with
+32 A saturation current; its dedicated PCB footprint was imported.
+
+The Altium project compile/ECO completed with no reported errors or warnings,
+and all schematic components were imported into `Watchdog PCB.PcbDoc`. The
+active phase is now PCB layout, beginning with board outline/constraints and
+major component placement before detailed routing.

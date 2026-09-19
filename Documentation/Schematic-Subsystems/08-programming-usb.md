@@ -1,6 +1,6 @@
 # 08 — CM5 Programming USB
 
-Last updated: 2026-09-18
+Last updated: 2026-09-19
 
 ## Purpose
 
@@ -9,10 +9,10 @@ the CM5 for initial eMMC flashing and recovery.
 
 ## Current status
 
-**Rough draft.** A dedicated second USB-C connector is confirmed. The existing
-power-port receptacle is electrically suitable for USB 2.0 device use and will
-be reused to reduce unique BOM items. The final reference-based circuit remains
-to be drawn.
+**Schematic complete and transferred to PCB.** The dedicated USB-C programming
+port, USB 2.0 data path, CC termination, protection, VBUS treatment, shield,
+and ground connections are drawn. The project compile/ECO completed without
+reported errors or warnings.
 
 ## Confirmed architecture
 
@@ -69,3 +69,5 @@ development computer.
 
 - 2026-09-18: Initial programming-USB draft created. This subsystem is a
   mandatory part of Schematic V1, not an optional accessory.
+- 2026-09-19: Completed the programming-port schematic and imported its
+  components into the PCB document. Placement and USB routing are next.

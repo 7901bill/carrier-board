@@ -6,6 +6,10 @@
 > Hailo buck, camera LDO, and CSI connector circuits are drawn. Current open
 > work is tracked in `Schematic-Subsystems/README.md`; do not use the old
 > sheet-state findings below as the resume checkpoint.
+> The connector-library finding below was also corrected on 2026-09-19. Both
+> placed connectors now use unique physical pin designators `1–100`. The old
+> claim that pins 3–6, 9–12, and 15–20 are grounds was incorrect; consult the
+> current CM5 datasheet and `Schematic-Subsystems/05-cm5-connectors.md`.
 
 ## Status and scope
 
@@ -22,21 +26,14 @@ repository contains six schematic documents and no PCB layout document.
 
 ### 1. Correct both CM5 connector libraries before further wiring
 
-**Issue — release blocker:** The two Amphenol `10164227-1001A1RLF` connector
-libraries are not yet safe for PCB transfer.
+**Resolved 2026-09-19.** This section is retained as a historical audit
+finding and must not be used as current pinout guidance.
 
-- Connector 1 must restore and connect required `GND` pins 3–6, 9–12, and
-  15–20.
-- Connector 2 uses global CM5 schematic pin numbers 101–200, while the
-  physical connector footprint has pads 1–100. Its Altium PCB Model Pin Map
-  must explicitly map schematic pin 101 to pad 1 through schematic pin 200 to
-  pad 100.
-- After correction, compile the project and inspect the schematic-to-PCB ECO
-  for unmatched pins, pads, or unintended net assignments.
-
-**Decision needed:** None about the electrical intent; these are mandatory
-library corrections. Do not route, fabricate, or release the PCB until they
-are verified.
+**Corrected finding:** Both placed connector symbols now use physical pin
+designators 1–100 and contain 100 unique pins. `CN1` and `CN2` distinguish the
+two identical footprints. CN1 pins 3–6, 9–12, and 15–20 are not grounds; the
+original audit classified them incorrectly. The project compile/ECO and PCB
+transfer were completed without reported errors or warnings on 2026-09-19.
 
 ### 2. Reset the project scope and schedule
 

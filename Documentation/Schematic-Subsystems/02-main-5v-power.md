@@ -1,6 +1,6 @@
 # 02 — Main 5 V Power Supply
 
-Last updated: 2026-09-18
+Last updated: 2026-09-19
 
 ## Purpose
 
@@ -9,8 +9,9 @@ CM5 and the local Hailo and camera regulators.
 
 ## Current status
 
-**Rough draft.** The converter and target rail are confirmed. Supporting-part,
-peak-load, transient, efficiency, and thermal verification remain planned.
+**Schematic complete and transferred to PCB.** The converter and target rail
+are confirmed. Peak-load, transient, efficiency, and thermal verification
+remain prototype-validation tasks.
 
 ## Confirmed design
 
@@ -23,7 +24,8 @@ peak-load, transient, efficiency, and thermal verification remain planned.
   - upper feedback resistor: 40.2 kΩ, `C12447`;
   - lower feedback resistor: 5.49 kΩ, `C54102278`;
   - feed-forward capacitor: 33 pF, `C48543706`;
-  - inductor: 3.3 µH, `C19268642`.
+  - inductor: 3.3 µH, `C19268654` (`CYA1250-3.3UH`, 20 A rated,
+    32 A saturation). This stocked replacement supersedes `C19268642`.
 - The CAD sheet also uses 22 µF/25 V capacitors `C45783`, 220 nF/25 V
   capacitor `C21120`, and 100 nF/25 V capacitor `C466768` in the power section.
 - MP2329 input qualification is implemented with 453 kΩ `C25818` and 100 kΩ
@@ -66,3 +68,5 @@ peak-load, transient, efficiency, and thermal verification remain planned.
 ## Session notes
 
 - 2026-09-18: Initial subsystem draft created from confirmed project records.
+- 2026-09-19: Replaced unavailable `C19268642` with stocked `C19268654` and
+  imported its dedicated footprint into the PCB project.

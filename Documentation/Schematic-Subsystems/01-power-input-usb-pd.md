@@ -1,6 +1,6 @@
 # 01 — USB-C Power Input and Power Delivery
 
-Last updated: 2026-09-18
+Last updated: 2026-09-19
 
 ## Purpose
 
@@ -9,9 +9,10 @@ board input, and deliver the negotiated supply to the main 5 V converter.
 
 ## Current status
 
-**Rough draft.** The connector, negotiation controller, requested voltage, and
-simplified fuse-plus-TVS Rev A protection are confirmed. The MP2329 enable
-network prevents startup from the default 5 V USB supply.
+**Schematic complete and transferred to PCB.** The connector, negotiation
+controller, requested voltage, and simplified fuse-plus-TVS Rev A protection
+are implemented. The MP2329 enable network prevents startup from the default
+5 V USB supply.
 
 ## Confirmed design
 

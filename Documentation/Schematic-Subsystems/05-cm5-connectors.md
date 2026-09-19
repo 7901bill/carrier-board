@@ -10,22 +10,32 @@ subsystems.
 
 ## Current status
 
-**In progress / release blocker.** The two connector symbols are consolidated
-in `Amphenol ICC.SchDoc`. The M.2/PCIe and CSI-2 nets are connected, and the
-misleading MIPI friendly labels were corrected. Remaining CM5 base power,
-ground, recovery/debug wiring, no-connect treatment, and final schematic-to-
-footprint pin-map verification must be completed before PCB transfer.
+**Schematic complete and transferred to PCB.** Both placed
+connectors have 100 unique pin designators numbered `1–100`. Required grounds
+are grounded, required 5 V inputs are connected, unused GPIOs have no-connect
+markers, and the M.2/PCIe, CSI-2, programming USB, recovery, and debug UART
+nets are connected. The project compile/ECO completed with no reported errors
+or warnings, and all components were imported into the PCB layout.
 
 ## Confirmed design
 
 - The design uses a CM5, not a CM4; their pin assignments are not interchangeable.
 - The two carrier connectors are Amphenol `10164227-1001A1RLF` 100-pin parts.
 - Connector 1 uses CM5 logical pins 1–100.
-- Connector 2 uses CM5 logical pins 101–200 while its physical footprint pads
-  remain numbered 1–100.
-- Connector 1 must include required ground pins 3–6, 9–12, and 15–20.
-- Connector 2 requires an explicit Altium model pin map from schematic pins
-  101–200 to footprint pads 1–100.
+- Both schematic symbols and both footprints use physical pin numbers 1–100.
+  `CN1` represents CM5 logical pins 1–100; `CN2` represents logical pins
+  101–200. Their unique component designators distinguish the two instances.
+- CN1 pins 3–6 and 9–12 are Ethernet pairs, not grounds. Pins 15–20 are
+  Ethernet/fan/EEPROM-control signals, not grounds. They remain unused in
+  Rev A except where later requirements explicitly say otherwise.
+- All 21 CN1 ground pins and all 30 CN2 ground pins were checked as connected.
+- Unused GPIOs are explicitly disconnected. Pins 51/55 are reserved for UART,
+  and pins 97/100 are used for camera control.
+- Pins 56/58 (`GPIO3/SCL1`, `GPIO2/SDA1`) are unused; camera control instead
+  uses pins 80/82 (`SCL0`, `SDA0`).
+- Pins 21 `LED_nACT`, 76 `VBAT`, 92 `PWR_BUT`, 95 `LED_nPWR`, and 99
+  `PMIC_ENABLE` are unused in Rev A and have no-connect markers. Pin 93
+  `nRPIBOOT` remains reserved for the recovery circuit.
 - CM5 pin 78 `GPIO_VREF` connects to the CM5 3.3 V output net from pins 84 and
   86 to select 3.3 V GPIO signaling.
 - CM5 pin 55 `GPIO14/UART0_TX` is the debug transmit signal.
@@ -50,14 +60,11 @@ footprint pin-map verification must be completed before PCB transfer.
 - Explicit no-connect markers for every intentionally unused pin.
 - Clear cross-sheet net labels with consistent spelling.
 
-## Mandatory library verification
+## Remaining PCB verification
 
-1. Restore and connect the missing Connector 1 grounds.
-2. Create and inspect Connector 2's 101–200 to 1–100 model mapping.
-3. Compare both symbols and footprints with the CM5 datasheet, connector
-   manufacturer drawing, and official CM5 IO reference design.
-4. After Schematic V1, inspect the Altium ECO for unmatched or incorrectly
-   assigned pins and pads before creating/routing the PCB.
+1. Place both connectors and confirm CM5 mechanical alignment and orientation.
+2. Compare both footprints with the connector manufacturer drawing.
+3. Re-run PCB DRC after placement and routing.
 
 ## Definition of done
 
@@ -81,5 +88,11 @@ footprint pin-map verification must be completed before PCB transfer.
   the first schematic priority.
 - 2026-09-19: Consolidated the connector sheets, connected the complete M.2
   and CSI interfaces, and corrected the imported symbol's displayed camera
-  lane labels. Full connector power/ground and footprint mapping still require
-  the release review described above.
+  lane labels.
+- 2026-09-19: Corrected CN2 to physical pin designators 1–100 and verified both
+  placed connectors have 100 unique pins. Confirmed all required grounds are
+  grounded and unused GPIOs are disconnected. Corrected the earlier false
+  classification of Ethernet/control pins as grounds.
+- 2026-09-19: Completed remaining wiring/no-connect treatment, obtained a
+  clean compile/ECO with no reported errors or warnings, and transferred all
+  components to the PCB document. Component placement is next.

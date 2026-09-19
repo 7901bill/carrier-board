@@ -9,10 +9,10 @@ in reset until its supply is stable.
 
 ## Current status
 
-**Buck circuit and M.2 power wiring complete.** The TPS54302 circuit is drawn,
+**Schematic complete and transferred to PCB.** The TPS54302 circuit is drawn,
 its final sourced passives are recorded, and `3V3_HAILO` reaches all five M.2
-power contacts. Reset-release timing, ERC, and prototype electrical/thermal
-verification remain open.
+power contacts. Reset behavior and electrical/thermal performance remain
+prototype-validation items.
 
 ## Confirmed design
 

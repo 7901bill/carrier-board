@@ -1,6 +1,6 @@
 # 10 — Debug UART
 
-Last updated: 2026-09-18
+Last updated: 2026-09-19
 
 ## Purpose
 
@@ -10,16 +10,16 @@ working.
 
 ## Current status
 
-**Rough draft.** The CM5 pins, three-pin interface, voltage level, and intended
-console settings are recorded. The header still needs to be completed and
-verified in CAD.
+**Schematic complete and transferred to PCB.** The CM5 pins are routed to the
+three-pin JST debug connector with TX, RX, and GND. The interface remains
+3.3 V logic only.
 
 ## Confirmed design
 
 - CM5 pin 55 `GPIO14/UART0_TX` connects to `DEBUG_UART_TX`.
 - CM5 pin 51 `GPIO15/UART0_RX` connects to `DEBUG_UART_RX`.
 - Interface: TX, RX, and GND on an accessible three-pin connector.
-- Recorded header: 2.54 mm through-hole, LCSC `C49257`.
+- Board connector: JST GH `SM03B-GHS-TB`, JLCPCB/LCSC `C514175`.
 - Logic level: 3.3 V only.
 - External adapter: a USB-to-UART adapter configured for 3.3 V signaling.
 - The adapter's RX connects to carrier TX; adapter TX connects to carrier RX;
@@ -66,3 +66,5 @@ and userspace/service failures.
 
 - 2026-09-18: Initial UART draft created with operator-level connection and
   troubleshooting guidance.
+- 2026-09-19: Completed the JST GH UART interface and transferred it to the
+  PCB document. Accessibility and silkscreen pin labeling remain layout tasks.

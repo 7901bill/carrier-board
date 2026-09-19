@@ -41,6 +41,13 @@ and physical test-point package choices can be decided later.
 
 - Main board/5 V power present.
 - Successful USB-PD negotiation using the CH224A status signal.
+- **Potential task:** add low-current rail-presence LEDs in parallel with
+  `5V_MAIN`, `CM5_3.3V`, `3V3_HAILO`, and `3V3_CAMERA`, each with its own
+  series current-limiting resistor. These show rail presence, not load margin
+  or correct connection of every power pin.
+- **Potential task:** consider buffered `LED_nPWR` or `LED_nACT` indication
+  only if CM5 power-state or activity feedback is desired. Neither signal is
+  needed for simple power-rail indication.
 - Optional local-rail indications where they will not compromise regulation or
   create misleading results.
 - Recovery/activity indication only when supported by a safe, reviewed signal.

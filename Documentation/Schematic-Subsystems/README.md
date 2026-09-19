@@ -10,37 +10,36 @@ history.
 
 ## Schematic V1 objective
 
-Schematic V1 is complete when every required subsystem is electrically drawn,
+Schematic V1 is complete: every required subsystem is electrically drawn,
 all required pins have an intentional connection or no-connect marker, selected
 parts and values are recorded, and the design contains the hardware required to
-power, flash, boot, recover, and debug the CM5. Formal ERC correction and PCB
-layout follow this first complete schematic pass.
+power, flash, boot, recover, and debug the CM5. The clean compile/ECO and PCB
+import were reported complete on 2026-09-19; PCB placement is next.
 
 ## Progress dashboard
 
 | File | Subsystem | Draft status | Principal remaining work |
 |---|---|---|---|
-| [01](01-power-input-usb-pd.md) | USB-C power input and PD | Rough draft | Final protection and failed-negotiation behavior |
-| [02](02-main-5v-power.md) | Main 5 V supply | Rough draft | Verify support parts and worst-case budget |
-| [03](03-hailo-power-sequencing.md) | Hailo power and sequencing | Buck drawn | Verify reset timing and run power/ERC review |
+| [01](01-power-input-usb-pd.md) | USB-C power input and PD | Schematic complete | PCB placement and power-input review |
+| [02](02-main-5v-power.md) | Main 5 V supply | Schematic complete | PCB placement and power-layout review |
+| [03](03-hailo-power-sequencing.md) | Hailo power and sequencing | Schematic complete | PCB placement and prototype timing validation |
 | [04](04-camera-power.md) | Camera power | LDO drawn | Prototype thermal verification at camera load |
-| [05](05-cm5-connectors.md) | CM5 connectors | In progress | Complete remaining base wiring and verify footprint pin maps |
+| [05](05-cm5-connectors.md) | CM5 connectors | Schematic complete | Mechanical placement and footprint review |
 | [06](06-m2-hailo-pcie.md) | M.2 Hailo/PCIe | Schematic complete | PCB impedance rules, routing, and length tuning |
 | [07](07-csi2-camera.md) | CSI-2 camera | Schematic complete | FPC orientation check and PCB differential routing |
-| [08](08-programming-usb.md) | Programming USB | Rough draft | Draw reference-based USB recovery circuit |
-| [09](09-boot-recovery-reset.md) | Boot and recovery | Rough draft | Finalize nRPIBOOT pushbutton; PWR_BUT omitted |
-| [10](10-debug-uart.md) | Debug UART | Rough draft | Draw header and validate console setup |
+| [08](08-programming-usb.md) | Programming USB | Schematic complete | Place protection close to connector; route USB pair |
+| [09](09-boot-recovery-reset.md) | Boot and recovery | Schematic complete | Place accessible recovery control/test access |
+| [10](10-debug-uart.md) | Debug UART | Schematic complete | Place accessible connector and label pin order |
 | [11](11-status-test-points.md) | Status and test access | Rough draft | Select final indicators and test points |
 
 ## Working order
 
-1. Complete the remaining CM5 base power, ground, and unused-pin treatment.
-2. Complete programming USB, boot/recovery controls, and UART.
-3. Close Hailo reset-release timing and remaining power-input questions.
-4. Add status indicators and bring-up test points.
-5. Perform a whole-schematic consistency pass, then compile and run ERC.
-6. Select the final JLCPCB stackup and create PCIe/CSI differential rules.
-7. Transfer to PCB, place, route, tune, and run fabrication checks.
+1. Define the board outline, mounting constraints, and major connector/module placement.
+2. Place the power stages and their critical loops/decoupling.
+3. Select the final JLCPCB stackup and create PCIe/CSI/USB differential rules.
+4. Place remaining support components and accessible controls/test points.
+5. Route power, high-speed pairs, and remaining signals; then tune pairs.
+6. Run PCB DRC, mechanical review, fabrication-output review, and BOM/CPL checks.
 
 ## Status vocabulary
 

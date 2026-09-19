@@ -1,6 +1,6 @@
 # 09 — Boot, Recovery, and Reset
 
-Last updated: 2026-09-18
+Last updated: 2026-09-19
 
 ## Purpose
 
@@ -9,9 +9,9 @@ and be reset or power-controlled during development and fault recovery.
 
 ## Current status
 
-**Rough draft.** The eMMC boot/recovery method, `nRPIBOOT` assignment, and use
-of a recovery pushbutton are confirmed. The exact pushbutton part awaits
-approval. A separate CM5 power button is omitted from Rev A.
+**Schematic complete and transferred to PCB.** The eMMC recovery path and
+`nRPIBOOT` control are implemented. A separate CM5 power button remains
+intentionally omitted from Rev A.
 
 ## Confirmed boot model
 
@@ -83,3 +83,5 @@ approval. A separate CM5 power button is omitted from Rev A.
 
 - 2026-09-18: Initial boot/recovery draft created with additional explanation
   because this is a high-priority learning and bring-up area.
+- 2026-09-19: Completed recovery-control wiring and transferred the selected
+  components to the PCB document.
