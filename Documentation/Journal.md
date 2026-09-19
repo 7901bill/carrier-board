@@ -504,3 +504,77 @@ required passives/decoupling, connect `3V3_HAILO` to M.2 pins 2, 4, 70, 72,
 and 74, connect `3V3_CAMERA` to CSI pin 22, and ensure the Hailo rail is stable
 before `PERST#` is released. No Altium binary was changed by this
 documentation pass, and nothing was committed or pushed.
+
+---
+
+## 2026-09-18 — Schematic subsystem records and Rev A simplifications
+
+**Confirmed:** Schematic V1 is now tracked in per-subsystem working notes under
+`Documentation/Schematic-Subsystems/`. The standard Raspberry Pi Camera Module
+3 is selected, using the normal Raspberry Pi 5-style camera cable and the
+current 22-pin carrier connector.
+
+The second programming/recovery USB-C port will reuse the existing HRO
+`TYPE-C-31-M-12` receptacle (`C165948`) to reduce unique BOM items. Its circuit
+remains electrically separate from the USB-PD power input: USB 2.0 device
+wiring, appropriate CC termination, ESD protection, and safe VBUS sensing will
+be used without tying host VBUS directly to `5V_MAIN`.
+
+**Confirmed Rev A simplification:** omit both previously considered load
+switches. TPS22965 (`C347592`) is not fitted on the Hailo branch, and TPS22918
+(`C131941`) is not fitted on the camera branch. These are load switches, not
+voltage regulators. TPS54302DDCR (`C311983`) remains the Hailo 5 V-to-3.3 V
+buck regulator, and AP2112K-3.3TRG1 (`C51118`) remains the camera 5 V-to-3.3 V
+LDO. Hailo power/reset timing will be verified using `3V3_HAILO` and `PERST#`
+test access.
+
+**Confirmed:** omit a CM5 `PWR_BUT` pushbutton from Rev A, retain the existing
+`C15849` capacitor, leave M.2 `PEWAKE#` disconnected, and retain the three-pin
+TX/RX/GND debug UART. A normally-open `nRPIBOOT` recovery pushbutton remains
+required; its exact JLCPCB component is pending approval.
+
+---
+
+## 2026-09-18 — Hailo buck and camera LDO circuits completed
+
+The local M.2/Hailo TPS54302 buck circuit and the CSI-2 camera AP2112 LDO
+circuit are now drawn. The camera regulator remains Diodes Incorporated
+`AP2112K-3.3TRG1` (JLCPCB/LCSC `C51118`), whose `-3.3` ordering suffix fixes
+the output at 3.3 V without feedback resistors. `VIN` and `EN` share
+`5V_MAIN`, GND is connected normally, NC is intentionally open, and VOUT
+creates `3V3_CAMERA` for camera-connector pin 22.
+
+Both AP2112 local capacitors use the existing `C15849` library part: 1 µF,
+50 V, X5R, 0603. One is placed from VIN to GND and one from VOUT to GND. The
+selected Arducam-class camera is expected to remain at or below approximately
+300 mA. At the 300 mA maximum, the SOT25 LDO dissipates about 0.51 W and has
+an estimated 94°C junction rise using the datasheet's 184°C/W value; useful
+copper and prototype thermal testing remain required.
+
+The Hailo output network uses the final selected sourcing substitutions:
+6.8 µH inductor `C7461350`, 100 kΩ upper feedback resistor `C25803`, 22.1 kΩ
+lower feedback resistor `C723484`, 47 pF feed-forward capacitor `C1671`, two
+22 µF output capacitors `C45783`, and 100 nF bootstrap capacitor `C14663`.
+
+---
+
+## 2026-09-19 — M.2 and CSI-2 connector wiring completed
+
+The Hailo M.2 socket is now connected to the CM5 connector through PCIe Gen 2
+x1: lane 0 TX/RX, reference clock, `PERST#`, and `CLKREQ#`, together with all
+required `3V3_HAILO` and ground contacts. Lane 1, `PEWAKE#`, the unused module
+configuration contacts, CM5 `PCIE_nWAKE`, and CM5 `PCIE_PWR_EN` remain
+unconnected for Rev A. The M.2 module supplies its required transmit-side AC
+coupling, so no duplicate series capacitors were added on the carrier.
+
+The 22-pin CSI connector is also fully connected: four MIPI data pairs, one
+MIPI clock pair, `SCL0`/`SDA0`, `CAM_GPIO0`/`CAM_GPIO1`, `3V3_CAMERA`, and all
+ground contacts. No additional I²C pull-ups were added because the CM5 owns
+the camera-bus pull-ups. Review found and corrected misleading friendly labels
+in the imported CM5 connector symbol: the authoritative mapping is CM5 pins
+115/117 for MIPI0 lane 0, 121/123 for lane 1, 127/129 for clock, 133/135 for
+lane 2, and 139/141 for lane 3.
+
+Both interfaces are schematically complete. Controlled-impedance rules,
+differential-pair routing, intra-pair length tuning, continuous reference-plane
+verification, and final FPC cable-orientation review remain PCB-layout tasks.

@@ -1,0 +1,68 @@
+# 02 — Main 5 V Power Supply
+
+Last updated: 2026-09-18
+
+## Purpose
+
+Convert the negotiated 9 V input into the shared `5V_MAIN` rail used by the
+CM5 and the local Hailo and camera regulators.
+
+## Current status
+
+**Rough draft.** The converter and target rail are confirmed. Supporting-part,
+peak-load, transient, efficiency, and thermal verification remain planned.
+
+## Confirmed design
+
+- Converter: MPS `MP2329GG-Z`, LCSC `C5349327`.
+- Input: negotiated 9 V from the USB-PD input section.
+- Output: `5V_MAIN`.
+- The device is rated for 6.5 A continuous and 7.5 A peak, subject to the
+  complete design and thermal conditions.
+- Recorded datasheet starting values for 5 V are:
+  - upper feedback resistor: 40.2 kΩ, `C12447`;
+  - lower feedback resistor: 5.49 kΩ, `C54102278`;
+  - feed-forward capacitor: 33 pF, `C48543706`;
+  - inductor: 3.3 µH, `C19268642`.
+- The CAD sheet also uses 22 µF/25 V capacitors `C45783`, 220 nF/25 V
+  capacitor `C21120`, and 100 nF/25 V capacitor `C466768` in the power section.
+- MP2329 input qualification is implemented with 453 kΩ `C25818` and 100 kΩ
+  `C25803`, targeting an approximately 7.5 V startup threshold.
+- `5V_MAIN` directly supplies the CM5 and feeds separate local regulators for
+  the Hailo and camera rails.
+
+## Confirmed load facts
+
+- The earlier approximately 13 W system estimate is based mainly on typical
+  loading and is not sufficient by itself for final component ratings.
+- The Hailo-8L alone can require as much as 6.6 W/2 A at 3.3 V.
+- Final verification must consider simultaneous peak load, startup, conversion
+  loss, thermal derating, charger capability, and cable capability.
+
+## Planned schematic content
+
+- Complete MP2329 reference circuit.
+- Input/output ceramic capacitors with voltage and effective-capacitance margin.
+- Feedback and feed-forward network.
+- Inductor with suitable RMS and saturation-current ratings.
+- Enable and startup behavior coordinated with the USB-PD section.
+- `5V_MAIN`, input, switch-node, and ground test access where safe.
+- Clear net connections to the CM5 and both local 3.3 V branches.
+
+## Definition of done
+
+- All component values are checked against the current MP2329 datasheet.
+- A defensible worst-case power budget is recorded.
+- Inductor and capacitors meet electrical and thermal margins.
+- The expected startup state is defined for 5 V input and successful 9 V PD.
+- Every CM5 5 V input is supplied as required by the CM5 reference design.
+
+## References
+
+- `Documentation/documentation.md`, Power architecture.
+- `Documentation/Research MD/power-design-explainer.md`.
+- MP2329 datasheet in `Documentation/Datasheets/`.
+
+## Session notes
+
+- 2026-09-18: Initial subsystem draft created from confirmed project records.

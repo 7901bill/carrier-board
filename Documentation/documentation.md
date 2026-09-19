@@ -469,11 +469,14 @@ straight off the main converter:
   Pi Camera Module 3 makes its 2.8V, 1.8V, and 1.1V rails on the camera PCB.
   The dedicated camera regulator is Diodes Incorporated
   **AP2112K-3.3TRG1** (JLCPCB/LCSC **C51118**), a fixed 3.3V, 600mA LDO in
-  SOT-25-5. Use at least 1µF X5R/X7R directly at both VIN and VOUT. The
-  Raspberry Pi camera allowance is about 250mA; at that load the LDO
-  dissipates roughly 0.425W from a 5V input, so give it useful copper area
-  and do not assume its electrical 600mA rating is thermally available from
-  5V continuously.
+  SOT-25-5. The completed LDO circuit uses two `C15849` 1µF/50V/X5R/0603
+  capacitors: one directly from VIN to ground and one directly from VOUT to
+  ground. VIN and EN share `5V_MAIN` for always-on operation, NC is left open,
+  and VOUT is the `3V3_CAMERA` rail. The selected Arducam-class camera is
+  expected to draw no more than approximately 300mA. At that load the LDO
+  dissipates roughly 0.51W from a 5V input and has an estimated 94°C junction
+  rise using the datasheet's 184°C/W figure, so give it useful copper area and
+  verify temperature on the prototype.
 
 Why use local regulators instead of one big one: shorter wire runs to each
 part (less voltage loss, cleaner power), each rail can be tested/tuned on
