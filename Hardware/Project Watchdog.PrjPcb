@@ -645,7 +645,7 @@ GenerateClassCluster=0
 DocumentUniqueId=GIZUIPNG
 
 [Document36]
-DocumentPath=Schematics & PCB\Amphenol ICC_1.SchDoc
+DocumentPath=Schematics & PCB\Amphenol ICC.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -659,10 +659,10 @@ ClassGenCCAutoRoomEnabled=0
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=DPYZMGFY
+DocumentUniqueId=ZRBLHLSO
 
 [Document37]
-DocumentPath=Schematics & PCB\Amphenol ICC_2.SchDoc
+DocumentPath=Schematics & PCB\M.2 & CSI2.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -676,43 +676,9 @@ ClassGenCCAutoRoomEnabled=0
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=ZRBLHLSO
-
-[Document38]
-DocumentPath=Schematics & PCB\M.2 Connection.SchDoc
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=4
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=0
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
 DocumentUniqueId=LXJWQXJN
 
-[Document39]
-DocumentPath=Schematics & PCB\FPC(Flexible Printed Circuit).SchDoc
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=5
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=0
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=ERPNOHCE
-
-[Document40]
+[Document38]
 DocumentPath=Component Libraries\Power\SCH\C6782225_Part 1.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -729,7 +695,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=XQJ64ZQZ
 
-[Document41]
+[Document39]
 DocumentPath=Component Libraries\Power\SCH\C6782225_Part 2.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -746,7 +712,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=OXOFYQKN
 
-[Document42]
+[Document40]
 DocumentPath=Component Libraries\Power\PCB\C5182313.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -763,7 +729,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=PGKNABPU
 
-[Document43]
+[Document41]
 DocumentPath=Component Libraries\Power\SCH\C5182313.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -780,7 +746,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=TFL5UMU8
 
-[Document44]
+[Document42]
 DocumentPath=Component Libraries\Power\PCB\C311983.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -797,7 +763,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=CKYWVOMV
 
-[Document45]
+[Document43]
 DocumentPath=Component Libraries\Power\SCH\C311983.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -814,7 +780,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=786YBJKG
 
-[Document46]
+[Document44]
 DocumentPath=Component Libraries\Power\PCB\C14663.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -831,7 +797,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document47]
+[Document45]
 DocumentPath=Component Libraries\Power\SCH\C14663.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -848,7 +814,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=NHJPF0HY
 
-[Document48]
+[Document46]
 DocumentPath=Component Libraries\Power\PCB\C7461350.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -865,7 +831,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document49]
+[Document47]
 DocumentPath=Component Libraries\Power\SCH\C7461350.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -882,7 +848,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=D8UBY6WO
 
-[Document50]
+[Document48]
 DocumentPath=Component Libraries\Power\PCB\C1671.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -899,7 +865,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document51]
+[Document49]
 DocumentPath=Component Libraries\Power\SCH\C1671.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -916,7 +882,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=DHTFJF6B
 
-[Document52]
+[Document50]
 DocumentPath=Component Libraries\Power\PCB\C723484.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -933,7 +899,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document53]
+[Document51]
 DocumentPath=Component Libraries\Power\SCH\C723484.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -950,7 +916,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=G83FVDSV
 
-[Document54]
+[Document52]
 DocumentPath=Component Libraries\Power\PCB\C51118.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -967,7 +933,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document55]
+[Document53]
 DocumentPath=Component Libraries\Power\SCH\C51118.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -1775,7 +1741,7 @@ Type9=1
 Type10=1
 Type11=2
 Type12=2
-Type13=2
+Type13=1
 Type14=1
 Type15=1
 Type16=1

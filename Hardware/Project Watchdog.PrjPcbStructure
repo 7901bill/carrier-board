@@ -1,6 +1,4 @@
-Record=TopLevelDocument|FileName=Amphenol ICC_1.SchDoc|SheetNumber=3
-Record=NoMainPathDocument|SourceDocument=Amphenol ICC_1.SchDoc|FileName=Amphenol ICC_2.SchDoc|SheetNumber=4
-Record=NoMainPathDocument|SourceDocument=Amphenol ICC_1.SchDoc|FileName=FPC(Flexible Printed Circuit).SchDoc|SheetNumber=6
-Record=NoMainPathDocument|SourceDocument=Amphenol ICC_1.SchDoc|FileName=M.2 Connection.SchDoc|SheetNumber=5
-Record=NoMainPathDocument|SourceDocument=Amphenol ICC_1.SchDoc|FileName=Power Rails.SchDoc|SheetNumber=2
-Record=NoMainPathDocument|SourceDocument=Amphenol ICC_1.SchDoc|FileName=USBC_Protection.SchDoc|SheetNumber=1
+Record=TopLevelDocument|FileName=Amphenol ICC.SchDoc|SheetNumber=3
+Record=NoMainPathDocument|SourceDocument=Amphenol ICC.SchDoc|FileName=M.2 & CSI2.SchDoc|SheetNumber=4
+Record=NoMainPathDocument|SourceDocument=Amphenol ICC.SchDoc|FileName=Power Rails.SchDoc|SheetNumber=2
+Record=NoMainPathDocument|SourceDocument=Amphenol ICC.SchDoc|FileName=USBC_Protection.SchDoc|SheetNumber=1
