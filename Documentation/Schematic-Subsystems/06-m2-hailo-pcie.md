@@ -2,7 +2,20 @@
 
 Last updated: 2026-09-19
 
-## Purpose
+## Open review actions — 2026-09-19
+
+- Open mechanical check: selected CN3 is `91302-42-067RDM` (4.2 mm),
+  but its footprint name contains `91302-32-067RDM`. Compare manufacturer
+  drawings, pad geometry, module height and clearances. The name mismatch
+  alone does not prove the footprint is wrong.
+- Power dependency: fix disconnected C8/C9 in [03](03-hailo-power-sequencing.md).
+  Direct PERST# has no supply-good gating; startup/brownout timing is open.
+- Confirm stackup/impedance rules and module mounting before routing.
+
+These actions are not implemented. Evidence and parts caveats are in the
+[review report](../Parts-and-Schematic-Review-2026-09-19.md).
+
+## Subsystem purpose
 
 Connect the Hailo-8L module to the CM5 over PCIe Gen 2 x1 and provide its
 power, clock, reset, and ground connections.

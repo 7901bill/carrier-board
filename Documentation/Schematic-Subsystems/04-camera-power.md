@@ -1,6 +1,6 @@
 # 04 — Camera Power
 
-Last updated: 2026-09-18
+Last updated: 2026-09-19
 
 ## Purpose
 
@@ -8,12 +8,25 @@ Provide a quiet, dedicated 3.3 V rail to the Raspberry Pi camera connector.
 
 ## Current status
 
-**LDO circuit complete in CAD.** The regulator, fixed 3.3 V configuration,
-enable connection, and local input/output capacitors are drawn. Connection to
-the camera connector and prototype thermal verification remain to be checked
-as part of the full-sheet review.
+**Critical correction required.** U7 physical pin mapping is incorrect and
+the camera output capacitor is absent. Earlier completion notes below are
+superseded by this saved-CAD review, not evidence of an implemented fix.
 
-## Confirmed design
+| U7 physical pin | Required function/connection | Saved PCB connection |
+|---|---|---|
+| 1 | VIN / main 5 V | Main 5 V |
+| 2 | GND | Main 5 V — incorrect |
+| 3 | EN / main 5 V | GND — incorrect |
+| 4 | NC / unconnected | CN4-22 — incorrect |
+| 5 | VOUT / camera 3.3 V, CN4-22 | No net — incorrect |
+
+Correct the symbol designators/functions and placed instance, verify footprint
+numbering against the [AP2112 datasheet](https://www.diodes.com/assets/Datasheets/AP2112.pdf),
+then regenerate the ECO. C15 is input decoupling only; add the intended 1 µF
+output capacitor from corrected VOUT to GND and check effective capacitance.
+See the [review evidence](../Parts-and-Schematic-Review-2026-09-19.md).
+
+## Confirmed design intent (not verified as-built)
 
 - Regulator: Diodes Incorporated `AP2112K-3.3TRG1`, LCSC `C51118`.
 - Input: `5V_MAIN`.
@@ -30,8 +43,9 @@ as part of the full-sheet review.
 - The standard Raspberry Pi 22-pin camera connector receives 3.3 V on pin 22.
 - A separate 1.8 V carrier-board camera rail is not required for Camera
   Module 3; the module generates its lower internal rails.
-- The selected Arducam-class camera is expected to draw no more than
-  approximately 300 mA.
+- The exact camera and its maximum load must be confirmed: the records refer
+  to both Camera Module 3 and an Arducam-class camera. Treat 300 mA as a
+  review case, not a verified maximum for the final module.
 - At 300 mA from a 5 V input, the LDO dissipates approximately 0.51 W. Using
   the datasheet's 184°C/W SOT25 junction-to-ambient figure gives an estimated
   94°C junction rise, so useful copper area and prototype thermal testing are
@@ -40,12 +54,12 @@ as part of the full-sheet review.
 
 ## Schematic implementation
 
-- Completed: AP2112K VIN, VOUT, GND, EN, NC treatment, and required local
-  capacitors.
-- Completed: `5V_MAIN` input and `3V3_CAMERA` output rail definition.
-- Verify during full-sheet review: `3V3_CAMERA` reaches camera-connector pin
-  22, camera grounds are complete, and intended rail/ground test access is
-  present.
+- Open: correct physical pins 2–5 and add output decoupling as listed above.
+- Open: verify the corrected VOUT reaches CN4-22 and has no connection to NC.
+- Open: confirm rail/ground test access and use clear rail net labels.
+- Open: close thermal margin for the actual camera. The 300 mA case gives
+  about 134°C junction at 40°C ambient using the cited thermal resistance;
+  a 600 mA electrical rating does not establish usable thermal capacity.
 
 ## Load-switch decision
 

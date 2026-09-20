@@ -9,18 +9,24 @@ the CM5 for initial eMMC flashing and recovery.
 
 ## Current status
 
-**Schematic complete and transferred to PCB.** The dedicated USB-C programming
-port, USB 2.0 data path, CC termination, protection, VBUS treatment, shield,
-and ground connections are drawn. The project compile/ECO completed without
-reported errors or warnings.
+**Correction required.** USBC1 ground-pad groups `A1B12` and `B1A12` have no
+net. Connect both to GND; the grounded shell pads 1–4 do not replace them.
+No USB data ESD array is present in the 42-component inventory; select and
+implement suitable low-capacitance protection before routing.
+
+Duplicated D+/D− contacts and separate 5.1 kΩ CC resistors are connected.
+VBUS groups join each other but remain isolated from main 5 V. No VBUS-sense
+circuit is present; review the CM5 reference before deciding whether one is
+required. Earlier completion notes are superseded. See the
+[saved-CAD review](../Parts-and-Schematic-Review-2026-09-19.md).
 
 ## Confirmed architecture
 
 - The programming connector is separate from the main USB-PD power connector.
 - Programming connector: a second HRO `TYPE-C-31-M-12`, LCSC `C165948`.
 - Reusing the receptacle does not reuse the power-port circuit: this connector
-  receives USB-device CC termination, USB 2.0 data, ESD, and safe VBUS sensing,
-  not a second CH224A PD sink circuit.
+  uses USB-device CC termination and USB 2.0 data, not another CH224A PD sink.
+  ESD implementation and reference-based VBUS treatment remain open.
 - Reuse of `C165948` is confirmed for Rev A to reduce unique BOM items.
 - It carries the CM5 USB 2.0 D+ and D− device signals to a host computer.
 - It is used with `nRPIBOOT` and Raspberry Pi `rpiboot` to expose the CM5 eMMC.
@@ -38,10 +44,10 @@ reported errors or warnings.
 - USB 2.0 D+ and D− path to the CM5.
 - Correct USB-C device-side CC resistors.
 - Low-capacitance ESD protection.
-- Reference-based VBUS presence/sense circuit with no back-power path.
+- Reference-based VBUS treatment; add sensing only if required by the reviewed design.
 - Shield and ground treatment.
 - Accessible D+/D− test access only if it can be provided without harmful stubs.
-- VBUS-sense and ground test points.
+- Ground test access; VBUS-sense test access only if sensing is implemented.
 
 ## Flashing relationship
 
@@ -53,7 +59,7 @@ development computer.
 ## Definition of done
 
 - USB data routing reaches the correct CM5 pins with correct polarity.
-- CC, ESD, VBUS sensing, shield, and ground are drawn from reviewed references.
+- CC, ESD, VBUS treatment, shield, and ground are drawn from reviewed references.
 - No direct host-VBUS-to-`5V_MAIN` path exists.
 - The connector can be used while the board receives normal main power.
 - The schematic supports both initial flashing and recovery of a corrupted

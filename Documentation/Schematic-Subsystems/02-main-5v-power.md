@@ -2,7 +2,20 @@
 
 Last updated: 2026-09-19
 
-## Purpose
+## Open review actions — 2026-09-19
+
+- Open: the 6.5 A converter rating is not the available system budget.
+  A 5 V/6.5 A load is 32.5 W, exceeding the 27 W input before losses.
+  Close peak/continuous load and fuse/thermal margins with subsystem 01.
+- Proposed only: C4 `C466768` → Basic `C14663` (already C3/C7):
+  100 nF, X7R, ±10%, 0603; voltage rating increases from 25 V to 50 V.
+- Optional clarity improvement: label main 5 V (`NetC2_1`), Hailo output
+  (`NetC11_2`) and camera output (`NetCN4_22`) with their intended rail names.
+
+These actions are not implemented. Evidence and parts caveats are in the
+[review report](../Parts-and-Schematic-Review-2026-09-19.md).
+
+## Subsystem purpose
 
 Convert the negotiated 9 V input into the shared `5V_MAIN` rail used by the
 CM5 and the local Hailo and camera regulators.

@@ -10,12 +10,14 @@ subsystems.
 
 ## Current status
 
-**Schematic complete and transferred to PCB.** Both placed
-connectors have 100 unique pin designators numbered `1–100`. Required grounds
-are grounded, required 5 V inputs are connected, unused GPIOs have no-connect
-markers, and the M.2/PCIe, CSI-2, programming USB, recovery, and debug UART
-nets are connected. The project compile/ECO completed with no reported errors
-or warnings, and all components were imported into the PCB layout.
+**Transferred to PCB; recovery incomplete.** Both connectors have 100 unique
+physical pin designators `1–100`. Preserve the user's chosen visible pin
+names, but verify physical numbering/electrical types against the CM5 table.
+CN1-93 has no net and still needs the recovery control in [09](09-boot-recovery-reset.md).
+Programming USB ground/protection and camera/Hailo supply corrections are
+tracked in [the review](../Parts-and-Schematic-Review-2026-09-19.md).
+The reported clean compile/ECO does not close those issues. Mechanical
+connector geometry and module clearances remain to be checked before routing.
 
 ## Confirmed design
 

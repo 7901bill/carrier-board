@@ -613,3 +613,41 @@ The Altium project compile/ECO completed with no reported errors or warnings,
 and all schematic components were imported into `Watchdog PCB.PcbDoc`. The
 active phase is now PCB layout, beginning with board outline/constraints and
 major component placement before detailed routing.
+
+---
+
+## 2026-09-19 — Saved-CAD review reopens schematic corrections
+
+**Confirmed findings; fixes open:** inspection of the four active schematic
+sheets, saved PCB component/pad/net records, and transfer ECO found:
+
+- U7 AP2112 physical pins 2–5 mapped incorrectly, including actual GND on
+  main 5 V; camera output capacitor absent (C15 is input decoupling).
+- C8/C9 output-side pads unconnected to the Hailo rail.
+- USBC1 cable-ground groups unconnected despite grounded shell pads.
+- CN1-93 nRPIBOOT open, with no implemented recovery control.
+- No programming USB data ESD array in the active component inventory.
+
+**Superseded:** the previous entry's blanket schematic/recovery/protection
+completion claims. PCB transfer occurred, but no-error reporting was not
+electrical sign-off. Documentation now prioritizes corrections before routing.
+No schematic, PCB, library or BOM fixes were made, and ERC was not rerun.
+
+**Proposed:** C4 C466768 → Basic C14663 and R1 C2770993 → Basic C23212.
+Electrical parameters match or improve; R1's automotive qualification is not
+retained. Availability/classification must be rechecked at order time.
+Potential Economic assembly savings are approximately $6.14/order only if
+both replaced types would otherwise incur Extended loading fees. No other
+strictly equivalent Basic substitution was verified; four classifications
+remain unresolved in the 27-type inventory.
+
+**Open validation:** camera identity/load and LDO thermal margin; Hailo reset
+startup/brownout timing; 27 W source versus simultaneous load and fuse margins;
+CN3 footprint-name/mechanical compatibility; programming VBUS requirements;
+ERC electrical types/no-connect handling and NetlistSinglePinNets=0; connector
+geometry, FPC orientation, stackup and routing constraints. Clear rail names
+are a proposed readability improvement. Power/signal LEDs remain optional.
+
+Bill requested recording these findings. Updated the main status, subsystem
+dashboard and affected subsystem notes; full evidence, datasheet links and
+parts inventory are in [the review](Parts-and-Schematic-Review-2026-09-19.md).

@@ -1,6 +1,6 @@
 # Carrier Board — Read This First
 
-## Schematic complete; PCB placement is next
+## Schematic corrections required before routing
 
 Both Amphenol `10164227-1001A1RLF` schematic instances now contain 100 unique
 pin designators numbered `1–100`, matching their physical footprint pads.
@@ -15,8 +15,13 @@ are grounded.
 
 All schematic components and footprints have been transferred into
 `Watchdog PCB.PcbDoc`. The 2026-09-19 compile/ECO completed with no reported
-errors or warnings. The active phase is board outline and component placement,
-followed by layout rules, routing, DRC, and fabrication-output review.
+errors or warnings. However, the subsequent saved-CAD review found incorrect
+camera-LDO pin assignments, disconnected Hailo output capacitors and USB
+ground contacts, and missing recovery control and USB data protection.
+These issues remain open; a clean compile is not electrical sign-off.
+
+See the [review and proposed Basic substitutions](Documentation/Parts-and-Schematic-Review-2026-09-19.md)
+and [prioritized task dashboard](Documentation/Schematic-Subsystems/README.md).
 
 Do **not** release or fabricate until PCB placement/routing and final DRC,
 mechanical, BOM, and CPL reviews are complete.

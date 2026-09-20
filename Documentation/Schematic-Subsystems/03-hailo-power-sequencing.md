@@ -9,10 +9,13 @@ in reset until its supply is stable.
 
 ## Current status
 
-**Schematic complete and transferred to PCB.** The TPS54302 circuit is drawn,
-its final sourced passives are recorded, and `3V3_HAILO` reaches all five M.2
-power contacts. Reset behavior and electrical/thermal performance remain
-prototype-validation items.
+**Correction required.** The Hailo rail reaches all five M.2 power contacts,
+but C8-1 and C9-1 have no PCB net; only their ground pads are connected.
+Connect their electrical pin ends to the output (`NetC11_2`), regenerate ECO,
+and verify both pads explicitly. Check capacitor tolerance/DC-bias losses.
+U3 EN pin 5 may float per TI; that is not an error. See the
+[review and datasheet evidence](../Parts-and-Schematic-Review-2026-09-19.md).
+Earlier completion notes are superseded; no correction has yet been applied.
 
 ## Confirmed design
 
@@ -43,10 +46,10 @@ prototype-validation items.
   - 100 nF bootstrap capacitor `C14663`.
 - `3V3_HAILO` must be stable before M.2 `PERST#` is released.
 
-## Completed schematic content
+## Implemented content and open correction
 
-- Complete TPS54302 circuit and datasheet-required passives.
-- Local bulk and high-frequency decoupling at the M.2 socket.
+- TPS54302 and selected passives are placed, but output capacitors C8/C9
+  require connection before the supply can be considered complete.
 - Regulator enable and CM5-controlled reset connections; no separate load
   switch.
 - Connection to all five M.2 power contacts.
@@ -54,6 +57,8 @@ prototype-validation items.
 ## Verification remaining
 
 - Confirm useful test access for `5V_MAIN`, `3V3_HAILO`, reset, and ground.
+- Review direct CN2-9 to CN3-50 PERST# behavior with no supply-good gating;
+  establish startup and brownout/restart timing before closing sequencing.
 - Compile and run ERC after the remaining schematic subsystems are complete.
 - Measure startup and confirm `PCIe_nRST` remains asserted until
   `3V3_HAILO` is stable.

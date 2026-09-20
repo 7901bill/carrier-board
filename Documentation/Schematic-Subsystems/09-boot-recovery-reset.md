@@ -9,9 +9,14 @@ and be reset or power-controlled during development and fault recovery.
 
 ## Current status
 
-**Schematic complete and transferred to PCB.** The eMMC recovery path and
-`nRPIBOOT` control are implemented. A separate CM5 power button remains
-intentionally omitted from Rev A.
+**Recovery control not implemented.** CN1-93 (`nRPIBOOT`) has no PCB net and
+no recovery switch/jumper/test point is in the active component inventory.
+Add the planned accessible normally-open momentary switch to GND and verify
+its physical pad nets after ECO. The internal pull-up supports normal boot
+when released; leaving the pin open does not provide user recovery access.
+Earlier completion notes are superseded by the
+[saved-CAD review](../Parts-and-Schematic-Review-2026-09-19.md).
+A separate CM5 power button remains intentionally omitted from Rev A.
 
 ## Confirmed boot model
 

@@ -2,7 +2,17 @@
 
 Last updated: 2026-09-19
 
-## Purpose
+## Open review actions — 2026-09-19
+
+- Camera power is not complete: fix U7 pin mapping and add its output
+  capacitor as tracked in [04](04-camera-power.md).
+- Confirm the exact camera/current requirement and FPC contact orientation,
+  module clearances and stackup/impedance rules before routing.
+
+These actions are not implemented. Evidence and parts caveats are in the
+[review report](../Parts-and-Schematic-Review-2026-09-19.md).
+
+## Subsystem purpose
 
 Connect a Raspberry Pi camera module to the CM5 using the 22-pin FPC interface,
 including video lanes, control, power, and grounds.

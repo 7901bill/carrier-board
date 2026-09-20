@@ -10,36 +10,42 @@ history.
 
 ## Schematic V1 objective
 
-Schematic V1 is complete: every required subsystem is electrically drawn,
-all required pins have an intentional connection or no-connect marker, selected
-parts and values are recorded, and the design contains the hardware required to
-power, flash, boot, recover, and debug the CM5. The clean compile/ECO and PCB
-import were reported complete on 2026-09-19; PCB placement is next.
+Schematic V1 completion is reopened. PCB import and a clean compile were
+reported, but the saved-CAD review found electrical omissions and incorrect
+LDO pin mapping. Correct and verify these before routing. The
+[review report](../Parts-and-Schematic-Review-2026-09-19.md) contains evidence,
+the full parts inventory, and proposed cost reductions; none is implemented yet.
 
 ## Progress dashboard
 
 | File | Subsystem | Draft status | Principal remaining work |
 |---|---|---|---|
-| [01](01-power-input-usb-pd.md) | USB-C power input and PD | Schematic complete | PCB placement and power-input review |
-| [02](02-main-5v-power.md) | Main 5 V supply | Schematic complete | PCB placement and power-layout review |
-| [03](03-hailo-power-sequencing.md) | Hailo power and sequencing | Schematic complete | PCB placement and prototype timing validation |
-| [04](04-camera-power.md) | Camera power | LDO drawn | Prototype thermal verification at camera load |
-| [05](05-cm5-connectors.md) | CM5 connectors | Schematic complete | Mechanical placement and footprint review |
-| [06](06-m2-hailo-pcie.md) | M.2 Hailo/PCIe | Schematic complete | PCB impedance rules, routing, and length tuning |
-| [07](07-csi2-camera.md) | CSI-2 camera | Schematic complete | FPC orientation check and PCB differential routing |
-| [08](08-programming-usb.md) | Programming USB | Schematic complete | Place protection close to connector; route USB pair |
-| [09](09-boot-recovery-reset.md) | Boot and recovery | Schematic complete | Place accessible recovery control/test access |
+| [01](01-power-input-usb-pd.md) | USB-C power input and PD | Validation open | Source/fuse budget; proposed Basic R1 |
+| [02](02-main-5v-power.md) | Main 5 V supply | Validation open | Peak power budget; proposed Basic C4 |
+| [03](03-hailo-power-sequencing.md) | Hailo power and sequencing | Correction required | Connect C8/C9; validate reset timing |
+| [04](04-camera-power.md) | Camera power | Critical correction | Fix U7 pin mapping; add output capacitor; thermal review |
+| [05](05-cm5-connectors.md) | CM5 connectors | Recovery incomplete | Connect CN1-93 control; mechanical review |
+| [06](06-m2-hailo-pcie.md) | M.2 Hailo/PCIe | Validation open | Socket footprint compatibility; power/reset dependencies |
+| [07](07-csi2-camera.md) | CSI-2 camera | Power dependency open | Correct camera supply; FPC orientation and routing |
+| [08](08-programming-usb.md) | Programming USB | Correction required | Ground cable contacts; add ESD; review VBUS treatment |
+| [09](09-boot-recovery-reset.md) | Boot and recovery | Not implemented | Add accessible nRPIBOOT control/test access |
 | [10](10-debug-uart.md) | Debug UART | Schematic complete | Place accessible connector and label pin order |
 | [11](11-status-test-points.md) | Status and test access | Rough draft | Select final indicators and test points |
 
 ## Working order
 
-1. Define the board outline, mounting constraints, and major connector/module placement.
-2. Place the power stages and their critical loops/decoupling.
-3. Select the final JLCPCB stackup and create PCIe/CSI/USB differential rules.
-4. Place remaining support components and accessible controls/test points.
-5. Route power, high-speed pairs, and remaining signals; then tune pairs.
-6. Run PCB DRC, mechanical review, fabrication-output review, and BOM/CPL checks.
+1. Fix U7 physical pin mapping and add the missing camera output capacitor.
+2. Connect Hailo C8/C9 output pads and programming USB ground contacts.
+3. Implement recovery control and resolve USB ESD/VBUS design requirements.
+4. Close power-budget, thermal, reset-timing and footprint reviews; decide on
+   the two proposed Basic substitutions without relaxing key requirements.
+5. Audit ERC settings/electrical pin types/no-connects, compile, regenerate
+   ECO, and explicitly inspect corrected PCB pad nets. Zero warnings alone
+   is insufficient; `NetlistSinglePinNets=0` deserves particular review.
+6. Define outline, mounting/connector constraints, stackup and impedance rules;
+   place critical power loops, decoupling, controls and remaining components.
+7. Route and tune; run DRC, mechanical, fabrication-output and BOM/CPL reviews.
+   Status LEDs remain optional, not a substitute for resolving these blockers.
 
 ## Status vocabulary
 

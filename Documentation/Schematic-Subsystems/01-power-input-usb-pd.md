@@ -2,7 +2,19 @@
 
 Last updated: 2026-09-19
 
-## Purpose
+## Open review actions — 2026-09-19
+
+- Open: validate simultaneous CM5/Hailo/camera load against the 9 V/3 A
+  source (27 W before conversion losses), fuse derating and transient demand.
+- Proposed only: R1 `C2770993` → Basic `C23212`, same 6.8 kΩ/0603,
+  100 mW/75 V/100 ppm/°C, with tolerance improved to 1%. The replacement
+  does not retain the existing AEC-Q200 qualification. Confirm that is
+  acceptable, and recheck stock and fee classification before substitution.
+
+These actions are not implemented. Evidence and parts caveats are in the
+[review report](../Parts-and-Schematic-Review-2026-09-19.md).
+
+## Subsystem purpose
 
 Accept DC power from an external USB-C PD charger, request 9 V, protect the
 board input, and deliver the negotiated supply to the main 5 V converter.

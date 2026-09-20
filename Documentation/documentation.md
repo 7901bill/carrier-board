@@ -20,14 +20,33 @@ in Rev A. The CSI interface wires all four MIPI0 data lanes, MIPI0 clock,
 authoritative MIPI0 CM5 pins are 115/117, 121/123, 127/129, 133/135, and
 139/141; pin 141 is lane 3 positive, not lane 0 negative.
 
-Schematic V1 and its PCB transfer are complete. Both connector instances use
-100 unique physical pin designators `1–100`, all required grounds are grounded,
-and unused pins have intentional treatment. Programming/recovery USB,
-`nRPIBOOT`, and the JST GH debug UART are implemented. On 2026-09-19 the
-project compile/ECO completed with no reported errors or warnings, and all
-components were imported into `Watchdog PCB.PcbDoc`. Next work is PCB board
-outline and component placement, followed by stackup/rule definition, routing,
-pair tuning, DRC, and fabrication review.
+PCB transfer and a clean compile/ECO were reported on 2026-09-19, but the
+subsequent saved-CAD review reopened schematic completion. Both CM5 connectors
+retain unique physical pin designators `1–100`; the selected JST GH UART is
+present. The blanket claims that recovery, protection, and all power circuitry
+were complete are superseded by the following **open corrections**:
+
+1. Correct U7 AP2112 physical mapping: 1 VIN, 2 GND, 3 EN, 4 NC, 5 VOUT.
+   Its saved pad 2 is incorrectly on 5 V, pad 3 on ground, pad 4 on camera
+   power, and pad 5 unconnected. Add the missing camera output capacitor.
+2. Connect C8/C9 pad 1 to the Hailo output; both currently have no net.
+3. Ground USBC1 `A1B12` and `B1A12`; grounded shell pads are insufficient.
+4. Implement accessible `nRPIBOOT` recovery control at CN1-93, currently open.
+5. Resolve/add programming USB data ESD protection, absent from the inventory.
+   VBUS is isolated from main 5 V; any sensing requirement still needs review.
+
+Before routing, also close the camera load/thermal assessment, Hailo reset
+timing, simultaneous power budget/fuse derating, CN3 footprint compatibility,
+and ERC coverage gaps. Verify corrected physical pad nets after a fresh ECO;
+no CAD corrections or new ERC run have been performed during this review.
+
+**Proposed only:** replace C4 `C466768` with Basic `C14663`, and R1 `C2770993`
+with Basic `C23212`. R1's automotive qualification is not retained; confirm it
+is unnecessary and recheck stock/assembly classification before selection.
+No BOM substitution has been implemented. Detailed evidence, all 27 part
+types, conditional fee savings, and validation tasks are in the
+[2026-09-19 review](Parts-and-Schematic-Review-2026-09-19.md); the
+[subsystem dashboard](Schematic-Subsystems/README.md) gives the working order.
 
 The first revision uses a simpler power-input design: the TPS25947 eFuse has
 been removed because its added complexity is not appropriate for this first
