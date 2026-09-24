@@ -1,6 +1,6 @@
 # 09 — Boot, Recovery, and Reset
 
-Last updated: 2026-09-19
+Last updated: 2026-09-20
 
 ## Purpose
 
@@ -9,8 +9,10 @@ and be reset or power-controlled during development and fault recovery.
 
 ## Current status
 
-**Recovery control not implemented.** CN1-93 (`nRPIBOOT`) has no PCB net and
-no recovery switch/jumper/test point is in the active component inventory.
+**Button circuit still unfinished (confirmed 2026-09-20).** The selected
+switch is XUNPU `TS-1088R-02026`, JLCPCB/LCSC `C455280`. The last saved-CAD
+review found CN1-93 (`nRPIBOOT`) without a PCB net and no recovery
+switch/jumper/test point in the active component inventory.
 Add the planned accessible normally-open momentary switch to GND and verify
 its physical pad nets after ECO. The internal pull-up supports normal boot
 when released; leaving the pin open does not provide user recovery access.
@@ -31,6 +33,15 @@ A separate CM5 power button remains intentionally omitted from Rev A.
 - Recovery control will be a normally-open momentary pushbutton from
   `nRPIBOOT` to ground. The CM5 provides the signal's internal pull-up.
 - The recovery control must remain physically accessible with the CM5 installed.
+- Selected switch: XUNPU `TS-1088R-02026`, JLCPCB/LCSC `C455280`;
+  normally-open momentary SPST, two-terminal SMT, 3.9 x 2.93 mm body,
+  2 mm height, 2.6 N operating force, 50 mA / 12 V rating, 100,000 cycles.
+  JLCPCB lists it as Extended. This replaces TE `3-1437565-0` / `C86463`.
+  See [JLCPCB listing](https://jlcpcb.com/partdetail/Xunpu-TS_1088R02026/C455280).
+- Remaining work: verify the exact datasheet, symbol-to-pad mapping and
+  footprint; wire one terminal to CN1-93 and the other to GND; add the
+  labeled test point; transfer via ECO; place accessibly and route; verify
+  released/pressed states and normal/USB boot. Selection is not completion.
 
 ## CM5 power-control decision
 
@@ -88,5 +99,7 @@ A separate CM5 power button remains intentionally omitted from Rev A.
 
 - 2026-09-18: Initial boot/recovery draft created with additional explanation
   because this is a high-priority learning and bring-up area.
-- 2026-09-19: Completed recovery-control wiring and transferred the selected
-  components to the PCB document.
+- 2026-09-19: Earlier completion claim was superseded by the saved-CAD review;
+  recovery control was absent.
+- 2026-09-20: Selected C455280 in place of C86463. Bill explicitly confirmed
+  the button remains unfinished; implementation and verification are open.

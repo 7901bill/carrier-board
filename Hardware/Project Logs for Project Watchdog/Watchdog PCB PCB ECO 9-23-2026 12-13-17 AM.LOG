@@ -1,0 +1,8 @@
+Added Component: Designator=SW(SW-SMD_L3.9-W3.0-P4.45)
+Add component (AddParameter): Name = "Name"; Value = "C455280"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "LCSC"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=SW-2
+Added Pin To Net: NetName=NetCN1_93 Pin=CN1-93
+Added Pin To Net: NetName=NetCN1_93 Pin=SW-1
+Added Net: Name=NetCN1_93
+Added Member To Class: ClassName=Amphenol ICC Member=Component SW TS-1088R-02026

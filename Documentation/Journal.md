@@ -651,3 +651,37 @@ are a proposed readability improvement. Power/signal LEDs remain optional.
 Bill requested recording these findings. Updated the main status, subsystem
 dashboard and affected subsystem notes; full evidence, datasheet links and
 parts inventory are in [the review](Parts-and-Schematic-Review-2026-09-19.md).
+
+## 2026-09-20 — BOOT pushbutton selection
+
+**Confirmed:** Bill requested changing the recovery-button choice to TE
+Connectivity `3-1437565-0` (`FSM2JSMATR`), JLCPCB/LCSC `C86463`.
+This supersedes the conversational recommendation of XKB `TS-1187A-B-A-B`
+(`C318884`), which had not been implemented. TE specifies momentary OFF-(ON)
+SPST operation, 160 gf force, 4.3 mm height, and 50 mA at 24 VDC. JLCPCB
+lists a 6 x 6 mm four-pad SMT package and Extended classification.
+Wire the switched contacts between CN1-93 (`nRPIBOOT`) and GND, retaining
+the planned labeled test point and the CM5's internal pull-up.
+Selection only: no Altium schematic or PCB edits were made. Verify the TE
+drawing's contact pairing and land pattern before CAD implementation;
+live stock and price were not verified.
+
+Sources: [TE](https://www.te.com/en/product-3-1437565-0.html),
+[JLCPCB](https://jlcpcb.com/partdetail/TEConnectivity-3_14375650/C86463).
+
+## 2026-09-20 — Replacement BOOT switch selected; button unfinished
+
+**Confirmed:** Bill accepted XUNPU `TS-1088R-02026`, JLCPCB/LCSC `C455280`,
+and explicitly requested documenting that the button is still unfinished.
+This supersedes the TE `3-1437565-0` / `C86463` selection above. The
+two-terminal switch was proposed to simplify the connection: one terminal
+to CN1-93 (`nRPIBOOT`), the other to GND, using the CM5's internal pull-up.
+JLCPCB lists a 3.9 x 2.93 mm body, 2 mm height, 2.6 N force, 50 mA / 12 V
+rating, 100,000 cycles, and Extended classification.
+
+**Open:** exact datasheet and symbol/footprint verification, schematic
+wiring and test point, PCB ECO, accessible placement/routing, and normal
+boot/USB recovery testing. No Altium changes were made in this documentation
+update. Updated the current design, boot subsystem note, and task dashboard.
+
+Source: [JLCPCB C455280](https://jlcpcb.com/partdetail/Xunpu-TS_1088R02026/C455280).

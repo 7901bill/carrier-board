@@ -1,0 +1,49 @@
+Removed Pin From Net: NetName=NetC11_2 Pin=CN3-2
+Removed Pin From Net: NetName=GND Pin=CN3-3
+Removed Pin From Net: NetName=NetC11_2 Pin=CN3-4
+Removed Pin From Net: NetName=GND Pin=CN3-27
+Removed Pin From Net: NetName=GND Pin=CN3-33
+Removed Pin From Net: NetName=GND Pin=CN3-39
+Removed Pin From Net: NetName=NetCN2_24 Pin=CN3-41
+Removed Pin From Net: NetName=NetCN2_22 Pin=CN3-43
+Removed Pin From Net: NetName=GND Pin=CN3-45
+Removed Pin From Net: NetName=NetCN2_18 Pin=CN3-47
+Removed Pin From Net: NetName=NetCN2_16 Pin=CN3-49
+Removed Pin From Net: NetName=NetCN2_9 Pin=CN3-50
+Removed Pin From Net: NetName=GND Pin=CN3-51
+Removed Pin From Net: NetName=NetCN2_2 Pin=CN3-52
+Removed Pin From Net: NetName=NetCN2_12 Pin=CN3-53
+Removed Pin From Net: NetName=NetCN2_10 Pin=CN3-55
+Removed Pin From Net: NetName=GND Pin=CN3-57
+Removed Pin From Net: NetName=NetC11_2 Pin=CN3-70
+Removed Pin From Net: NetName=GND Pin=CN3-71
+Removed Pin From Net: NetName=NetC11_2 Pin=CN3-72
+Removed Pin From Net: NetName=GND Pin=CN3-73
+Removed Pin From Net: NetName=NetC11_2 Pin=CN3-74
+Removed Member From Class: ClassName=M.2 & CSI2 Member=CN3
+Added Component: Designator=CN?(CONN-SMD_91302-32-067RDM)
+Add component (AddParameter): Name = "Name"; Value = "C601195"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "LCSC"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetC11_2 Pin=CN?-2
+Added Pin To Net: NetName=GND Pin=CN?-3
+Added Pin To Net: NetName=NetC11_2 Pin=CN?-4
+Added Pin To Net: NetName=GND Pin=CN?-27
+Added Pin To Net: NetName=GND Pin=CN?-33
+Added Pin To Net: NetName=GND Pin=CN?-39
+Added Pin To Net: NetName=NetCN2_24 Pin=CN?-41
+Added Pin To Net: NetName=NetCN2_22 Pin=CN?-43
+Added Pin To Net: NetName=GND Pin=CN?-45
+Added Pin To Net: NetName=NetCN2_18 Pin=CN?-47
+Added Pin To Net: NetName=NetCN2_16 Pin=CN?-49
+Added Pin To Net: NetName=NetCN2_9 Pin=CN?-50
+Added Pin To Net: NetName=GND Pin=CN?-51
+Added Pin To Net: NetName=NetCN2_2 Pin=CN?-52
+Added Pin To Net: NetName=NetCN2_12 Pin=CN?-53
+Added Pin To Net: NetName=NetCN2_10 Pin=CN?-55
+Added Pin To Net: NetName=GND Pin=CN?-57
+Added Pin To Net: NetName=NetC11_2 Pin=CN?-70
+Added Pin To Net: NetName=GND Pin=CN?-71
+Added Pin To Net: NetName=NetC11_2 Pin=CN?-72
+Added Pin To Net: NetName=GND Pin=CN?-73
+Added Pin To Net: NetName=NetC11_2 Pin=CN?-74
+Added Member To Class: ClassName=M.2 & CSI2 Member=Component CN? 91302-42-067RDM

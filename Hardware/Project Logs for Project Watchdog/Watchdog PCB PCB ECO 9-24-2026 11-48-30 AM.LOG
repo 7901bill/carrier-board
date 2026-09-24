@@ -1,0 +1,15 @@
+Removed Pin From Net: NetName=GND Pin=U3-1
+Removed Pin From Net: NetName=NetC7_1 Pin=U3-2
+Removed Pin From Net: NetName=NetC2_1 Pin=U3-3
+Removed Pin From Net: NetName=NetC11_1 Pin=U3-4
+Removed Pin From Net: NetName=NetC7_2 Pin=U3-6
+Removed Member From Class: ClassName=Power Rails Member=U3
+Added Component: Designator=U1(SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL)
+Add component (AddParameter): Name = "Name"; Value = "C311983"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "LCSC"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=U1-1
+Added Pin To Net: NetName=NetC7_1 Pin=U1-2
+Added Pin To Net: NetName=NetC2_1 Pin=U1-3
+Added Pin To Net: NetName=NetC11_1 Pin=U1-4
+Added Pin To Net: NetName=NetC7_2 Pin=U1-6
+Added Member To Class: ClassName=Power Rails Member=Component U1 TPS54302DDCR

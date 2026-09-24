@@ -82,8 +82,17 @@ The bring-up architecture is now defined. One USB-C connector is dedicated to
 board power. A second USB-C connector is dedicated to CM5 programming and
 recovery. The CM5's onboard eMMC is flashed through USB mass-storage mode; no
 external SD-card socket is needed for the full CM5 variant. CM5 pin 93
-(`nRPIBOOT`) will connect to an accessible pushbutton and test point for USB
-recovery during power-up. The three-pin UART debug connector uses pin 55
+(`nRPIBOOT`) will connect to an accessible XUNPU `TS-1088R-02026`
+(JLCPCB/LCSC **C455280**) normally-open momentary pushbutton to GND and
+a labeled test point for USB recovery during power-up. Selected 2026-09-20,
+replacing TE `3-1437565-0` / `C86463` for simpler two-terminal wiring.
+**The button circuit is still unfinished:** symbol/footprint verification,
+schematic wiring, PCB ECO, placement/routing, and functional checks remain
+pending. The switch has a 3.9 x 2.93 mm body, 2 mm height, 2.6 N operating
+force, 50 mA / 12 V rating, and Extended classification. Verify the exact
+datasheet and land pattern before implementation. The CM5 provides the
+10 kΩ pull-up to 3.3 V; no additional pull-up is planned.
+The three-pin UART debug connector uses pin 55
 (`GPIO14` / `UART0_TX`) and pin 51 (`GPIO15` / `UART0_RX`), plus ground, for
 early-boot diagnostics. Wi-Fi and SSH are used for normal development after
 Linux boots.

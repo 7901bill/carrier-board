@@ -1,0 +1,7 @@
+Change Component Designator: OldDesignator=U1 NewDesignator=USBC 1
+Change Component Designator: OldDesignator=USBC1 NewDesignator=USBC2
+Change Net Name : Old Net Name=NetU1_A5 New Net Name=NetU2_7
+Change Net Name : Old Net Name=NetU1_A6 New Net Name=NetU2_4
+Change Net Name : Old Net Name=NetU1_A7 New Net Name=NetU2_5
+Change Net Name : Old Net Name=NetU1_B5 New Net Name=NetU2_6
+Change Net Name : Old Net Name=NetUSBC1_A4B9 New Net Name=NetUSBC2_A4B9

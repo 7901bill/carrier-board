@@ -1,13 +1,28 @@
 # 06 — Hailo-8L M.2 and PCIe
 
-Last updated: 2026-09-19
+Last updated: 2026-09-24
 
-## Open review actions — 2026-09-19
+## Open review actions — 2026-09-24
 
-- Open mechanical check: selected CN3 is `91302-42-067RDM` (4.2 mm),
-  but its footprint name contains `91302-32-067RDM`. Compare manufacturer
-  drawings, pad geometry, module height and clearances. The name mismatch
-  alone does not prove the footprint is wrong.
+- **HIGH PRIORITY - CN3 release blocker. Resolve before PCB fabrication or
+  connector procurement.** The selected schematic and BoM DesignItemId is
+  UMAX `91302-42-067RDM` (LCSC `C601195`), while the placed PCB footprint
+  and embedded STEP model are named for `91302-32-067RDM`. The supplier lists
+  the selected `-42-` variant at 4.2 mm and the `-32-` variant at 3.2 mm.
+  These are distinct orderable parts. Their name difference does not prove a
+  copper land-pattern mismatch, but unverified mating height, locating posts,
+  or standoff geometry could prevent the Hailo module from seating and force
+  a board rework or respin.
+  Compare manufacturer drawings for both variants: contact and mounting pad
+  layout, locating posts, board edge, card mating plane, module standoff, and
+  nearby clearance. Record the drawing revisions and verified intended part.
+  If `-42-` is intended, use or validate a `-42-` footprint and 3D model; if
+  `-32-` is intended, correct the schematic part identity and supplier code.
+  Refresh the BoM, transfer the change to the PCB, and confirm that CAD and
+  purchasing identifiers agree. Do not close this item on matching names alone.
+- The saved `BOM.BomDoc` predates the latest M.2 schematic save: its CN3
+  Comment still says `M.2 B+M Key`, while the saved schematic Comment and
+  DesignItemId both say `91302-42-067RDM`. Recheck the refreshed BoM line.
 - Power dependency: fix disconnected C8/C9 in [03](03-hailo-power-sequencing.md).
   Direct PERST# has no supply-good gating; startup/brownout timing is open.
 - Confirm stackup/impedance rules and module mounting before routing.
@@ -94,6 +109,9 @@ endpoint's receive signals connect to the host's transmit signals.
 - Power, ground, clock, and control connections are complete.
 - All unused contacts are explicitly marked.
 - The extra library pin is identified and documented.
+- CN3's selected MPN, supplier code, PCB land pattern, 3D model, card seating
+  height, and module standoff are checked against manufacturer drawings; the
+  refreshed BoM and PCB agree on the verified variant.
 - Reset release is coordinated with `3V3_HAILO` stability.
 
 ## References
@@ -101,6 +119,9 @@ endpoint's receive signals connect to the host's transmit signals.
 - `Documentation/Research MD/PCIe-x1-Differential-Pairs-Explainer.md`.
 - Hailo-8L M.2 Key B+M ET Module Data Sheet Rev. 4.0.
 - CM5 datasheet and Raspberry Pi M.2 HAT+ reference schematic.
+- [Selected `-42-` connector, C601195](https://jlcpcb.com/partdetail/UMAX-91302_42067RDM/C601195)
+  and [`-32-` connector, C1509730](https://item.szlcsc.com/1600530.html);
+  use their manufacturer drawings for the compatibility decision.
 
 ## Session notes
 
@@ -108,3 +129,6 @@ endpoint's receive signals connect to the host's transmit signals.
 - 2026-09-19: M.2-to-CM5 schematic wiring completed. Confirmed that pin 41
   `PETn0` connects to CM5 `PCIe_RX_N` pin 118 and pin 43 `PETp0` connects to
   `PCIe_RX_P` pin 116; pin 42 is not part of the lane-0 connection.
+- 2026-09-24: Raised the CN3 `-42-` purchasing part versus `-32-` PCB
+  footprint/STEP identity to a high-priority release blocker. Mechanical and
+  land-pattern compatibility remain unverified; no CAD change was made.
