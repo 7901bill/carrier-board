@@ -1,6 +1,6 @@
 # 06 — Hailo-8L M.2 and PCIe
 
-Last updated: 2026-09-24
+Last updated: 2026-09-28
 
 ## Open review actions — 2026-09-24
 
@@ -20,15 +20,17 @@ Last updated: 2026-09-24
   `-32-` is intended, correct the schematic part identity and supplier code.
   Refresh the BoM, transfer the change to the PCB, and confirm that CAD and
   purchasing identifiers agree. Do not close this item on matching names alone.
-- The saved `BOM.BomDoc` predates the latest M.2 schematic save: its CN3
-  Comment still says `M.2 B+M Key`, while the saved schematic Comment and
-  DesignItemId both say `91302-42-067RDM`. Recheck the refreshed BoM line.
+- The latest 2026-09-28 LiveBOM save now agrees with the schematic on CN3's
+  Comment, `Name=C601195`, `Source=LCSC`, and selected part. This resolves
+  the earlier saved-parameter discrepancy; the `-42-` part versus `-32-`
+  footprint/3D mechanical review remains open. See the consolidated
+  [main design status](../documentation.md).
 - Power dependency: fix disconnected C8/C9 in [03](03-hailo-power-sequencing.md).
   Direct PERST# has no supply-good gating; startup/brownout timing is open.
 - Confirm stackup/impedance rules and module mounting before routing.
 
-These actions are not implemented. Evidence and parts caveats are in the
-[review report](../Parts-and-Schematic-Review-2026-09-19.md).
+These actions are not implemented. Current release blockers are consolidated
+in the [main design status](../documentation.md).
 
 ## Subsystem purpose
 

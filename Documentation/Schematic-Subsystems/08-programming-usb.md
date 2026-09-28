@@ -1,6 +1,6 @@
 # 08 — CM5 Programming USB
 
-Last updated: 2026-09-19
+Last updated: 2026-09-28
 
 ## Purpose
 
@@ -9,16 +9,19 @@ the CM5 for initial eMMC flashing and recovery.
 
 ## Current status
 
-**Correction required.** USBC1 ground-pad groups `A1B12` and `B1A12` have no
-net. Connect both to GND; the grounded shell pads 1–4 do not replace them.
-No USB data ESD array is present in the 42-component inventory; select and
-implement suitable low-capacitance protection before routing.
+**Correction required.** The 2026-09-19 review found programming-port cable
+ground-pad groups `A1B12` and `B1A12` without PCB nets. The current two
+USB-C designators are `USBC 1` and `USBC2`, so first identify the programming
+connector in the saved CAD and recheck its pad nets; grounded shell pads 1–4
+do not replace signal ground. No USB data ESD array is present in the current
+43-component inventory; select and implement suitable low-capacitance
+protection before routing.
 
 Duplicated D+/D− contacts and separate 5.1 kΩ CC resistors are connected.
 VBUS groups join each other but remain isolated from main 5 V. No VBUS-sense
 circuit is present; review the CM5 reference before deciding whether one is
-required. Earlier completion notes are superseded. See the
-[saved-CAD review](../Parts-and-Schematic-Review-2026-09-19.md).
+required. Earlier completion notes are superseded. See the consolidated
+[main design status](../documentation.md).
 
 ## Confirmed architecture
 

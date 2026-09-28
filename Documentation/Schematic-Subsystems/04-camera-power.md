@@ -1,6 +1,6 @@
 # 04 — Camera Power
 
-Last updated: 2026-09-19
+Last updated: 2026-09-28
 
 ## Purpose
 
@@ -8,11 +8,12 @@ Provide a quiet, dedicated 3.3 V rail to the Raspberry Pi camera connector.
 
 ## Current status
 
-**Critical correction required.** U7 physical pin mapping is incorrect and
-the camera output capacitor is absent. Earlier completion notes below are
-superseded by this saved-CAD review, not evidence of an implemented fix.
+**Critical correction required.** The AP2112 is now `U3` (formerly `U7`).
+The 2026-09-24 PCB ECO retained the incorrect physical pin mapping, and the
+camera output capacitor remains unverified. Earlier completion notes below
+are not evidence of an implemented fix.
 
-| U7 physical pin | Required function/connection | Saved PCB connection |
+| U3 physical pin | Required function/connection | Saved PCB/ECO connection |
 |---|---|---|
 | 1 | VIN / main 5 V | Main 5 V |
 | 2 | GND | Main 5 V — incorrect |
@@ -24,7 +25,7 @@ Correct the symbol designators/functions and placed instance, verify footprint
 numbering against the [AP2112 datasheet](https://www.diodes.com/assets/Datasheets/AP2112.pdf),
 then regenerate the ECO. C15 is input decoupling only; add the intended 1 µF
 output capacitor from corrected VOUT to GND and check effective capacitance.
-See the [review evidence](../Parts-and-Schematic-Review-2026-09-19.md).
+See the consolidated [main design status](../documentation.md).
 
 ## Confirmed design intent (not verified as-built)
 
@@ -43,9 +44,10 @@ See the [review evidence](../Parts-and-Schematic-Review-2026-09-19.md).
 - The standard Raspberry Pi 22-pin camera connector receives 3.3 V on pin 22.
 - A separate 1.8 V carrier-board camera rail is not required for Camera
   Module 3; the module generates its lower internal rails.
-- The exact camera and its maximum load must be confirmed: the records refer
-  to both Camera Module 3 and an Arducam-class camera. Treat 300 mA as a
-  review case, not a verified maximum for the final module.
+- The selected camera is the standard Raspberry Pi Camera Module 3 using the
+  IMX708 sensor, not Camera Module 3 Wide. Its documented maximum load still
+  needs to be confirmed. Treat 300 mA as a thermal review case, not a verified
+  maximum.
 - At 300 mA from a 5 V input, the LDO dissipates approximately 0.51 W. Using
   the datasheet's 184°C/W SOT25 junction-to-ambient figure gives an estimated
   94°C junction rise, so useful copper area and prototype thermal testing are
@@ -85,6 +87,7 @@ See the [review evidence](../Parts-and-Schematic-Review-2026-09-19.md).
 ## Session notes
 
 - 2026-09-18: Initial subsystem draft created from confirmed project records.
-- 2026-09-18: LDO circuit completed using `C51118`; selected two `C15849`
-  1 µF X5R capacitors, tied EN to `5V_MAIN`, and left NC open. Recorded the
-  approximately 300 mA maximum camera load and required thermal validation.
+- 2026-09-18: Recorded the intended LDO circuit using `C51118`, two `C15849`
+  1 µF X5R capacitors, EN tied to `5V_MAIN`, and NC open. The later saved-CAD
+  review superseded the completion claim: U3 is wired incorrectly and the
+  output capacitor is missing. The 300 mA value remains a thermal review case.

@@ -1,6 +1,6 @@
 # 09 — Boot, Recovery, and Reset
 
-Last updated: 2026-09-20
+Last updated: 2026-09-28
 
 ## Purpose
 
@@ -9,15 +9,14 @@ and be reset or power-controlled during development and fault recovery.
 
 ## Current status
 
-**Button circuit still unfinished (confirmed 2026-09-20).** The selected
-switch is XUNPU `TS-1088R-02026`, JLCPCB/LCSC `C455280`. The last saved-CAD
-review found CN1-93 (`nRPIBOOT`) without a PCB net and no recovery
-switch/jumper/test point in the active component inventory.
-Add the planned accessible normally-open momentary switch to GND and verify
-its physical pad nets after ECO. The internal pull-up supports normal boot
-when released; leaving the pin open does not provide user recovery access.
-Earlier completion notes are superseded by the
-[saved-CAD review](../Parts-and-Schematic-Review-2026-09-19.md).
+**Switch placed and ECO-connected; recovery operation unverified.** The
+selected XUNPU `TS-1088R-02026`, JLCPCB/LCSC `C455280`, is now `SW` on the
+schematic and PCB. The 2026-09-23 PCB ECO records `CN1-93` (`nRPIBOOT`) and
+`SW-1` on `NetCN1_93`, with `SW-2` on GND. This supersedes the
+2026-09-19 finding that no switch existed. Verify the current pad nets in
+Altium, footprint/datasheet,
+accessible placement, a labeled test point, and normal/recovery behavior.
+The internal pull-up supports normal boot when the switch is released.
 A separate CM5 power button remains intentionally omitted from Rev A.
 
 ## Confirmed boot model
@@ -38,10 +37,10 @@ A separate CM5 power button remains intentionally omitted from Rev A.
   2 mm height, 2.6 N operating force, 50 mA / 12 V rating, 100,000 cycles.
   JLCPCB lists it as Extended. This replaces TE `3-1437565-0` / `C86463`.
   See [JLCPCB listing](https://jlcpcb.com/partdetail/Xunpu-TS_1088R02026/C455280).
-- Remaining work: verify the exact datasheet, symbol-to-pad mapping and
-  footprint; wire one terminal to CN1-93 and the other to GND; add the
-  labeled test point; transfer via ECO; place accessibly and route; verify
-  released/pressed states and normal/USB boot. Selection is not completion.
+- Remaining work: verify the exact datasheet, symbol-to-pad mapping,
+  footprint, and current PCB pad nets; add the labeled test point; place
+  accessibly and route; verify released/pressed states and normal/USB boot.
+  Placement and ECO connection are not functional validation.
 
 ## CM5 power-control decision
 
@@ -103,3 +102,5 @@ A separate CM5 power button remains intentionally omitted from Rev A.
   recovery control was absent.
 - 2026-09-20: Selected C455280 in place of C86463. Bill explicitly confirmed
   the button remains unfinished; implementation and verification are open.
+- 2026-09-28: Current CAD contains `SW`; the 2026-09-23 ECO connected it
+  between `CN1-93` and GND. Access and functional recovery remain open.

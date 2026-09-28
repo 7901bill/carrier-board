@@ -1,16 +1,16 @@
 # 07 — CSI-2 Camera Interface
 
-Last updated: 2026-09-19
+Last updated: 2026-09-28
 
 ## Open review actions — 2026-09-19
 
-- Camera power is not complete: fix U7 pin mapping and add its output
+- Camera power is not complete: fix U3 pin mapping and add its output
   capacitor as tracked in [04](04-camera-power.md).
-- Confirm the exact camera/current requirement and FPC contact orientation,
-  module clearances and stackup/impedance rules before routing.
+- Confirm the selected Camera Module 3 current requirement, FPC contact
+  orientation, module clearances, and stackup/impedance rules before routing.
 
-These actions are not implemented. Evidence and parts caveats are in the
-[review report](../Parts-and-Schematic-Review-2026-09-19.md).
+These actions are not implemented. Current release blockers are consolidated
+in the [main design status](../documentation.md).
 
 ## Subsystem purpose
 
@@ -19,11 +19,12 @@ including video lanes, control, power, and grounds.
 
 ## Current status
 
-**Schematic wiring complete.** All four MIPI data lanes, MIPI clock, camera
-I²C, both camera GPIO controls, `3V3_CAMERA`, and ground contacts are connected
-between the 22-pin FPC connector and the CM5 connector symbols. PCB
-differential-pair rules, routing, and cable-orientation inspection remain
-layout/review work.
+**Incomplete; signal wiring is drawn.** All four MIPI data lanes, MIPI clock,
+camera I²C, both camera GPIO controls, `3V3_CAMERA`, and ground contacts are
+drawn between the 22-pin FPC connector and the CM5 connector symbols. U3 is
+wired incorrectly and lacks its output capacitor. Cable orientation, connector
+pad 1, module clearance, PCB differential-pair rules, routing, and functional
+operation remain unverified.
 
 ## Confirmed design basis
 
@@ -69,15 +70,17 @@ CSI contacts 1, 4, 7, 10, 13, 16, and 19 connect to ground. The standard
 Camera Module 3 uses two data lanes through the normal 22-to-15-pin cable;
 wiring lanes 2 and 3 preserves the standard four-lane 22-pin interface.
 
-## Completed schematic content
+## Drawn schematic content — verification incomplete
 
-- `C5182313` FPC connector with verified contact numbering and cable orientation.
+- `C5182313` FPC connector; contact numbering and cable orientation still need
+  verification against the connector and cable drawings.
 - All required CSI-2 data and clock pairs.
 - Camera I²C and control connections.
-- `3V3_CAMERA`, all required grounds, and local decoupling.
+- Intended `3V3_CAMERA` and ground connections; camera power remains incomplete
+  until U3 and its output capacitor are corrected and reverified.
 - Explicit no-connect markers on unused contacts, if any.
-- Useful power, control, and ground test access without stubbing high-speed
-  CSI-2 pairs.
+- Power, control, and ground test-access requirements remain to be verified;
+  do not add stubs to high-speed CSI-2 pairs.
 
 ## PCB-layout and review work remaining
 
@@ -90,7 +93,8 @@ wiring lanes 2 and 3 preserves the standard four-lane 22-pin interface.
 
 ## Definition of done
 
-- The exact camera, cable, and connector drawings agree on contact orientation.
+- The selected Camera Module 3, cable, and connector drawings agree on contact
+  orientation.
 - Lane count and every CSI-2 polarity are checked against authoritative sources.
 - Camera power, grounds, I²C, and control signals are complete.
 - Pull-up ownership is documented without duplicating the CM5 pull-ups.
@@ -99,7 +103,8 @@ wiring lanes 2 and 3 preserves the standard four-lane 22-pin interface.
 ## References
 
 - `Documentation/documentation.md`, current camera decisions.
-- Current CM5 datasheet and Camera Module 3 documentation.
+- [Current CM5 datasheet](https://datasheets.raspberrypi.com/cm5/cm5-datasheet.pdf)
+  and Camera Module 3 documentation.
 - Official CM5 IO camera reference circuit.
 
 ## Session notes

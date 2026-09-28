@@ -12,8 +12,8 @@ Last updated: 2026-09-19
 - Optional clarity improvement: label main 5 V (`NetC2_1`), Hailo output
   (`NetC11_2`) and camera output (`NetCN4_22`) with their intended rail names.
 
-These actions are not implemented. Evidence and parts caveats are in the
-[review report](../Parts-and-Schematic-Review-2026-09-19.md).
+These actions are not implemented. Current release blockers are consolidated
+in the [main design status](../documentation.md).
 
 ## Subsystem purpose
 

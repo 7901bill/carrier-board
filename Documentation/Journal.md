@@ -1,12 +1,12 @@
 # Journal — Wireless Watchdog: CM5 Carrier Board
 
-An ongoing, append-only log of notes from each work session. This is the
-raw record of what was discussed — not the official spec (CLAUDE.md is the
-current source of truth). Notes here get folded into CLAUDE.md the same day
-they're written, then left alone as history. This file replaces the old
-pattern of separate per-session log files (retired 2026-07-30) and the old
-`documentation.md`/`status.md` files (also retired that day — both just
-repeated what was already in CLAUDE.md with nothing new).
+An ongoing, append-only log of verified project decisions and dated work
+records. **This journal is the source of truth for verified information.**
+`documentation.md` is the daily working summary and active-blocker list, and
+the schematic-subsystem files hold implementation detail. Later entries
+supersede earlier entries when the design or verified CAD state changes.
+Historical mentions of `CLAUDE.md` below describe an older documentation
+workflow and do not make that file a current authority.
 
 ---
 
@@ -280,7 +280,7 @@ datasheets. The main documentation file was renamed from `CLAUDE.md` to
 
 Tomorrow: read `Research MD/programming.md`, then connect the CH224A PD request
 node through the fuse, TVS, TPS259470ARPWR eFuse, and MP2329 buck converter
-using the current datasheets as the source of truth. Verify every eFuse pin,
+using the current datasheets as the authoritative technical references. Verify every eFuse pin,
 required passive, power net, and ground connection before continuing to the
 local rails.
 ---
@@ -404,7 +404,9 @@ points, and a common ground return.
 
 > Later the same day, the component-selection portion of this open item was
 > closed by the “Local Hailo and camera power rails selected” entry below.
-> Physical schematic wiring and Hailo reset sequencing remain open.
+> The exact camera was later locked to the standard Raspberry Pi Camera Module
+> 3 by the 2026-09-28 reconciliation entry. Physical schematic wiring and Hailo
+> reset sequencing remained open at this checkpoint.
 
 The detailed pin table is recorded in
 `Research MD/PCIe-x1-Differential-Pairs-Explainer.md`. No schematic-library
@@ -417,8 +419,9 @@ binary was modified during this documentation pass, and nothing was pushed.
 **Status: Findings and proposed work; no architecture decision superseded.**
 
 Reviewed the current documentation, Git state, Altium project membership, CAD
-file inventory, and schematic previews. The detailed ranked findings are in
-`Design-Audit-2026-09-08.md`.
+file inventory, and schematic previews. The audit's resolved observations are
+preserved in this entry; its still-open release requirements are maintained at
+the top of `documentation.md`.
 
 The audit confirmed that the two CM5 connector-library corrections in the
 root README remain the highest-priority release blockers. It also found that
@@ -488,16 +491,17 @@ push was requested.
 
 Placed each current decision in its intended long-term reference:
 
-- `Research MD/PCIe-x1-Differential-Pairs-Explainer.md` is the detailed source
-  of truth for the Hailo M.2 socket pins, lane directions, CM5 mapping,
+- `Research MD/PCIe-x1-Differential-Pairs-Explainer.md` is the detailed
+  technical reference for the Hailo M.2 socket pins, lane directions, CM5 mapping,
   no-connects, and power contacts.
-- `Research MD/power-design-explainer.md` is the detailed source of truth for
+- `Research MD/power-design-explainer.md` is the detailed technical reference for
   the separate `5V_MAIN` → TPS54302 → `3V3_HAILO` and `5V_MAIN` → AP2112K →
   `3V3_CAMERA` branches.
 - `documentation.md` holds the current design summary and session index, while
   this journal preserves the chronological decisions and resume checkpoint.
-- `Design-Audit-2026-09-08.md` now marks selection of the Hailo regulator as
-  resolved after the audit without closing the remaining implementation work.
+- The September 8 audit's Hailo-regulator selection was resolved without
+  closing the remaining implementation work; current blockers are maintained
+  at the top of `documentation.md`.
 
 Next CAD work remains: draw and verify both regulator branches and their
 required passives/decoupling, connect `3V3_HAILO` to M.2 pins 2, 4, 70, 72,
@@ -535,19 +539,23 @@ required; its exact JLCPCB component is pending approval.
 
 ---
 
-## 2026-09-18 — Hailo buck and camera LDO circuits completed
+## 2026-09-18 — Hailo buck and intended camera LDO circuit drawn
 
-The local M.2/Hailo TPS54302 buck circuit and the CSI-2 camera AP2112 LDO
-circuit are now drawn. The camera regulator remains Diodes Incorporated
+> **Later correction:** the 2026-09-19 saved-CAD review found U3 pins 2–5
+> connected incorrectly and the output capacitor missing. The camera portion
+> below records the intended circuit and is not evidence of a completed fix.
+
+The local M.2/Hailo TPS54302 buck circuit and the intended CSI-2 camera AP2112
+LDO circuit were drawn. The camera regulator remains Diodes Incorporated
 `AP2112K-3.3TRG1` (JLCPCB/LCSC `C51118`), whose `-3.3` ordering suffix fixes
 the output at 3.3 V without feedback resistors. `VIN` and `EN` share
 `5V_MAIN`, GND is connected normally, NC is intentionally open, and VOUT
 creates `3V3_CAMERA` for camera-connector pin 22.
 
-Both AP2112 local capacitors use the existing `C15849` library part: 1 µF,
-50 V, X5R, 0603. One is placed from VIN to GND and one from VOUT to GND. The
-selected Arducam-class camera is expected to remain at or below approximately
-300 mA. At the 300 mA maximum, the SOT25 LDO dissipates about 0.51 W and has
+The intended AP2112 capacitors use the existing `C15849` library part: 1 µF,
+50 V, X5R, 0603, one from VIN to GND and one from VOUT to GND. The selected
+standard Raspberry Pi Camera Module 3 current still needs a final documented
+check; 300 mA is retained as a thermal review case. At 300 mA, the SOT25 LDO dissipates about 0.51 W and has
 an estimated 94°C junction rise using the datasheet's 184°C/W value; useful
 copper and prototype thermal testing remain required.
 
@@ -649,8 +657,8 @@ geometry, FPC orientation, stackup and routing constraints. Clear rail names
 are a proposed readability improvement. Power/signal LEDs remain optional.
 
 Bill requested recording these findings. Updated the main status, subsystem
-dashboard and affected subsystem notes; full evidence, datasheet links and
-parts inventory are in [the review](Parts-and-Schematic-Review-2026-09-19.md).
+dashboard and affected subsystem notes. The still-open findings are maintained
+in `documentation.md` and the affected subsystem records.
 
 ## 2026-09-20 — BOOT pushbutton selection
 
@@ -685,3 +693,63 @@ boot/USB recovery testing. No Altium changes were made in this documentation
 update. Updated the current design, boot subsystem note, and task dashboard.
 
 Source: [JLCPCB C455280](https://jlcpcb.com/partdetail/Xunpu-TS_1088R02026/C455280).
+
+## 2026-09-28 — Current BoM, footprint, and documentation reconciliation
+
+**Confirmed from saved CAD:** The four active schematic sheets contain 43
+placed components, and the saved PCB contains the same 43 designators, part
+references, unique IDs, and footprint names. The LiveBOM has 29 matching
+catalog items, representing 28 distinct LCSC codes because
+CN1 and CN2 share one connector part. All referenced local footprint patterns
+exist. The older 42-component/27-code review is a historical snapshot. The
+current unresolved findings were consolidated into `documentation.md` and the
+affected subsystem records.
+
+**Open findings:** CN3 uses selected UMAX `91302-42-067RDM`/`C601195` with a
+PCB footprint and model named `91302-32-067RDM`; manufacturer mechanical
+comparison remains a release blocker. All 29 stored catalog statuses are
+`Unknown` with empty part-choice groups; a purchasing BoM is still needed.
+U5's MP2329 part uses an MP2384-named QFN footprint;
+the two manufacturer datasheets show the same package class and pin functions,
+but land dimensions need confirmation. No component substitution or CAD fix
+was made.
+
+**LiveBOM refresh observed during this review:** A separate 2026-09-28 save
+filled the previously absent LCSC `Name` parameters for U1, U3, and CN3,
+filled `Source=LCSC` for U1 and CN3, and synchronized CN3's Comment. The
+latest saved `Name`, `Source`, `Value`, `Comment`, and `Footprint` parameters
+now match the schematic placements. This documentation update did not edit
+the LiveBOM or its history archive.
+
+**Superseded status details:** The selected recovery switch is now `SW` in
+the schematic and PCB. The 2026-09-23 PCB ECO joins `CN1-93` to `SW-1` and
+grounds `SW-2`; the earlier statement that recovery control was absent is no
+longer current. Access, test-point provision, and functional recovery remain
+unverified. The Hailo TPS54302 buck is now `U1` (formerly `U3`); the camera
+AP2112 LDO is now `U3` (formerly `U7`). The 2026-09-24 ECO retains the
+camera LDO's incorrect pad connections, so its critical correction remains
+open. The two current USB-C designators are `USBC 1` and `USBC2`; earlier
+ground findings need a current-designator pad-net check.
+
+## 2026-09-28 — Camera documentation reconciled
+
+**Verified current decision:** use the standard Raspberry Pi Camera Module 3
+with the IMX708 sensor, not Camera Module 3 Wide. This supersedes references
+to an undecided or Arducam-class camera. The normal 22-to-15-pin Raspberry Pi
+camera cable uses two CSI-2 data lanes; the carrier retains the complete
+four-lane 22-pin interface, subject to cable contact-orientation and PCB
+routing verification.
+
+The official [CM5 datasheet](https://datasheets.raspberrypi.com/cm5/cm5-datasheet.pdf)
+specifies internal 1.8 kΩ pull-ups to `CM5_3.3V` on
+pin 80 `SCL0` and pin 82 `SDA0`. Do not populate another external pull-up pair
+by default. Add external pull-ups only if later module documentation or
+measurement establishes a specific need.
+
+**Still incomplete:** the AP2112 camera regulator is `U3`, and its saved
+physical pins 2–5 are incorrectly connected. Its intended VOUT capacitor is
+also missing. Correct U3 and add the output capacitor before treating camera
+power as complete. CSI signal wiring is drawn, but camera completion also
+requires verification of the selected cable orientation, connector pad 1,
+module clearance, current and thermal margin, PCB differential-pair rules,
+routing, and functional testing.

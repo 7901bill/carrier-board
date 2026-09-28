@@ -11,8 +11,8 @@ Last updated: 2026-09-19
   does not retain the existing AEC-Q200 qualification. Confirm that is
   acceptable, and recheck stock and fee classification before substitution.
 
-These actions are not implemented. Evidence and parts caveats are in the
-[review report](../Parts-and-Schematic-Review-2026-09-19.md).
+These actions are not implemented. Current release blockers are consolidated
+in the [main design status](../documentation.md).
 
 ## Subsystem purpose
 

@@ -1,52 +1,93 @@
 # Documentation — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-09-19
+Last updated: 2026-09-28
 
-## Current design status — 2026-09-19
+This is the daily working document for current status, active blockers, and
+session changes. [`Journal.md`](Journal.md) is the source of truth for verified
+project decisions; update this working summary whenever a verified journal
+decision changes the active design.
 
-> **Resume checkpoint:** The historical repository audit remains in
-> [`Design-Audit-2026-09-08.md`](Design-Audit-2026-09-08.md), but its blank and
-> duplicate M.2/CSI sheet findings are resolved. The active per-subsystem
-> status is in [`Schematic-Subsystems/README.md`](Schematic-Subsystems/README.md).
-> The current Altium project uses consolidated `Amphenol ICC.SchDoc` and
-> `M.2 & CSI2.SchDoc` sheets.
+## Active blockers and important reminders — 2026-09-28
+
+> **Daily resume checkpoint:** Start here, then use
+> [`Schematic-Subsystems/README.md`](Schematic-Subsystems/README.md) for the
+> working order and affected subsystem files for implementation details. This
+> section is expected to change as items are resolved or new blockers appear.
+
+PCB transfer and a clean compile/ECO were reported on 2026-09-19, but the
+subsequent saved-CAD review reopened schematic completion. Both CM5 connectors
+retain unique physical pin designators `1–100`; the selected JST GH UART is
+present. The 2026-09-28 reconciliation found **43 schematic and 43 PCB
+components**, with all placements represented in the saved LiveBOM's 29
+catalog entries (28 distinct LCSC codes). The earlier 42-component count is a
+historical snapshot. These
+**open corrections and checks** remain before release:
+
+1. Correct the AP2112 camera LDO, now `U3` (formerly `U7`): physical pins are
+   1 VIN, 2 GND, 3 EN, 4 NC, 5 VOUT. The 2026-09-24 ECO still has pad 2 on
+   the input rail, pad 3 on GND, pad 4 on camera power, and pad 5 unconnected.
+   Add and verify the missing output capacitor.
+2. Recheck and correct the C8/C9 Hailo output connections identified in the
+   2026-09-19 saved-CAD review. The Hailo buck is now `U1` (formerly `U3`).
+3. Recheck programming USB signal-ground contacts under the current USB-C
+   designators, `USBC 1` and `USBC2`; add or resolve USB data ESD protection.
+   The prior review used `USBC1` and must not be treated as a current
+   designator map.
+4. Verify the placed recovery switch `SW`: the 2026-09-23 PCB ECO connects
+   `CN1-93` to `SW-1` and GND to `SW-2`. Accessible placement, a labeled test
+   point, and functional USB recovery remain unverified.
+5. Resolve CN3's `91302-42-067RDM` part versus `91302-32-067RDM` footprint
+   and 3D-model identity against the manufacturer drawings before fabrication.
+6. Resolve the LiveBOM's unknown part-choice statuses, then export and review
+   a quantity-bearing purchasing BoM. Its `Name`, `Source`, `Value`,
+   `Comment`, and `Footprint` fields now match the placed schematic parts.
+7. Verify U5's MP2329 land pattern against its manufacturer drawing. Its
+   current QFN-11 footprint is named for MP2384; matching package class and
+   pin functions do not by themselves certify the copper land dimensions.
+8. Define and verify USB-PD startup and failure behavior: initial 5 V attach,
+   successful or failed 9 V negotiation, cable removal, and negotiation
+   restart. Confirm how CH224A status or another UVLO/gating method prevents a
+   marginal 5 V brownout state.
+9. The selected camera is the standard Raspberry Pi Camera Module 3 using the
+   IMX708 sensor, not Camera Module 3 Wide. Verify its two-lane cable path,
+   FPC contact orientation, current requirement, module clearance, and
+   camera-control mapping. Close the camera load and AP2112 thermal assessment.
+10. Complete the simultaneous CM5/Hailo/camera peak-power budget, converter
+    losses, startup transients, fuse derating, charger capability, and cable
+    capability.
+11. Freeze the mechanical envelope: outline, mounting holes, CM5 and M.2
+    retention, connector edges, camera-cable access, antenna keepout,
+    heatsink access, and cooling plan. Perform a 1:1 fit check before release.
+12. Establish and verify the PCB release rules: final JLCPCB stackup,
+    differential impedance and skew, reference planes, power-current rules,
+    clearances, and edge constraints. Release requires reviewed ERC/ECO/DRC,
+    connector pad maps, mechanical fit, BoM/CPL, fabrication and drill outputs.
+13. Confirm assembly support for the fine-pitch and mechanically supported
+    connectors, then recheck stock and approved alternates when the BoM is
+    stable.
+
+Verify every corrected physical pad net after a fresh ECO. The documentation
+reviews did not run Altium ERC or DRC.
+
+**Proposed only:** replace C4 `C466768` with Basic `C14663`, and R1 `C2770993`
+with Basic `C23212`. R1's automotive qualification is not retained; confirm it
+is unnecessary and recheck stock/assembly classification before selection.
+No BOM substitution has been implemented. The current unresolved validation
+tasks are listed above, and the
+[subsystem dashboard](Schematic-Subsystems/README.md) gives the working order.
+
+## Current design summary
 
 The TPS54302 `3V3_HAILO` buck, AP2112 `3V3_CAMERA` LDO, Hailo M.2-to-CM5 PCIe
-interface, and complete 22-pin CSI-to-CM5 interface are drawn. The M.2 link
+interface, and 22-pin CSI-to-CM5 interface are drawn. The camera subsystem is
+not complete because U3 is wired incorrectly, its output capacitor is missing,
+and cable orientation and layout checks remain open. The M.2 link
 uses PCIe lane 0, reference clock, `PERST#`, and `CLKREQ#`; lane 1,
 `PEWAKE#`, CM5 `PCIE_nWAKE`, and CM5 `PCIE_PWR_EN` are intentionally unused
 in Rev A. The CSI interface wires all four MIPI0 data lanes, MIPI0 clock,
 `SCL0`/`SDA0`, `CAM_GPIO0`/`CAM_GPIO1`, `3V3_CAMERA`, and grounds. The
 authoritative MIPI0 CM5 pins are 115/117, 121/123, 127/129, 133/135, and
 139/141; pin 141 is lane 3 positive, not lane 0 negative.
-
-PCB transfer and a clean compile/ECO were reported on 2026-09-19, but the
-subsequent saved-CAD review reopened schematic completion. Both CM5 connectors
-retain unique physical pin designators `1–100`; the selected JST GH UART is
-present. The blanket claims that recovery, protection, and all power circuitry
-were complete are superseded by the following **open corrections**:
-
-1. Correct U7 AP2112 physical mapping: 1 VIN, 2 GND, 3 EN, 4 NC, 5 VOUT.
-   Its saved pad 2 is incorrectly on 5 V, pad 3 on ground, pad 4 on camera
-   power, and pad 5 unconnected. Add the missing camera output capacitor.
-2. Connect C8/C9 pad 1 to the Hailo output; both currently have no net.
-3. Ground USBC1 `A1B12` and `B1A12`; grounded shell pads are insufficient.
-4. Implement accessible `nRPIBOOT` recovery control at CN1-93, currently open.
-5. Resolve/add programming USB data ESD protection, absent from the inventory.
-   VBUS is isolated from main 5 V; any sensing requirement still needs review.
-
-Before routing, also close the camera load/thermal assessment, Hailo reset
-timing, simultaneous power budget/fuse derating, CN3 footprint compatibility,
-and ERC coverage gaps. Verify corrected physical pad nets after a fresh ECO;
-no CAD corrections or new ERC run have been performed during this review.
-
-**Proposed only:** replace C4 `C466768` with Basic `C14663`, and R1 `C2770993`
-with Basic `C23212`. R1's automotive qualification is not retained; confirm it
-is unnecessary and recheck stock/assembly classification before selection.
-No BOM substitution has been implemented. Detailed evidence, all 27 part
-types, conditional fee savings, and validation tasks are in the
-[2026-09-19 review](Parts-and-Schematic-Review-2026-09-19.md); the
-[subsystem dashboard](Schematic-Subsystems/README.md) gives the working order.
 
 The first revision uses a simpler power-input design: the TPS25947 eFuse has
 been removed because its added complexity is not appropriate for this first
@@ -82,15 +123,17 @@ The bring-up architecture is now defined. One USB-C connector is dedicated to
 board power. A second USB-C connector is dedicated to CM5 programming and
 recovery. The CM5's onboard eMMC is flashed through USB mass-storage mode; no
 external SD-card socket is needed for the full CM5 variant. CM5 pin 93
-(`nRPIBOOT`) will connect to an accessible XUNPU `TS-1088R-02026`
-(JLCPCB/LCSC **C455280**) normally-open momentary pushbutton to GND and
-a labeled test point for USB recovery during power-up. Selected 2026-09-20,
+(`nRPIBOOT`) is ECO-connected through an XUNPU `TS-1088R-02026`
+(JLCPCB/LCSC **C455280**) normally-open momentary pushbutton to GND. A
+labeled test point is still planned for USB recovery during power-up. The
+switch was selected 2026-09-20,
 replacing TE `3-1437565-0` / `C86463` for simpler two-terminal wiring.
-**The button circuit is still unfinished:** symbol/footprint verification,
-schematic wiring, PCB ECO, placement/routing, and functional checks remain
-pending. The switch has a 3.9 x 2.93 mm body, 2 mm height, 2.6 N operating
+**The switch is now placed and transferred:** the 2026-09-23 PCB ECO connects
+`CN1-93` to `SW-1` and `SW-2` to GND. Footprint/datasheet validation,
+accessible placement, a labeled test point, routing, and functional checks
+remain open. The switch has a 3.9 x 2.93 mm body, 2 mm height, 2.6 N operating
 force, 50 mA / 12 V rating, and Extended classification. Verify the exact
-datasheet and land pattern before implementation. The CM5 provides the
+datasheet and land pattern before release. The CM5 provides the
 10 kΩ pull-up to 3.3 V; no additional pull-up is planned.
 The three-pin UART debug connector uses pin 55
 (`GPIO14` / `UART0_TX`) and pin 51 (`GPIO15` / `UART0_RX`), plus ground, for
@@ -109,7 +152,7 @@ requirement; adding the MagJack, protection, and four high-speed pairs would
 increase board area and routing complexity without being necessary for the
 Watchdog device.
 
-## Session log — read this first
+## Daily changes and session log
 
 A running summary, newest entry at the bottom. This lets you pick up where
 the last work session left off without reading the whole file.
@@ -276,15 +319,16 @@ the last work session left off without reading the whole file.
   JLCPCB and C311983 had healthy distributor stock. No commit or push was
   requested.
 - **Session 12 (2026-09-09):** Normalized the M.2 and local-power information
-  across the project documentation. The PCIe explainer is the detailed source
-  of truth for the Hailo socket pin map; the power-design explainer is the
-  detailed source of truth for the `5V_MAIN` → `3V3_HAILO` and `3V3_CAMERA`
+  across the project documentation. The PCIe explainer is the detailed
+  technical reference for the Hailo socket pin map; the power-design explainer
+  is the detailed technical reference for the `5V_MAIN` → `3V3_HAILO` and `3V3_CAMERA`
   branches; this file and `Journal.md` retain the concise status/history.
   Updated the design audit to show the Hailo regulator selection as resolved
   while keeping CAD implementation, power verification, and reset sequencing
   open. Documentation changes are local only; nothing was pushed.
 - **Session 13 (2026-09-18 to 2026-09-19):** Completed and sourced the
-  TPS54302 Hailo buck passives, completed the AP2112 camera LDO, consolidated
+  TPS54302 Hailo buck passives and recorded the intended AP2112 camera LDO,
+  whose completion claim was later superseded by the U3 saved-CAD findings. Consolidated
   the CM5 and M.2/CSI schematic sheets, and wired the M.2 PCIe and full 22-pin
   CSI interfaces to the CM5. Corrected misleading CM5 MIPI display labels and
   locked the authoritative pin map. Changes were committed and pushed through
@@ -359,12 +403,11 @@ in late 2024), unlike the older, well-documented CM4.
   clock wire, wire lengths need to be closely matched) to the CM5. Also
   needs a **separate 2-wire control connection (I2C)** for camera settings
   (exposure, gain, resolution) — easy to miss since it's separate from the
-  video wires. Raspberry Pi's own camera modules (Camera Module 3 / IMX708)
-  don't include the small "pull-up" resistors these control wires need, so
-  the carrier board has to add them — standard value is **1.8k ohms to
-  3.3V** on each of the two control wires. Since the camera module has none
-  of its own, there's no risk of doubling up — but this should be
-  re-confirmed once the exact camera model is picked.
+  video wires. The selected camera is the standard Raspberry Pi Camera Module
+  3 using the IMX708 sensor, not the Wide variant. The official
+  [CM5 datasheet](https://datasheets.raspberrypi.com/cm5/cm5-datasheet.pdf) specifies
+  internal **1.8 kΩ pull-ups to `CM5_3.3V`** on `SCL0` and `SDA0`, so the
+  carrier does not add another pull-up pair by default.
 
 ## Decisions locked
 
@@ -527,11 +570,13 @@ straight off the main converter:
   Pi Camera Module 3 makes its 2.8V, 1.8V, and 1.1V rails on the camera PCB.
   The dedicated camera regulator is Diodes Incorporated
   **AP2112K-3.3TRG1** (JLCPCB/LCSC **C51118**), a fixed 3.3V, 600mA LDO in
-  SOT-25-5. The completed LDO circuit uses two `C15849` 1µF/50V/X5R/0603
+  SOT-25-5. The intended circuit uses two `C15849` 1µF/50V/X5R/0603
   capacitors: one directly from VIN to ground and one directly from VOUT to
-  ground. VIN and EN share `5V_MAIN` for always-on operation, NC is left open,
-  and VOUT is the `3V3_CAMERA` rail. The selected Arducam-class camera is
-  expected to draw no more than approximately 300mA. At that load the LDO
+  ground. The saved `U3` implementation is not correct: pins 2–5 are
+  misassigned and the output capacitor is missing. The intended connections
+  are VIN and EN to `5V_MAIN`, NC open, and VOUT to `3V3_CAMERA`. The selected
+  standard Raspberry Pi Camera Module 3 current requirement still needs a
+  final documented check; 300mA remains a thermal review case. At that load the LDO
   dissipates roughly 0.51W from a 5V input and has an estimated 94°C junction
   rise using the datasheet's 184°C/W figure, so give it useful copper area and
   verify temperature on the prototype.
@@ -670,7 +715,7 @@ redo it later with different parts.
 ## Reference designs on hand
 
 - **CM5 IO Board** (official Raspberry Pi reference design, in KiCad —
-  imported into Altium for study): the source of truth for the connector
+  imported into Altium for study): the authoritative technical reference for the connector
   pin layout, power sequencing, and protection design. Never invent a pin
   mapping — always copy this one.
 - **Raspberry Pi M.2 HAT+** (official, published schematic): a good worked
@@ -766,8 +811,10 @@ everything from the board order onward is replaced by the paragraph above):
 - **Hailo converter is resolved:** TPS54302DDCR (`C311983`) with the final
   documented passives supplies `3V3_HAILO`; do not reopen converter selection
   unless testing exposes a real problem.
-- **Camera basis is resolved:** standard Raspberry Pi Camera Module 3 / an
-  electrically compatible Arducam-class module, powered from `3V3_CAMERA`.
+- **Camera selection is resolved:** use the standard Raspberry Pi Camera
+  Module 3 with the IMX708 sensor, not Camera Module 3 Wide. It is powered
+  from `3V3_CAMERA`; U3 correction, load/thermal verification, cable
+  orientation, and layout verification remain open.
 - **Finish documenting the simplified input-protection path** — the TPS25947
   eFuse is removed for this first revision. Confirm the remaining protection
   parts and final schematic topology; the earlier fuse → TVS → eFuse review
@@ -914,8 +961,9 @@ Update this section (or split it into its own note, e.g.
     the switch position before connecting (default position varies by
     board).
   - **Camera control-wire resistors (superseded 2026-09-08)**: the earlier
-    conclusion was that the carrier must add 1.8kΩ pull-ups. The current CM5
-    datasheet instead specifies internal 1.8kΩ pull-ups from SCL0 and SDA0
+    conclusion was that the carrier must add 1.8kΩ pull-ups. The official
+    [CM5 datasheet](https://datasheets.raspberrypi.com/cm5/cm5-datasheet.pdf)
+    instead specifies internal 1.8kΩ pull-ups from SCL0 and SDA0
     to `CM5_3.3V`, so do not add another pair unless later signal-integrity
     testing establishes a need. Parallel 1.8kΩ pairs would produce an
     unnecessarily strong 900Ω effective pull-up.

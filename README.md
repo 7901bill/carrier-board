@@ -13,19 +13,43 @@ incorrect. Those are Ethernet, fan, LED, sync, and EEPROM-control signals.
 Unused signals remain open; only pins identified as GND by the CM5 datasheet
 are grounded.
 
-All schematic components and footprints have been transferred into
-`Watchdog PCB.PcbDoc`. The 2026-09-19 compile/ECO completed with no reported
-errors or warnings. However, the subsequent saved-CAD review found incorrect
-camera-LDO pin assignments, disconnected Hailo output capacitors and USB
-ground contacts, and missing recovery control and USB data protection.
-These issues remain open; a clean compile is not electrical sign-off.
+The [current design status](Documentation/documentation.md) records all 43
+schematic components in the saved LiveBOM and PCB, with their footprint names
+matching. The earlier 2026-09-19 saved-CAD review found
+incorrect camera-LDO pin assignments, disconnected Hailo output capacitors,
+and USB ground contacts. The camera-LDO mapping remains incorrect in the
+2026-09-24 ECO. Recovery switch `SW` has since been added and ECO-connected,
+but its physical operation remains unverified. A clean compile is not
+electrical sign-off.
 
-See the [review and proposed Basic substitutions](Documentation/Parts-and-Schematic-Review-2026-09-19.md)
-and [prioritized task dashboard](Documentation/Schematic-Subsystems/README.md).
+See the [current design status](Documentation/documentation.md) and
+[prioritized task dashboard](Documentation/Schematic-Subsystems/README.md).
+
+## Documentation workflow
+
+- [`Documentation/Journal.md`](Documentation/Journal.md) is the source of
+  truth for verified decisions, evidence, and completed work.
+- [`Documentation/documentation.md`](Documentation/documentation.md) is the
+  daily progress record, active-blocker list, and resume checkpoint.
+- [`Documentation/Schematic-Subsystems/`](Documentation/Schematic-Subsystems/README.md)
+  contains the detailed implementation and verification status for each
+  schematic block.
+
+Whenever Bill asks to **update the documentation**, synchronize all three
+layers in the same documentation pass:
+
+1. Record verified facts and decisions in `Journal.md`.
+2. Update the current progress, blockers, reminders, and daily changes in
+   `documentation.md`.
+3. Update the affected subsystem files and the subsystem progress dashboard.
+
+Resolve contradictory current-status statements during that pass. Preserve
+dated history, but clearly mark any older conclusion that a newer verified
+entry supersedes.
 
 Do **not** release or fabricate until PCB placement/routing and final DRC,
 mechanical, BOM, and CPL reviews are complete.
 
-See [CM5 connector wiring and bring-up](Documentation/Research%20MD/CM5-Connector-Wiring-and-Bringup.md)
-and the current project journal before continuing.
+Review the current design status, project journal, and affected subsystem
+records before continuing.
 

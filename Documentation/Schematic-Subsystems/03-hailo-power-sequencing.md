@@ -1,6 +1,6 @@
 # 03 — Hailo Power and Reset Sequencing
 
-Last updated: 2026-09-19
+Last updated: 2026-09-28
 
 ## Purpose
 
@@ -13,9 +13,12 @@ in reset until its supply is stable.
 but C8-1 and C9-1 have no PCB net; only their ground pads are connected.
 Connect their electrical pin ends to the output (`NetC11_2`), regenerate ECO,
 and verify both pads explicitly. Check capacitor tolerance/DC-bias losses.
-U3 EN pin 5 may float per TI; that is not an error. See the
-[review and datasheet evidence](../Parts-and-Schematic-Review-2026-09-19.md).
+The TPS54302 is now `U1` (formerly `U3`); its EN pin 5 may float per TI, so
+that is not an error. The [main design status](../documentation.md) tracks the
+remaining release checks.
 Earlier completion notes are superseded; no correction has yet been applied.
+The 2026-09-28 inventory audit did not recheck the C8/C9 pad nets, so verify
+their current state directly in Altium before closing this item.
 
 ## Confirmed design
 

@@ -1,6 +1,6 @@
 # 05 — CM5 Connectors and Base Connections
 
-Last updated: 2026-09-19
+Last updated: 2026-09-28
 
 ## Purpose
 
@@ -10,12 +10,14 @@ subsystems.
 
 ## Current status
 
-**Transferred to PCB; recovery incomplete.** Both connectors have 100 unique
+**Transferred to PCB; recovery verification open.** Both connectors have 100 unique
 physical pin designators `1–100`. Preserve the user's chosen visible pin
 names, but verify physical numbering/electrical types against the CM5 table.
-CN1-93 has no net and still needs the recovery control in [09](09-boot-recovery-reset.md).
+The 2026-09-23 PCB ECO connects CN1-93 to recovery switch `SW`, which is
+grounded on its other terminal. Access, test point, and functional recovery
+remain open in [09](09-boot-recovery-reset.md).
 Programming USB ground/protection and camera/Hailo supply corrections are
-tracked in [the review](../Parts-and-Schematic-Review-2026-09-19.md).
+tracked in the [main design status](../documentation.md).
 The reported clean compile/ECO does not close those issues. Mechanical
 connector geometry and module clearances remain to be checked before routing.
 
