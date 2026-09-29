@@ -1,0 +1,10 @@
+Removed Pin From Net: NetName=GND Pin=R7-1
+Removed Pin From Net: NetName=NetC11_1 Pin=R7-2
+Removed Member From Class: ClassName=Power Rails Member=R7
+Added Component: Designator=R?(R0603)
+Add component (AddParameter): Name = "Name"; Value = "C723484"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "LCSC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "22.1k"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=R?-1
+Added Pin To Net: NetName=NetC11_1 Pin=R?-2
+Added Member To Class: ClassName=Power Rails Member=Component R? RT0603BRD0722K1L

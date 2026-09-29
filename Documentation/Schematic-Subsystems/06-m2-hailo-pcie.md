@@ -45,6 +45,15 @@ Unused lane, wake, configuration, and remaining contacts are intentionally
 left unconnected. PCB differential-pair rules, routing, and length tuning
 remain layout-phase work.
 
+**PCB layout setup:** CN2 and CN3 are placed, and the configured stack places
+L1 over a continuous L2 ground reference. The layout note reports the 90-ohm
+profile calculation complete, but the saved PCB still has no PCIe pair objects
+or populated PCIe pair class, and its differential routing rule remains the
+generic 15 mil/10 mil placeholder. Create the three pair objects, populate the
+PCIe class, link its rule to the 90-ohm profile, and verify the geometry with
+JLCPCB before routing on L1. The CN3 part/footprint/STEP identity blocker still
+must be resolved before placement is considered mechanically final.
+
 ## Confirmed parts and architecture
 
 - Socket: UMAX `91302-42-067RDM`, LCSC `C601195`.
@@ -98,11 +107,20 @@ endpoint's receive signals connect to the host's transmit signals.
 
 - Define `PCIe_TX_P/N`, `PCIe_RX_P/N`, and `PCIe_CLK_P/N` as differential
   pairs.
-- Derive 85 Ω differential geometry from the final JLCPCB stackup.
+- Route all three pairs at 90 ohms differential, as specified by the current
+  official CM5 datasheet. This supersedes the older 85-ohm project note. The
+  Hailo module datasheet does not state a conflicting value and instead refers
+  the interface to the PCIe M.2 specification.
+- Derive the actual width and gap for 90 ohms from the final JLCPCB stackup; do
+  not use the PCB document's generic 15 mil/10 mil placeholder geometry.
 - Route each pair over continuous ground and tune P/N skew within each pair.
 - Keep the pairs away from the TPS54302 switch node and inductor.
 - Verify useful rail, reset, clock-request, and ground test access without
   adding stubs to high-speed pairs.
+- Do not add external parallel termination across the pairs. CM5 already has
+  AC-coupling capacitors on its PCIe transmitter, and the M.2 module provides
+  transmitter-side coupling for the opposite direction; do not duplicate
+  those capacitors without a reviewed device-specific reason.
 
 ## Definition of done
 
@@ -134,3 +152,11 @@ endpoint's receive signals connect to the host's transmit signals.
 - 2026-09-24: Raised the CN3 `-42-` purchasing part versus `-32-` PCB
   footprint/STEP identity to a high-priority release blocker. Mechanical and
   land-pattern compatibility remain unverified; no CAD change was made.
+- 2026-09-28: Verified the current CM5 routing guidance and locked all three
+  used PCIe pairs, including reference clock, to 90 ohms differential. This
+  supersedes the earlier 85-ohm note. Pair creation, stackup geometry, routing,
+  and tuning remain PCB work; no CAD change was made.
+- 2026-09-28: Layout setup subsequently placed CN2/CN3 and reportedly
+  calculated the 90-ohm profile. Saved-CAD review still found zero pair
+  objects and the generic unlinked rule, so pair/class/rule completion remains
+  open before routing.

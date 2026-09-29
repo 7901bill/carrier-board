@@ -55,12 +55,20 @@ historical snapshot. These
 10. Complete the simultaneous CM5/Hailo/camera peak-power budget, converter
     losses, startup transients, fuse derating, charger capability, and cable
     capability.
-11. Freeze the mechanical envelope: outline, mounting holes, CM5 and M.2
-    retention, connector edges, camera-cable access, antenna keepout,
-    heatsink access, and cooling plan. Perform a 1:1 fit check before release.
-12. Establish and verify the PCB release rules: final JLCPCB stackup,
-    differential impedance and skew, reference planes, power-current rules,
-    clearances, and edge constraints. Release requires reviewed ERC/ECO/DRC,
+11. The PCB now has an approximately 100 mm x 60 mm working outline and all 43
+    components are inside it, but the mechanical envelope is not frozen.
+    Verify mounting holes, CM5 and M.2 retention, connector edges,
+    camera-cable access, antenna keepout, heatsink access, cooling, and a 1:1
+    fit check before release.
+12. The four-layer stack and basic clearance/width/via rules are configured,
+    and stackup-based impedance profiles were reported as calculated. Complete
+    and verify the locked high-speed PCB rules: three PCIe pairs at
+    90 ohms differential, five MIPI CSI-2 pairs at 100 ohms differential, and
+    the programming USB 2.0 pair at 90 ohms differential. Define all nine pair
+    objects, populate their classes, connect the routing rules to the impedance
+    profiles, and confirm the calculated geometry with JLCPCB. Also define
+    skew, reference-plane, power-current, clearance, and edge constraints.
+    Release requires reviewed ERC/ECO/DRC, return-path and plane review,
     connector pad maps, mechanical fit, BoM/CPL, fabrication and drill outputs.
 13. Confirm assembly support for the fine-pitch and mechanically supported
     connectors, then recheck stock and approved alternates when the BoM is
@@ -88,6 +96,58 @@ in Rev A. The CSI interface wires all four MIPI0 data lanes, MIPI0 clock,
 `SCL0`/`SDA0`, `CAM_GPIO0`/`CAM_GPIO1`, `3V3_CAMERA`, and grounds. The
 authoritative MIPI0 CM5 pins are 115/117, 121/123, 127/129, 133/135, and
 139/141; pin 141 is lane 3 positive, not lane 0 negative.
+
+The high-speed routing targets were verified against the current official CM5
+datasheet on 2026-09-28. The three used PCIe pairs (TX, RX, and reference
+clock) require 90 ohms differential routing; the four MIPI data pairs and MIPI
+clock require 100 ohms differential routing; and programming USB D+/D- requires
+90 ohms differential routing. This supersedes the older 85-ohm PCIe note. The
+Hailo module datasheet provides no conflicting target and defers to the PCIe
+M.2 specification. CM5 includes coupling capacitors on its PCIe transmitter,
+and the M.2 module supplies its transmitter-side coupling; do not duplicate
+them. Controlled impedance is set by stackup and trace geometry, not by adding
+parallel termination resistors. The saved PCB currently has no defined
+differential-pair objects, and its generic 15 mil/10 mil differential rule is
+only a placeholder, not an approved geometry.
+
+## PCB layout setup status — 2026-09-28
+
+The board has a working outline of approximately 100 mm x 60 mm and a
+four-layer stack: L1 `SIG 1`, L2 internal `GND`, L3 internal `PWR`, and L4
+`SIG 2`. All 43 components are placed on the top side and inside the outline,
+but placement does not close the open schematic corrections, footprint and
+mechanical checks, or final clearance review. Routing has not begun.
+
+The configured general rules are 0.15 mm clearance, 0.20 mm minimum and
+0.25 mm preferred trace width, and 0.60 mm/0.30 mm through vias. The external
+layout note reports a 1.0 mm maximum general width, while the current saved
+PCB rule serializes a 0.50 mm maximum; reconcile this in Altium. Power nets
+will require explicit current-based width/plane rules rather than relying on
+the general signal-width rule.
+
+The intended plane strategy is a continuous L2 ground plane and a continuous
+L3 main-5-V plane. High-speed CSI, PCIe, and USB pairs should remain on L1 over
+uninterrupted L2 ground where practical; avoid L4 for them because its adjacent
+reference is the L3 power plane. The layout note reports that the main 5 V PCB
+net was renamed to `5V` and assigned to L3, but the current saved PCB net table
+still contains `NetC2_1` and the project documentation/schematic use
+`5V_MAIN`/`5V_6.5A`. Re-open the PCB, verify and save both plane assignments,
+then make the schematic and PCB rail name authoritative and ECO-stable.
+
+Stackup-based 90-ohm and 100-ohm profiles were reported as calculated, but
+the saved PCB still contains no differential-pair objects and retains the
+generic 15 mil/10 mil differential routing rule. The reported CSI pair class
+is not populated, and the routing rules are not connected to the profiles.
+Finish and save the nine pair definitions/classes/rules before routing, then
+verify the calculated widths/gaps against JLCPCB capability.
+
+Route the MP2329, TPS54302, AP2112, their decoupling, and other critical power
+loops first. Then route CSI/PCIe/USB and sensitive controls, ordinary signals,
+power connections, ground stitching, and silkscreen. Mechanical-layer graphics
+are reference/documentation geometry, not copper or silkscreen; Top Overlay is
+actual silkscreen and must be checked against pads and component bodies. A
+previous stale/corrupt footprint-instance DRC symptom appeared to clear after
+replacing affected placed instances; final DRC must confirm it has not returned.
 
 The first revision uses a simpler power-input design: the TPS25947 eFuse has
 been removed because its added complexity is not appropriate for this first
@@ -334,6 +394,16 @@ the last work session left off without reading the whole file.
   locked the authoritative pin map. Changes were committed and pushed through
   commit `4f6d2bf`; PCB differential routing and remaining base-interface/ERC
   work are the next phase.
+- **Session 14 (2026-09-28):** Established the approximately 100 mm x 60 mm
+  working outline, placed all 43 components, and configured the four-layer
+  `SIG 1`/`GND`/`PWR`/`SIG 2` stack plus basic clearance, width, and via rules.
+  The layout note reports continuous L2 ground and L3 5 V planes and completed
+  impedance calculations, but differential-pair objects/class membership and
+  profile-linked routing rules remain unfinished. Raw saved-PCB review also
+  found the main rail still serialized as `NetC2_1`, no pair objects, the
+  generic differential rule, and a 0.50 mm rather than reported 1.0 mm general
+  maximum width. Verify/save those items in Altium. Routing starts with power
+  converter and decoupling loops, then the nine high-speed pairs.
 
 ## Project summary
 

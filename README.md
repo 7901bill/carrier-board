@@ -22,6 +22,14 @@ and USB ground contacts. The camera-LDO mapping remains incorrect in the
 but its physical operation remains unverified. A clean compile is not
 electrical sign-off.
 
+PCB layout setup now has an approximately 100 mm x 60 mm working outline,
+all 43 components placed, a four-layer `SIG 1`/`GND`/`PWR`/`SIG 2` stack, and
+basic clearance/width/via rules. It is not routing-ready: open schematic and
+mechanical corrections remain, the nine differential-pair objects/classes and
+profile-linked rules are unfinished, and the reported `5V` PCB-net rename is
+not present in the current saved net table. See the current design status
+before routing or running another ECO.
+
 See the [current design status](Documentation/documentation.md) and
 [prioritized task dashboard](Documentation/Schematic-Subsystems/README.md).
 

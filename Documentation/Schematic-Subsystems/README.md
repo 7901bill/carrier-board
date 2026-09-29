@@ -22,16 +22,47 @@ details.
 | File | Subsystem | Draft status | Principal remaining work |
 |---|---|---|---|
 | [01](01-power-input-usb-pd.md) | USB-C power input and PD | Validation open | Source/fuse budget; proposed Basic R1 |
-| [02](02-main-5v-power.md) | Main 5 V supply | Validation open | Peak power budget; proposed Basic C4 |
-| [03](03-hailo-power-sequencing.md) | Hailo power and sequencing | Correction required | Recheck C8/C9; validate reset timing; buck is now U1 |
+| [02](02-main-5v-power.md) | Main 5 V supply | Validation open; placed | Reconcile main-rail/plane name; route converter loop; peak-power review |
+| [03](03-hailo-power-sequencing.md) | Hailo power and sequencing | Correction required; placed | Recheck C8/C9 before routing; route buck loop; validate reset timing |
 | [04](04-camera-power.md) | Camera power | Critical correction | Fix U3 pin mapping; add output capacitor; thermal review |
-| [05](05-cm5-connectors.md) | CM5 connectors | Recovery verification open | SW now ECO-connected to CN1-93; verify access and mechanical fit |
-| [06](06-m2-hailo-pcie.md) | M.2 Hailo/PCIe | **High priority release blocker** | Resolve CN3 `-42-` part vs `-32-` footprint/STEP against drawings before fabrication or ordering |
-| [07](07-csi2-camera.md) | CSI-2 camera | Power dependency open | Correct camera supply; FPC orientation and routing |
-| [08](08-programming-usb.md) | Programming USB | Correction required | Recheck ground contacts under current designator; add ESD; review VBUS treatment |
+| [05](05-cm5-connectors.md) | CM5 connectors | Placed; verification open | Verify alignment, retention, access, edge constraints, and mechanical fit |
+| [06](06-m2-hailo-pcie.md) | M.2 Hailo/PCIe | **High priority release blocker; placed** | Resolve CN3 identity; define/profile-link three pairs; route on L1/L2 |
+| [07](07-csi2-camera.md) | CSI-2 camera | Power dependency open; placed | Correct camera supply; verify FPC orientation; define/profile-link five pairs |
+| [08](08-programming-usb.md) | Programming USB | Correction required; placed | Recheck grounds; add ESD; define/profile-link USB pair; review VBUS |
 | [09](09-boot-recovery-reset.md) | Boot and recovery | SW placed and ECO-connected | Validate footprint and test point; accessible placement/routing; recovery test |
 | [10](10-debug-uart.md) | Debug UART | Schematic complete | Place accessible connector and label pin order |
 | [11](11-status-test-points.md) | Status and test access | Rough draft | Select final indicators and test points |
+
+## Locked high-speed routing requirements
+
+The current official CM5 datasheet establishes two controlled-impedance
+classes for the nine routed differential pairs:
+
+- 90 ohms differential: PCIe TX, PCIe RX, PCIe reference clock, and
+  programming USB 2.0 D+/D-.
+- 100 ohms differential: MIPI0 data lanes 0-3 and MIPI0 clock.
+
+The earlier 85-ohm PCIe project note is superseded. Actual widths and gaps
+have reportedly been calculated from the configured stackup, but they still
+require JLCPCB confirmation. The saved PCB contains no defined
+differential-pair objects, the reported CSI class has no saved members, and
+the generic 15 mil/10 mil rule is not linked to the profiles or approved for
+routing.
+
+## PCB layout setup
+
+- Working outline: approximately 100 mm x 60 mm; all 43 components are placed
+  top-side and inside it. Mechanical fit and connector/retention checks remain.
+- Stack: L1 `SIG 1`, L2 solid `GND`, L3 `PWR` intended as the main 5 V plane,
+  and L4 `SIG 2`.
+- General rules: 0.15 mm clearance, 0.20 mm minimum/0.25 mm preferred width,
+  and 0.60 mm/0.30 mm through vias. Resolve the external note's 1.0 mm maximum
+  versus the saved rule's 0.50 mm maximum.
+- Keep CSI, PCIe, and USB on L1 over continuous L2 ground where practical.
+  Avoid L4 for these pairs because its adjacent reference is the power plane.
+- The reported PCB rail rename to `5V` is not present in the current saved net
+  table, which still uses `NetC2_1`; reconcile it with schematic/documentation
+  names before the next ECO.
 
 ## Working order
 
@@ -46,9 +77,12 @@ details.
 5. Audit ERC settings/electrical pin types/no-connects, compile, regenerate
    ECO, and explicitly inspect corrected PCB pad nets. Zero warnings alone
    is insufficient; `NetlistSinglePinNets=0` deserves particular review.
-6. Define outline, mounting/connector constraints, stackup and impedance rules;
-   place critical power loops, decoupling, controls and remaining components.
-7. Route and tune; run DRC, mechanical, fabrication-output and BOM/CPL reviews.
+6. Reconcile and verify the saved plane/net/rule state, mechanical constraints,
+   and fabrication capability. Define all nine pairs, populate the PCIe/MIPI/
+   USB classes, and link their rules to the calculated impedance profiles.
+7. Route converter/decoupling loops first, then high-speed and sensitive nets,
+   ordinary signals, power and ground stitching. Run DRC, return-path,
+   mechanical, silkscreen, fabrication-output and BOM/CPL reviews.
    Status LEDs remain optional, not a substitute for resolving these blockers.
 
 ## Status vocabulary

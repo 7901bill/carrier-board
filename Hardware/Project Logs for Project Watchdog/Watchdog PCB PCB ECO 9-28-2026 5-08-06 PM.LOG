@@ -1,0 +1,27 @@
+Removed Pin From Net: NetName=NetC1_2 Pin=U2-1
+Removed Pin From Net: NetName=NetC1_2 Pin=U2-8
+Removed Pin From Net: NetName=NetR1_1 Pin=U2-9
+Removed Pin From Net: NetName=GND Pin=U2-11
+Removed Member From Class: ClassName=USBC_Protection Member=U2
+Added Component: Designator=U?(ESSOP-10_L4.9-W3.9-P1.0-LS6.0-TL-EP)
+Add component (AddParameter): Name = "Name"; Value = "C42459160"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "LCSC"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetC1_2 Pin=U?-1
+Added Pin To Net: NetName=NetC1_2 Pin=U?-8
+Added Pin To Net: NetName=NetR1_1 Pin=U?-9
+Added Pin To Net: NetName=GND Pin=U?-11
+Added Pin To Net: NetName=NetU?_4 Pin=U?-4
+Added Pin To Net: NetName=NetU?_4 Pin=USBC 1-A6
+Added Pin To Net: NetName=NetU?_4 Pin=USBC 1-B6
+Added Net: Name=NetU?_4
+Added Pin To Net: NetName=NetU?_5 Pin=U?-5
+Added Pin To Net: NetName=NetU?_5 Pin=USBC 1-A7
+Added Pin To Net: NetName=NetU?_5 Pin=USBC 1-B7
+Added Net: Name=NetU?_5
+Added Pin To Net: NetName=NetU?_6 Pin=U?-6
+Added Pin To Net: NetName=NetU?_6 Pin=USBC 1-B5
+Added Net: Name=NetU?_6
+Added Pin To Net: NetName=NetU?_7 Pin=U?-7
+Added Pin To Net: NetName=NetU?_7 Pin=USBC 1-A5
+Added Net: Name=NetU?_7
+Added Member To Class: ClassName=USBC_Protection Member=Component U? CH224A

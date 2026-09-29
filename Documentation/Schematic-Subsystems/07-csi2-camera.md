@@ -26,6 +26,15 @@ wired incorrectly and lacks its output capacitor. Cable orientation, connector
 pad 1, module clearance, PCB differential-pair rules, routing, and functional
 operation remain unverified.
 
+**PCB layout setup:** CN2 and CN4 are placed, and the intended MIPI routes are
+on L1 over continuous L2 ground. The layout note reports that the 100-ohm
+profile and a CSI differential-pair class were created, but the current saved
+PCB still contains zero pair objects and no saved CSI class membership; the
+differential rule remains the generic 15 mil/10 mil placeholder. Define all
+five pairs, populate the CSI class, link its rule to the 100-ohm profile, and
+verify the calculated geometry with JLCPCB before routing. Camera power and
+FPC/cable orientation must still be corrected or verified first.
+
 ## Confirmed design basis
 
 - Camera: standard Raspberry Pi Camera Module 3 using the IMX708 sensor (not
@@ -87,9 +96,20 @@ wiring lanes 2 and 3 preserves the standard four-lane 22-pin interface.
 - Verify FPC contact-side orientation and pad 1 against the `C5182313`
   connector drawing and the selected Raspberry Pi camera cable.
 - Define all four data pairs plus the clock pair as PCB differential pairs.
-- Derive the required MIPI geometry from the final JLCPCB stackup, route over
-  continuous ground, and tune P/N skew within each pair.
+- Route all five MIPI pairs at 100 ohms differential, as specified by the
+  current official CM5 datasheet, and derive the actual width and gap from the
+  final JLCPCB stackup. Route over continuous ground and tune P/N skew within
+  each pair.
+- The selected Hirose FH55 connector is an impedance-controlled high-speed
+  GSSG connector whose catalog characterizes the connector/FPC path around
+  90 ohms with a broad tolerance. That fixed connector characteristic does not
+  replace the CM5 requirement: the carrier PCB traces remain 100 ohms
+  differential. Verify the selected Raspberry Pi cable/contact orientation as
+  part of the complete channel review.
 - Keep test access off the MIPI pairs and verify connector-shell grounding.
+- Do not add external parallel termination resistors across the MIPI pairs;
+  the controlled impedance is established by the PCB geometry and the D-PHY
+  endpoints handle interface termination.
 
 ## Definition of done
 
@@ -115,3 +135,11 @@ wiring lanes 2 and 3 preserves the standard four-lane 22-pin interface.
   lane interpretation: CM5 pin 115 is `MIPI0_D0_N`; pin 141 is
   `MIPI0_D3_P`, not lane 0 negative. Updated the connector-library display
   labels accordingly.
+- 2026-09-28: Locked the carrier routing target to 100 ohms differential for
+  all four data pairs and the clock pair from the current CM5 datasheet.
+  Recorded the FH55 connector's separate fixed impedance characterization so
+  it is not mistaken for the PCB trace target. No CAD change was made.
+- 2026-09-28: Layout setup placed CN2/CN4 and reportedly created the 100-ohm
+  profile and CSI class. Saved-CAD inspection still found no pair objects or
+  class members and only the generic differential rule, so setup is not yet
+  routing-ready.

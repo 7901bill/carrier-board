@@ -753,3 +753,88 @@ power as complete. CSI signal wiring is drawn, but camera completion also
 requires verification of the selected cable orientation, connector pad 1,
 module clearance, current and thermal margin, PCB differential-pair rules,
 routing, and functional testing.
+
+## 2026-09-28 — Differential-pair impedance requirements verified
+
+**Confirmed from the current official CM5 datasheet:** the carrier has nine
+routed differential pairs in two impedance classes. PCIe lane 0 TX, PCIe lane
+0 RX, and PCIe reference clock are 90 ohms differential. MIPI0 data lanes 0-3
+and MIPI0 clock are 100 ohms differential. The programming USB 2.0 D+/D- pair
+is 90 ohms differential, and its polarity must not be swapped. The earlier
+85-ohm PCIe value in the project documentation is superseded by the current
+CM5 component-specific guidance.
+
+The Hailo-8L M.2 module datasheet identifies PET/PER and REFCLK as PCIe
+differential signals and defers to the PCIe M.2 specification; it gives no
+conflicting routing value. CM5 includes AC-coupling capacitors on its PCIe TX
+signals, while the M.2 module supplies transmitter-side coupling in the other
+direction. Do not duplicate these capacitors or add parallel termination
+resistors without a reviewed device-specific requirement.
+
+The selected Hirose `FH55-22S-0.5SH` is an impedance-controlled high-speed
+GSSG connector. Its catalog characterizes the connector/FPC interconnect near
+90 ohms with a broad tolerance, but this fixed connector behavior does not
+change the CM5-mandated 100-ohm target for the carrier's MIPI PCB traces. The
+USB-C connector drawing provides no separate routing target, so CM5's 90-ohm
+USB requirement governs.
+
+**CAD status:** the saved PCB contains no differential-pair objects. Its
+generic 15 mil width/10 mil gap differential rule is a placeholder and is not
+an approved geometry. Create separate PCIe, MIPI, and USB pair classes/rules,
+then obtain actual widths and gaps from the final JLCPCB stackup. No schematic,
+PCB, or library change was made during this documentation update.
+
+Sources: current official
+[CM5 datasheet](https://datasheets.raspberrypi.com/cm5/cm5-datasheet.pdf),
+local Hailo-8L M.2 Module Data Sheet Rev. 4.0, and the Hirose FH55/FH55M
+series catalog stored with the project.
+
+## 2026-09-28 — PCB layout setup and saved-CAD reconciliation
+
+Bill supplied `Project_Watchdog_PCB_Layout_Notes_2026-09-28.md` as the layout
+session record. The approximately 100 mm x 60 mm working board outline is in
+place. The saved board outline measures approximately that size, and all 43
+components are currently top-side and inside the outline. This is placement
+progress, not mechanical sign-off: mounting, connector-edge alignment, CM5 and
+M.2 retention, camera cable access, antenna/heatsink keepouts, cooling, and a
+1:1 fit check remain open.
+
+**Confirmed saved setup:** the four copper layers are L1 `SIG 1`, L2 internal
+`GND`, L3 internal `PWR`, and L4 `SIG 2`. The saved general rules are 0.15 mm
+clearance, 0.20 mm minimum/0.25 mm preferred trace width, and 0.60 mm diameter
+with 0.30 mm hole for through vias. The saved general-width maximum is 0.50 mm,
+not the 1.0 mm reported in the external layout note; reconcile the intended
+maximum in Altium. These generic rules do not replace current-based power-net
+rules or controlled-impedance geometry.
+
+**Reported plane and impedance setup:** the layout note records continuous L2
+ground and L3 main-5-V planes, with CSI 100-ohm and USB/PCIe 90-ohm profiles
+calculated from the layer stack. High-speed pairs are intended for L1 over the
+uninterrupted L2 ground plane. L4 should be avoided for those pairs where
+practical because its adjacent reference is the L3 power plane. Calculated
+widths and gaps still require JLCPCB manufacturability confirmation.
+
+**Saved-CAD discrepancies that must be resolved before routing:** the current
+PCB net table still contains `NetC2_1`, not the reported renamed `5V` net, while
+the schematic and documentation use `5V_MAIN`/`5V_6.5A`. Verify and save the
+L2/L3 plane assignments and choose one authoritative main-rail name that will
+survive the next ECO. The PCB contains zero differential-pair objects. The
+reported CSI pair class has no saved members, and the enabled differential
+routing rule remains the generic 15 mil width/10 mil gap rule rather than a
+profile-linked rule. Define all nine pairs, populate the PCIe/MIPI/USB classes,
+link their routing rules to the verified impedance profiles, save, and inspect
+the serialized result before routing.
+
+**Routing order:** route each converter and its input/output decoupling and
+switching loops first; then CSI, PCIe, USB, and other sensitive controls;
+follow with normal signals, power distribution, ground vias/stitching,
+silkscreen cleanup, final DRC/return-path review, and manufacturing outputs.
+Mechanical-layer graphics are reference geometry rather than copper or
+silkscreen. Top Overlay is actual silkscreen and must be checked for pad and
+component interference.
+
+**DRC caution:** the layout notes report stale/corrupt-instance DRC behavior
+from imported footprints that appeared to clear after affected placed
+instances were replaced. Treat replacement as a workaround, not proof of
+closure; watch for recurrence and require a clean final DRC after all ECOs and
+routing. No PCB or schematic edit was made during this documentation update.

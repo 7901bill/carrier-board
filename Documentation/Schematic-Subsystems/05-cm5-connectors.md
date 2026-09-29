@@ -66,9 +66,13 @@ connector geometry and module clearances remain to be checked before routing.
 
 ## Remaining PCB verification
 
-1. Place both connectors and confirm CM5 mechanical alignment and orientation.
+1. Both connectors are placed; confirm CM5 mechanical alignment, orientation,
+   retention, installed-module clearance, and 1:1 fit.
 2. Compare both footprints with the connector manufacturer drawing.
-3. Re-run PCB DRC after placement and routing.
+3. Confirm connector-edge, camera-cable, antenna, heatsink, and access
+   constraints within the approximately 100 mm x 60 mm working outline.
+4. Re-run PCB DRC after routing and every relevant ECO. Watch for recurrence of
+   the stale/corrupt placed-footprint DRC behavior reported during placement.
 
 ## Definition of done
 
@@ -100,3 +104,6 @@ connector geometry and module clearances remain to be checked before routing.
 - 2026-09-19: Completed remaining wiring/no-connect treatment, obtained a
   clean compile/ECO with no reported errors or warnings, and transferred all
   components to the PCB document. Component placement is next.
+- 2026-09-28: All components, including CN1 and CN2, are placed inside the
+  working outline. Placement does not close alignment, retention, clearance,
+  footprint, or full mechanical-fit verification.

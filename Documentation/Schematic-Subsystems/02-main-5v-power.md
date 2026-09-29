@@ -26,6 +26,16 @@ CM5 and the local Hailo and camera regulators.
 are confirmed. Peak-load, transient, efficiency, and thermal verification
 remain prototype-validation tasks.
 
+**PCB layout setup:** U5 and its passives are placed. The layout note reports
+that L3 is a continuous main-5-V plane and that the PCB net was renamed to
+`5V`, but the current saved PCB net table still shows `NetC2_1`; the schematic
+and documentation use `5V_MAIN`/`5V_6.5A`. Verify the actual L3 assignment and
+choose an ECO-stable authoritative rail name before routing. Route the MP2329
+input capacitors, switching loop, inductor, output capacitors, and feedback
+network before ordinary signals. The configured generic width rule is not a
+power-current rule; derive suitable copper widths/plane connections from the
+final current and thermal budget.
+
 ## Confirmed design
 
 - Converter: MPS `MP2329GG-Z`, LCSC `C5349327`.
@@ -83,3 +93,7 @@ remain prototype-validation tasks.
 - 2026-09-18: Initial subsystem draft created from confirmed project records.
 - 2026-09-19: Replaced unavailable `C19268642` with stocked `C19268654` and
   imported its dedicated footprint into the PCB project.
+- 2026-09-28: Recorded that placement and the four-layer layout setup are
+  complete, but the reported `5V` plane/net rename is not reflected in the
+  current saved net table. Main-converter loop routing is the first routing
+  priority after the open schematic corrections and net/plane verification.

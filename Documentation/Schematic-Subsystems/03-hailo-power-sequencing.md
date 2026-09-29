@@ -56,6 +56,9 @@ their current state directly in Altium before closing this item.
 - Regulator enable and CM5-controlled reset connections; no separate load
   switch.
 - Connection to all five M.2 power contacts.
+- After C8/C9 and the rail-net state are corrected and ECO-verified, route the
+  TPS54302 input/boot/switch/inductor/output loops and local decoupling before
+  ordinary signals. Keep the switch node and inductor away from the PCIe pairs.
 
 ## Verification remaining
 
@@ -99,3 +102,5 @@ their current state directly in Altium before closing this item.
 - 2026-09-18: Initial subsystem draft created from confirmed project records.
 - 2026-09-19: Completed the sourced TPS54302 circuit and all M.2 power
   connections; reset-timing and prototype validation remain open.
+- 2026-09-28: Components are placed and power-loop routing is next, but C8/C9
+  must be corrected and verified first. No routing completion is claimed.

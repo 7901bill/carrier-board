@@ -23,6 +23,12 @@ circuit is present; review the CM5 reference before deciding whether one is
 required. Earlier completion notes are superseded. See the consolidated
 [main design status](../documentation.md).
 
+USBC2 and CN2 are placed. The layout note reports the 90-ohm USB profile
+calculated for L1 over L2 ground, but the saved PCB has no USB differential
+pair object/class membership and still uses the generic 15 mil/10 mil
+differential rule. Ground-pad correction, ESD selection, VBUS treatment, pair
+definition, profile-linked rule, and routing all remain open.
+
 ## Confirmed architecture
 
 - The programming connector is separate from the main USB-PD power connector.
@@ -38,8 +44,24 @@ required. Earlier completion notes are superseded. See the consolidated
   create competing power sources between the host and main converter.
 - Connector ground connects to the board ground plane.
 - Low-capacitance USB ESD protection is required near the connector.
+- Route D+ and D- as one 90-ohm differential pair, as required by the current
+  official CM5 datasheet. Preserve polarity; USB 2.0 P/N swapping is not
+  permitted.
 - The USB-C programming receptacle requires the correct device/sink-side CC
   arrangement from an authoritative USB-C reference circuit.
+
+## PCB-layout requirements
+
+- Define `USB_P`/`USB_N` as a differential pair and derive its 90-ohm width
+  and gap from the final JLCPCB stackup.
+- The saved PCB's generic 15 mil/10 mil differential rule is a placeholder,
+  not an approved USB geometry.
+- Keep the pair over a continuous reference plane, minimize discontinuities,
+  and avoid uncontrolled test-point stubs.
+- Place the required low-capacitance ESD array close to `USBC2` and keep the
+  protected path in line with the differential pair.
+- Do not add a 90-ohm shunt resistor across D+/D-; controlled impedance is a
+  transmission-line geometry requirement and the USB PHY handles termination.
 
 ## Planned schematic content
 
@@ -80,3 +102,10 @@ development computer.
   mandatory part of Schematic V1, not an optional accessory.
 - 2026-09-19: Completed the programming-port schematic and imported its
   components into the PCB document. Placement and USB routing are next.
+- 2026-09-28: Locked the programming USB 2.0 pair to 90 ohms differential
+  from the current CM5 datasheet and recorded that polarity must not be
+  swapped. Pair creation, ESD selection, stackup geometry, routing, and tuning
+  remain open; no CAD change was made.
+- 2026-09-28: Layout setup placed USBC2/CN2 and reportedly calculated the
+  90-ohm profile. Saved-CAD review still found no USB pair object or
+  profile-linked rule, so the interface is not routing-ready.
