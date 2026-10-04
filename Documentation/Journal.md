@@ -838,3 +838,30 @@ from imported footprints that appeared to clear after affected placed
 instances were replaced. Treat replacement as a workaround, not proof of
 closure; watch for recurrence and require a clean final DRC after all ECOs and
 routing. No PCB or schematic edit was made during this documentation update.
+
+## 2026-09-29 — CM5 connector component and footprint verification closed
+
+**Verified from the saved Altium libraries and placed design:** `CN1` and
+`CN2` are both Amphenol `10164227-1001A1RLF`, LCSC `C6782225`. Each schematic
+symbol has exactly 100 unique physical pin designators `1–100`, passive pin
+types, and the correct linked PCB model
+`CONN-SMD_100P-P0.40_10164227-1001A1RLF`. The saved PCB contains two instances
+of that footprint, one for each connector.
+
+**Manufacturer land-pattern comparison:** the footprint contains 100 SMT pads
+at 0.40 mm pitch. The contact lands are 0.20 mm x 0.70 mm, the contact span is
+19.60 mm, and the two row centers are 3.08 mm apart, producing the specified
+3.78 mm total pad-row extent. The part has no hold-down holes, consistent with
+the exact `-1001A1RLF` no-hold-down variant and its standard 1.5 mm CM5 mated
+stack height.
+
+**Decision:** connector component verification is closed. The symbols,
+footprint, and part identity match; no replacement, redraw, or library change
+is required. Both placed instances are approved for routing. Final CM5
+alignment, orientation, surrounding clearance, retention, and 1:1 assembly fit
+remain board-level placement checks and do not reopen the component selection.
+No schematic, PCB, or library file was changed during this verification.
+
+Sources: current official Raspberry Pi CM5 datasheet, official Amphenol
+`10164227` product drawing, and the saved project SchLib/PcbLib/SchDoc/PcbDoc
+records.

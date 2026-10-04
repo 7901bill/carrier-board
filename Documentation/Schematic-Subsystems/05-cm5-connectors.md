@@ -1,6 +1,6 @@
 # 05 — CM5 Connectors and Base Connections
 
-Last updated: 2026-09-28
+Last updated: 2026-09-29
 
 ## Purpose
 
@@ -10,21 +10,35 @@ subsystems.
 
 ## Current status
 
-**Transferred to PCB; recovery verification open.** Both connectors have 100 unique
-physical pin designators `1–100`. Preserve the user's chosen visible pin
-names, but verify physical numbering/electrical types against the CM5 table.
+**Connector component verified and approved for placement and routing.** `CN1`
+and `CN2` use the exact Raspberry Pi-specified Amphenol
+`10164227-1001A1RLF` (`C6782225`). Both symbols have 100 unique physical pin
+designators `1–100`, and both use the verified manufacturer-matching footprint
+`CONN-SMD_100P-P0.40_10164227-1001A1RLF`. No symbol, footprint, or component
+replacement is required.
+
+The two placed connector instances are ready to route. Preserve the user's
+chosen visible pin names and the verified physical numbering/electrical types.
 The 2026-09-23 PCB ECO connects CN1-93 to recovery switch `SW`, which is
 grounded on its other terminal. Access, test point, and functional recovery
 remain open in [09](09-boot-recovery-reset.md).
 Programming USB ground/protection and camera/Hailo supply corrections are
 tracked in the [main design status](../documentation.md).
-The reported clean compile/ECO does not close those issues. Mechanical
-connector geometry and module clearances remain to be checked before routing.
+The reported clean compile/ECO does not close those unrelated subsystem
+issues. Final board-level CM5 alignment, clearance, and 1:1 assembly fit remain
+placement checks, not reasons to change the verified connector component.
 
 ## Confirmed design
 
 - The design uses a CM5, not a CM4; their pin assignments are not interchangeable.
 - The two carrier connectors are Amphenol `10164227-1001A1RLF` 100-pin parts.
+- The exact component identity, schematic pin count, pad numbering, footprint
+  association, and copper land geometry were independently verified on
+  2026-09-29. The footprint has 100 SMT pads, 0.40 mm pitch, 0.20 mm x 0.70 mm
+  lands, 19.60 mm end-to-end contact span, and 3.08 mm row-center spacing,
+  matching the Amphenol recommended PCB layout.
+- The `-1001A1RLF` variant is the no-hold-down, 1.5 mm mated-stack-height
+  receptacle specified for the standard low-profile CM5 installation.
 - Connector 1 uses CM5 logical pins 1–100.
 - Both schematic symbols and both footprints use physical pin numbers 1–100.
   `CN1` represents CM5 logical pins 1–100; `CN2` represents logical pins
@@ -64,19 +78,20 @@ connector geometry and module clearances remain to be checked before routing.
 - Explicit no-connect markers for every intentionally unused pin.
 - Clear cross-sheet net labels with consistent spelling.
 
-## Remaining PCB verification
+## Remaining board-level checks
 
-1. Both connectors are placed; confirm CM5 mechanical alignment, orientation,
-   retention, installed-module clearance, and 1:1 fit.
-2. Compare both footprints with the connector manufacturer drawing.
-3. Confirm connector-edge, camera-cable, antenna, heatsink, and access
+1. Both connectors are placed; confirm final CM5 mechanical alignment,
+   orientation, retention, installed-module clearance, and 1:1 assembly fit.
+   This is a placement/system check; the component and footprint are approved.
+2. Confirm connector-edge, camera-cable, antenna, heatsink, and access
    constraints within the approximately 100 mm x 60 mm working outline.
-4. Re-run PCB DRC after routing and every relevant ECO. Watch for recurrence of
+3. Re-run PCB DRC after routing and every relevant ECO. Watch for recurrence of
    the stale/corrupt placed-footprint DRC behavior reported during placement.
 
 ## Definition of done
 
-- Both connector symbols and footprints are independently verified.
+- Both connector symbols and footprints are independently verified. Complete
+  as of 2026-09-29; do not replace or redraw them without a new approved part.
 - Every required power and ground pin is connected.
 - Every used interface reaches its corresponding subsystem.
 - Every intentionally unused pin has a no-connect marker.
@@ -107,3 +122,9 @@ connector geometry and module clearances remain to be checked before routing.
 - 2026-09-28: All components, including CN1 and CN2, are placed inside the
   working outline. Placement does not close alignment, retention, clearance,
   footprint, or full mechanical-fit verification.
+- 2026-09-29: Closed component and footprint verification for CN1/CN2. Both
+  instances are confirmed as Amphenol `10164227-1001A1RLF` / LCSC `C6782225`;
+  each symbol has 100 unique pins and each linked footprint matches the
+  manufacturer's 100-pad land pattern. No connector-library change is needed.
+  The placed instances are approved for routing, subject only to the remaining
+  board-level alignment, clearance, and final fit checks above.

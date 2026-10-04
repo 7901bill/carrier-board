@@ -1,0 +1,23 @@
+Added Component: Designator=USBC2(USB-C_SMD-TYPE-C-31-M-12_1)
+Add component (AddParameter): Name = "Name"; Value = "C165948"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "LCSC"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=USBC2-1
+Added Pin To Net: NetName=GND Pin=USBC2-2
+Added Pin To Net: NetName=GND Pin=USBC2-3
+Added Pin To Net: NetName=GND Pin=USBC2-4
+Added Pin To Net: NetName=GND Pin=USBC2-A1B12
+Added Pin To Net: NetName=NetCN2_5 Pin=USBC2-A6
+Added Pin To Net: NetName=NetCN2_3 Pin=USBC2-A7
+Added Pin To Net: NetName=GND Pin=USBC2-B1A12
+Added Pin To Net: NetName=NetCN2_5 Pin=USBC2-B6
+Added Pin To Net: NetName=NetCN2_3 Pin=USBC2-B7
+Added Pin To Net: NetName=NetR2_2 Pin=R2-2
+Added Pin To Net: NetName=NetR2_2 Pin=USBC2-B5
+Added Net: Name=NetR2_2
+Added Pin To Net: NetName=NetR3_2 Pin=R3-2
+Added Pin To Net: NetName=NetR3_2 Pin=USBC2-A5
+Added Net: Name=NetR3_2
+Added Pin To Net: NetName=NetUSBC2_A4B9 Pin=USBC2-A4B9
+Added Pin To Net: NetName=NetUSBC2_A4B9 Pin=USBC2-B4A9
+Added Net: Name=NetUSBC2_A4B9
+Added Member To Class: ClassName=USBC_Protection Member=Component USBC2 TYPE-C-31-M-12

@@ -1,0 +1,9 @@
+Removed Pin From Net: NetName=GND Pin=USBC2-1
+Removed Pin From Net: NetName=GND Pin=USBC2-2
+Removed Pin From Net: NetName=GND Pin=USBC2-3
+Removed Pin From Net: NetName=GND Pin=USBC2-4
+Removed Pin From Net: NetName=NetCN2_5 Pin=USBC2-A6
+Removed Pin From Net: NetName=NetCN2_3 Pin=USBC2-A7
+Removed Pin From Net: NetName=NetCN2_5 Pin=USBC2-B6
+Removed Pin From Net: NetName=NetCN2_3 Pin=USBC2-B7
+Removed Member From Class: ClassName=USBC_Protection Member=USBC2

@@ -1,13 +1,13 @@
 # Documentation — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-09-28
+Last updated: 2026-09-29
 
 This is the daily working document for current status, active blockers, and
 session changes. [`Journal.md`](Journal.md) is the source of truth for verified
 project decisions; update this working summary whenever a verified journal
 decision changes the active design.
 
-## Active blockers and important reminders — 2026-09-28
+## Active blockers and important reminders — 2026-09-29
 
 > **Daily resume checkpoint:** Start here, then use
 > [`Schematic-Subsystems/README.md`](Schematic-Subsystems/README.md) for the
@@ -22,6 +22,13 @@ components**, with all placements represented in the saved LiveBOM's 29
 catalog entries (28 distinct LCSC codes). The earlier 42-component count is a
 historical snapshot. These
 **open corrections and checks** remain before release:
+
+The CM5 connector component is **not an open correction**. On 2026-09-29,
+`CN1` and `CN2` were confirmed as Amphenol `10164227-1001A1RLF` / LCSC
+`C6782225`; both 100-pin schematic symbols and the shared 100-pad, 0.40 mm
+footprint match the manufacturer land pattern. No connector change is needed,
+and both placed instances are approved for routing. Final module alignment,
+clearance, and 1:1 fit remain board-level placement checks.
 
 1. Correct the AP2112 camera LDO, now `U3` (formerly `U7`): physical pins are
    1 VIN, 2 GND, 3 EN, 4 NC, 5 VOUT. The 2026-09-24 ECO still has pad 2 on
@@ -270,9 +277,11 @@ the last work session left off without reading the whole file.
   whole board — including connectors and other through-hole parts — will
   now be machine-assembled by JLCPCB, with no hand-soldering step. This
   fixes an earlier plan that was never really realistic: the 100-pin,
-  very-fine-pitch DF40 connector was never something to hand-solder safely.
-  Still open: confirm with JLCPCB whether through-hole parts (the DF40
-  connector, M.2 socket, USB-C connector) need a separate line item on the
+  very-fine-pitch CM5 connector was never something to hand-solder safely.
+  **Superseded 2026-09-29:** the verified Amphenol CM5 connector is SMT with
+  no hold-down holes; only the M.2 and USB-C connectors require any separate
+  through-hole assembly consideration. Confirm whether those parts need a
+  separate line item on the
   assembly quote. The USB-C connector was added to the schematic this
   session, but the exact part number isn't picked yet. Next step (same as
   before): pick the protection chip, pick the USB-C connector part, pick the
@@ -502,9 +511,10 @@ in late 2024), unlike the older, well-documented CM4.
   through-hole parts** (changed 2026-08-01; no hand-soldering planned at
   all). This replaces the earlier plan below, which wasn't realistic anyway
   for a connector with 100 tiny 0.4mm-spaced pins.
-  **Still open:** confirm with JLCPCB whether through-hole parts (DF40
-  connector, M.2 socket, USB-C connector if it has a through-hole shell)
-  need a separate line item from the regular surface-mount assembly.
+  **Still open:** confirm with JLCPCB whether the M.2 socket and USB-C
+  connector's through-hole features need a separate line item from regular
+  surface-mount assembly. The verified Amphenol CM5 connector is SMT and does
+  not belong in this through-hole check.
   <br>*(Replaced 2026-08-01, kept here for history: the old plan was
   "machine-assemble the small surface-mount parts; hand-solder the
   connectors and through-hole parts.")*
@@ -756,16 +766,13 @@ redo it later with different parts.
 - 🔴 **Power system** — highest risk (a bad power design causes bugs that
   look like software problems), but also Bill's strongest area (from LED
   driver design experience). Budget for the worst case first.
-- 🔴 **DF40 connector pair** — highest consequence if wrong: a wrong
-  footprint or pin arrangement means a dead, unfixable board. The pin
-  layout is **copied exactly** from the official CM5 reference board, never
-  guessed or redesigned. Managed by process: only use verified connector
-  footprints, double-check against the manufacturer's drawing and the CM5's
-  official mechanical spec, and do a 1:1 printed paper fit-check with a real
-  CM5 before ordering the board. Full machine assembly (see "Decisions
-  locked") removes the risk of a bad hand-solder joint on this connector,
-  but does **not** remove the risk of a wrong footprint or pin layout — the
-  paper fit-check is still required no matter who solders it.
+- ✅ **CM5 connector pair — component verification closed.** `CN1` and `CN2`
+  are the exact Amphenol `10164227-1001A1RLF` parts specified for CM5. Their
+  100-pin symbols, physical pad numbering, footprint association, and 0.40 mm
+  land pattern match the manufacturer drawing. They do not need replacement
+  or library modification and are ready to route. Retain the planned 1:1 fit
+  check with a real CM5 as final board-level confirmation of connector
+  placement, module orientation, and surrounding clearances.
 - 🟡 **PCIe connection to the M.2 slot** — the trickiest new skill on this
   project. Full wire list: 2 pairs for data (transmit and receive), 1 pair
   for the shared clock, plus 2 single control wires, plus power/ground (8
@@ -902,8 +909,9 @@ everything from the board order onward is replaced by the paragraph above):
   C165948. Confirmed it has through-hole mounting legs, same as flagged
   below. Footprint in progress.
 - **Confirm JLCPCB's through-hole assembly terms** — new as of Session 4,
-  now covers three parts: DF40 connector, M.2 socket, and the USB-C
-  connector (C165948, confirmed through-hole legs as of Session 7). Does
+  now covers the M.2 socket and USB-C connector (C165948, confirmed
+  through-hole legs as of Session 7). The verified Amphenol CM5 connector is
+  SMT with no hold-down holes and is excluded from this check. Does
   the switch to full machine assembly (no hand-soldering) need a separate
   quote line for these versus regular surface-mount assembly? Not yet
   checked against JLCPCB's assembly options.
@@ -1002,6 +1010,11 @@ Update this section (or split it into its own note, e.g.
     engineer, the two are physically interchangeable, but the Amphenol
     version is rated for more current on the CM5. Need two of them. JLCPCB
     part **C6782225**.
+    **Verified 2026-09-29:** both project symbols have 100 unique physical pins
+    and both use the correct 100-pad footprint. Its 0.40 mm pitch, 0.20 mm x
+    0.70 mm lands, 19.60 mm contact span, and 3.08 mm row-center spacing match
+    the Amphenol recommended PCB layout. This component is approved as-is for
+    placement and routing; do not substitute or redraw it.
   - **Hailo-8L M.2 socket**: **UMAX 91302-42-067RDM** (67-pin, 0.5mm
     spacing, sized for the 2242 card length). The Hailo-8L's dual-keyed
     card physically fits this single-keyed socket by design — dual-keying

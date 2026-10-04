@@ -1,6 +1,6 @@
 # Schematic Subsystems
 
-Last updated: 2026-09-28
+Last updated: 2026-09-29
 
 This folder is the detailed working record for Schematic V1 of the Wireless
 Watchdog CM5 carrier board. Each file covers one independently reviewable
@@ -25,7 +25,7 @@ details.
 | [02](02-main-5v-power.md) | Main 5 V supply | Validation open; placed | Reconcile main-rail/plane name; route converter loop; peak-power review |
 | [03](03-hailo-power-sequencing.md) | Hailo power and sequencing | Correction required; placed | Recheck C8/C9 before routing; route buck loop; validate reset timing |
 | [04](04-camera-power.md) | Camera power | Critical correction | Fix U3 pin mapping; add output capacitor; thermal review |
-| [05](05-cm5-connectors.md) | CM5 connectors | Placed; verification open | Verify alignment, retention, access, edge constraints, and mechanical fit |
+| [05](05-cm5-connectors.md) | CM5 connectors | **Component/footprint verified; placed; ready to route** | Preserve verified 10164227-1001A1RLF parts; finish board-level alignment, access, and fit checks |
 | [06](06-m2-hailo-pcie.md) | M.2 Hailo/PCIe | **High priority release blocker; placed** | Resolve CN3 identity; define/profile-link three pairs; route on L1/L2 |
 | [07](07-csi2-camera.md) | CSI-2 camera | Power dependency open; placed | Correct camera supply; verify FPC orientation; define/profile-link five pairs |
 | [08](08-programming-usb.md) | Programming USB | Correction required; placed | Recheck grounds; add ESD; define/profile-link USB pair; review VBUS |

@@ -68,6 +68,15 @@ All records have:
 | 28 | C165948 | — | TYPE-C-31-M-12 | 16-position USB-C receptacle | USB-C_SMD-TYPE-C-31-M-12_1 | C165948.SchLib / TYPE-C-31-M-12 |
 | 29 | C601195 | — | 91302-42-067RDM | 67-position 0.5mm right-angle connector | CONN-SMD_91302-32-067RDM | C601195.SchLib / 91302-42-067RDM |
 
+## Verified CM5 connector status
+
+Catalog records 9 and 10 are approved as-is. They represent `CN1` and `CN2`,
+the two required Amphenol `10164227-1001A1RLF` / LCSC `C6782225` CM5
+connectors. Both schematic symbols contain 100 unique physical pins, and both
+link to the verified 100-pad, 0.40 mm-pitch manufacturer-matching footprint.
+No component, symbol, or footprint change is required; both instances are
+ready for placement and routing.
+
 ## BoM document settings
 
 - Currency: USD
@@ -80,4 +89,3 @@ All records have:
 - Manufacturer-link parameters: none
 - Favorite suppliers: none
 - Supplier pricing and part-choice data: absent
-
