@@ -1,0 +1,6 @@
+Added Pin To Net: NetName=NetC11_2 Pin=C8-1
+Added Pin To Net: NetName=NetC11_2 Pin=C9-1
+Change Net Name : Old Net Name=NetC11_2 New Net Name=NetC8_1
+Added Member To Class: ClassName=USBC_Protection Member=Component R2 0603WAF5101T5E
+Added Member To Class: ClassName=USBC_Protection Member=Component R3 0603WAF5101T5E
+Added Member To Class: ClassName=USBC_Protection Member=Component USBC1 TYPE-C-31-M-12

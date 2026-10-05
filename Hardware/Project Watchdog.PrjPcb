@@ -931,7 +931,7 @@ ClassGenCCAutoRoomEnabled=0
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=
+DocumentUniqueId=KLIGCSZO
 
 [Document53]
 DocumentPath=Component Libraries\Power\SCH\C51118.SchLib

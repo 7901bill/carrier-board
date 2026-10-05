@@ -865,3 +865,28 @@ No schematic, PCB, or library file was changed during this verification.
 Sources: current official Raspberry Pi CM5 datasheet, official Amphenol
 `10164227` product drawing, and the saved project SchLib/PcbLib/SchDoc/PcbDoc
 records.
+
+## 2026-10-05 — Routing sprint priorities and finish targets
+
+Bill set the immediate PCB-layout priority: finish the many high-speed
+differential pairs before ordinary routing, target completion of all routing
+by 2026-10-06, and use the following work session for final cleanup and
+checks. Completing routing and final checks together on 2026-10-06 is a
+stretch goal rather than a release commitment.
+
+The routing task includes a placement pass. Components may need local
+adjustment for clean fanout, short critical paths, uninterrupted return paths,
+decoupling, connector and cable access, and mechanical clearance. Placement
+must be reviewed again after routing rather than accepted only because every
+component lies inside the outline.
+
+A read-only inspection of the saved `Watchdog PCB.PcbDoc` dated 2026-10-05
+found `DifferentialPairs6/Header = 0`: there are currently no serialized
+differential-pair objects. Therefore the first routing action is to create and
+verify the nine PCIe/MIPI/USB pair objects and their classes, impedance-linked
+rules, and skew constraints, followed immediately by routing those pairs. The
+final phase requires iterative and final DRC, an unrouted-connection check,
+plane re-pour and return-path review, placement/mechanical and silkscreen
+review, ERC/ECO consistency, and manufacturing-output review. This entry
+records the work plan and saved pair-object count; it does not declare routing,
+placement, or DRC complete.

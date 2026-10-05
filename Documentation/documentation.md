@@ -1,15 +1,49 @@
 # Documentation — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-09-29
+Last updated: 2026-10-05
 
 This is the daily working document for current status, active blockers, and
 session changes. [`Journal.md`](Journal.md) is the source of truth for verified
 project decisions; update this working summary whenever a verified journal
 decision changes the active design.
 
-## Active blockers and important reminders — 2026-09-29
+## Immediate PCB layout to-do — 2026-10-05
 
-> **Daily resume checkpoint:** Start here, then use
+**Schedule target:** complete routing by 2026-10-06. Use the following work
+session for final cleanup and sign-off checks. Finishing both in one productive
+2026-10-06 session is a stretch goal, not a release assumption.
+
+1. **First priority: define, verify, and route every differential pair.** The
+   current saved `Watchdog PCB.PcbDoc` contains zero differential-pair objects.
+   Create all nine pair objects, populate the relevant classes, and verify the
+   impedance-linked routing rules before routing: PCIe TX, PCIe RX, and PCIe
+   reference clock at 90 ohms differential; MIPI0 data lanes 0–3 and MIPI0
+   clock at 100 ohms differential; and programming USB 2.0 D+/D- at 90 ohms
+   differential. Route these before ordinary signals, preferably on L1 over
+   continuous L2 GND, with no plane splits under the paths.
+2. Review placement while escaping and routing the high-speed interfaces.
+   Make the local component adjustments needed for clean fanout, short paths,
+   continuous return paths, connector and cable access, mechanical clearance,
+   and sensible decoupling placement. Freeze placement once the critical paths
+   work; do not treat “everything fits inside the outline” as placement
+   sign-off.
+3. Finish the remaining routing, including converter loops, ordinary signals,
+   power distribution, ground vias, and stitching. Recheck unresolved
+   schematic/ECO findings before locking any affected routes.
+4. Run DRC throughout routing, then require a final clean DRC with every
+   remaining item either corrected or explicitly understood and documented.
+   Re-pour planes/polygons before the final run and inspect unrouted
+   connections as well as rule violations.
+5. Complete the final review in the following work session: component
+   placement and mechanical fit, connector-edge alignment, return paths,
+   differential-pair geometry and skew, silkscreen, ERC/ECO consistency,
+   BoM/CPL, and fabrication/drill outputs. Do not release solely because DRC
+   reports zero violations.
+
+## Earlier active blockers and important reminders — 2026-09-29
+
+> **Historical review checkpoint:** Retain these findings until each affected
+> item has been re-verified. Start with the 2026-10-05 layout list above, then use
 > [`Schematic-Subsystems/README.md`](Schematic-Subsystems/README.md) for the
 > working order and affected subsystem files for implementation details. This
 > section is expected to change as items are resolved or new blockers appear.

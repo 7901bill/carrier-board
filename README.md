@@ -1,6 +1,24 @@
 # Carrier Board — Read This First
 
-## Schematic corrections required before routing
+## Current layout sprint — 2026-10-05
+
+The immediate priority is to finish PCB routing. Start with the nine
+high-speed differential pairs: three PCIe pairs, five MIPI CSI-2 pairs, and
+one programming USB 2.0 pair. The current saved `Watchdog PCB.PcbDoc` still
+contains zero differential-pair objects, so define and verify the pair
+objects, classes, and impedance-linked rules before routing them.
+
+Routing is targeted for completion by 2026-10-06. Make any component-placement
+adjustments needed for clean escape routing, short controlled-impedance paths,
+continuous return paths, connector access, and mechanical clearance. After
+routing, run and clear DRC, review placement and silkscreen, and complete the
+remaining final checks in the following work session. This schedule is a
+working target, not evidence that the final checks have passed.
+
+See the [current design status](Documentation/documentation.md) and
+[prioritized task dashboard](Documentation/Schematic-Subsystems/README.md).
+
+## Earlier schematic-review findings requiring final re-verification
 
 Both Amphenol `10164227-1001A1RLF` schematic instances now contain 100 unique
 pin designators numbered `1–100`, matching their physical footprint pads.
@@ -22,16 +40,13 @@ and USB ground contacts. The camera-LDO mapping remains incorrect in the
 but its physical operation remains unverified. A clean compile is not
 electrical sign-off.
 
-PCB layout setup now has an approximately 100 mm x 60 mm working outline,
+At the 2026-09-29 documentation checkpoint, PCB layout setup had an
+approximately 100 mm x 60 mm working outline,
 all 43 components placed, a four-layer `SIG 1`/`GND`/`PWR`/`SIG 2` stack, and
-basic clearance/width/via rules. It is not routing-ready: open schematic and
-mechanical corrections remain, the nine differential-pair objects/classes and
-profile-linked rules are unfinished, and the reported `5V` PCB-net rename is
-not present in the current saved net table. See the current design status
-before routing or running another ECO.
-
-See the [current design status](Documentation/documentation.md) and
-[prioritized task dashboard](Documentation/Schematic-Subsystems/README.md).
+basic clearance/width/via rules. That review listed open schematic,
+mechanical, differential-pair, and net-name checks. Do not assume those older
+items are closed merely because routing has started; re-verify affected nets
+and rules before final sign-off.
 
 ## Documentation workflow
 

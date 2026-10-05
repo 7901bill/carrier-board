@@ -1,12 +1,23 @@
 # Schematic Subsystems
 
-Last updated: 2026-09-29
+Last updated: 2026-10-05
 
 This folder is the detailed working record for Schematic V1 of the Wireless
 Watchdog CM5 carrier board. Each file covers one independently reviewable
 subsystem. `Documentation/Journal.md` is the source of truth for verified
 decisions, while `Documentation/documentation.md` is the daily working summary
 and active-blocker list.
+
+## Current layout sprint
+
+Routing is targeted for completion by 2026-10-06, with final cleanup and
+sign-off checks targeted for the following work session. The top priority is
+the complete high-speed differential-pair set. A direct check of the current
+saved `Watchdog PCB.PcbDoc` on 2026-10-05 found zero saved differential-pair
+objects, so pair creation and rule verification are part of the routing task.
+Component placement may be adjusted as needed for the critical routes and must
+receive a separate final review. DRC must be run during routing and again after
+all routing, plane pours, and placement changes are complete.
 
 ## Schematic V1 objective
 
@@ -66,24 +77,22 @@ routing.
 
 ## Working order
 
-1. Fix U3 physical pin mapping and add the missing camera output capacitor.
-2. Connect Hailo C8/C9 output pads and programming USB ground contacts.
-3. Validate the placed recovery switch and resolve USB ESD/VBUS design requirements.
-4. Resolve CN3's M.2 part/footprint/3D identity and verify mating,
-   standoff, pad, and clearance geometry against manufacturer drawings before
-   fabrication or connector procurement. Then close the power-budget, thermal,
-   and reset-timing reviews and decide on the two proposed Basic substitutions
-   without relaxing key requirements.
-5. Audit ERC settings/electrical pin types/no-connects, compile, regenerate
-   ECO, and explicitly inspect corrected PCB pad nets. Zero warnings alone
-   is insufficient; `NetlistSinglePinNets=0` deserves particular review.
-6. Reconcile and verify the saved plane/net/rule state, mechanical constraints,
-   and fabrication capability. Define all nine pairs, populate the PCIe/MIPI/
-   USB classes, and link their rules to the calculated impedance profiles.
-7. Route converter/decoupling loops first, then high-speed and sensitive nets,
-   ordinary signals, power and ground stitching. Run DRC, return-path,
-   mechanical, silkscreen, fabrication-output and BOM/CPL reviews.
-   Status LEDs remain optional, not a substitute for resolving these blockers.
+1. Define and verify all nine PCIe/MIPI/USB differential-pair objects, classes,
+   impedance-linked rules, and skew constraints; then route the complete pair
+   set as the first routing block.
+2. Adjust placement where the critical escapes, return paths, decoupling,
+   connector access, or mechanical clearance require it. Freeze and review
+   placement after the high-speed paths work.
+3. Re-verify the earlier U3, Hailo C8/C9, programming USB, recovery-switch,
+   CN3, plane/net, and ECO findings before locking affected routes.
+4. Finish converter and decoupling loops, remaining sensitive controls,
+   ordinary signals, power distribution, and ground stitching.
+5. Re-pour planes/polygons and run DRC iteratively. Finish with no unexplained
+   violations or unrouted connections; review return paths and differential
+   geometry rather than relying only on the violation count.
+6. Complete placement/mechanical, silkscreen, ERC/ECO, BoM/CPL,
+   fabrication-output, and drill-output reviews before release. Status LEDs
+   remain optional and are not a substitute for resolving release blockers.
 
 ## Status vocabulary
 
