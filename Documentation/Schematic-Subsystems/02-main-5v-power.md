@@ -1,6 +1,15 @@
 # 02 — Main 5 V Power Supply
 
-Last updated: 2026-09-19
+Last updated: 2026-10-09
+
+## Saved PCB checkpoint - 2026-10-09
+
+The saved October 8 PCB independently confirms substantial routing and all
+nine differential-pair definitions, superseding the earlier no-pair/no-routing
+snapshot below. Finish corner GND vias, the board outline, polygon pours,
+connectivity checks, and final DRC. Differential-rule scope and USB skew need
+review. This checkpoint does not close older electrical or mechanical findings.
+See the [PCB audit](../PCB-Audit-2026-10-09.md) for current evidence.
 
 ## Open review actions — 2026-09-19
 
@@ -20,13 +29,13 @@ in the [main design status](../documentation.md).
 Convert the negotiated 9 V input into the shared `5V_MAIN` rail used by the
 CM5 and the local Hailo and camera regulators.
 
-## Current status
+## Earlier status snapshot
 
 **Schematic complete and transferred to PCB.** The converter and target rail
 are confirmed. Peak-load, transient, efficiency, and thermal verification
 remain prototype-validation tasks.
 
-**PCB layout setup:** U5 and its passives are placed. The layout note reports
+**Historical PCB layout setup:** U5 and its passives are placed. The layout note reports
 that L3 is a continuous main-5-V plane and that the PCB net was renamed to
 `5V`, but the current saved PCB net table still shows `NetC2_1`; the schematic
 and documentation use `5V_MAIN`/`5V_6.5A`. Verify the actual L3 assignment and

@@ -1,6 +1,15 @@
 # 06 — Hailo-8L M.2 and PCIe
 
-Last updated: 2026-09-28
+Last updated: 2026-10-09
+
+## Saved PCB checkpoint - 2026-10-09
+
+The saved October 8 PCB independently confirms substantial routing and all
+nine differential-pair definitions, superseding the earlier no-pair/no-routing
+snapshot below. Finish corner GND vias, the board outline, polygon pours,
+connectivity checks, and final DRC. Differential-rule scope and USB skew need
+review. This checkpoint does not close older electrical or mechanical findings.
+See the [PCB audit](../PCB-Audit-2026-10-09.md) for current evidence.
 
 ## Open review actions — 2026-09-24
 
@@ -37,7 +46,7 @@ in the [main design status](../documentation.md).
 Connect the Hailo-8L module to the CM5 over PCIe Gen 2 x1 and provide its
 power, clock, reset, and ground connections.
 
-## Current status
+## Earlier status snapshot
 
 **Schematic wiring complete.** The M.2 power, ground, PCIe lane 0, reference
 clock, reset, and clock-request signals are connected to the CM5 connector.
@@ -45,7 +54,7 @@ Unused lane, wake, configuration, and remaining contacts are intentionally
 left unconnected. PCB differential-pair rules, routing, and length tuning
 remain layout-phase work.
 
-**PCB layout setup:** CN2 and CN3 are placed, and the configured stack places
+**Historical PCB layout setup:** CN2 and CN3 are placed, and the configured stack places
 L1 over a continuous L2 ground reference. The layout note reports the 90-ohm
 profile calculation complete, but the saved PCB still has no PCIe pair objects
 or populated PCIe pair class, and its differential routing rule remains the

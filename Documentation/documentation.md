@@ -1,49 +1,41 @@
 # Documentation — Wireless Watchdog: CM5 Carrier Board
 
-Last updated: 2026-10-05
+Last updated: 2026-10-09
 
 This is the daily working document for current status, active blockers, and
 session changes. [`Journal.md`](Journal.md) is the source of truth for verified
 project decisions; update this working summary whenever a verified journal
 decision changes the active design.
 
-## Immediate PCB layout to-do — 2026-10-05
+## Immediate PCB finishing work - 2026-10-09
 
-**Schedule target:** complete routing by 2026-10-06. Use the following work
-session for final cleanup and sign-off checks. Finishing both in one productive
-2026-10-06 session is a stretch goal, not a release assumption.
+Routing is substantially implemented in the saved PCB: all nine differential
+pairs are defined and each member has top-layer tracks. Finish corner GND
+vias, revise the board outline, and add/re-pour the required polygon copper.
+Then refresh connectivity and resolve remaining DRC items in Altium. Final
+routing, impedance, and release sign-off remain open.
 
-1. **First priority: define, verify, and route every differential pair.** The
-   current saved `Watchdog PCB.PcbDoc` contains zero differential-pair objects.
-   Create all nine pair objects, populate the relevant classes, and verify the
-   impedance-linked routing rules before routing: PCIe TX, PCIe RX, and PCIe
-   reference clock at 90 ohms differential; MIPI0 data lanes 0–3 and MIPI0
-   clock at 100 ohms differential; and programming USB 2.0 D+/D- at 90 ohms
-   differential. Route these before ordinary signals, preferably on L1 over
-   continuous L2 GND, with no plane splits under the paths.
-2. Review placement while escaping and routing the high-speed interfaces.
-   Make the local component adjustments needed for clean fanout, short paths,
-   continuous return paths, connector and cable access, mechanical clearance,
-   and sensible decoupling placement. Freeze placement once the critical paths
-   work; do not treat “everything fits inside the outline” as placement
-   sign-off.
-3. Finish the remaining routing, including converter loops, ordinary signals,
-   power distribution, ground vias, and stitching. Recheck unresolved
-   schematic/ECO findings before locking any affected routes.
-4. Run DRC throughout routing, then require a final clean DRC with every
-   remaining item either corrected or explicitly understood and documented.
-   Re-pour planes/polygons before the final run and inspect unrouted
-   connections as well as rule violations.
-5. Complete the final review in the following work session: component
-   placement and mechanical fit, connector-edge alignment, return paths,
-   differential-pair geometry and skew, silkscreen, ERC/ECO consistency,
-   BoM/CPL, and fabrication/drill outputs. Do not release solely because DRC
-   reports zero violations.
+The read-only saved-file audit found 85 connection records (83 GND and two
+`NetCN1_78`), a broadly scoped 90-ohm differential rule, and unequal USB
+track-only lengths. No DRC report was found, so a small remaining violation
+count is not independently confirmed. See the [PCB audit](PCB-Audit-2026-10-09.md) for evidence
+and the limits of this inspection.
 
-## Earlier active blockers and important reminders — 2026-09-29
+1. Add corner GND vias and review stitching against the revised outline.
+2. Revise the board shape; check component, copper, and connector clearances.
+3. Add/re-pour polygon copper; inspect islands and return paths.
+4. Refresh connectivity, resolve `NetCN1_78`, and check the remaining GND
+   connections after the pours. Saved connection records are not a fresh DRC.
+5. Correct or verify differential-rule scopes and profile assignments,
+   including the 100-ohm MIPI requirement; review USB pair length/skew.
+6. Run final DRC after the outline/via/pour changes, then complete mechanical,
+   silkscreen, ERC/ECO, BOM/CPL, and manufacturing-output reviews.
+
+
+## Historical blockers requiring final re-verification — 2026-09-29
 
 > **Historical review checkpoint:** Retain these findings until each affected
-> item has been re-verified. Start with the 2026-10-05 layout list above, then use
+> item has been re-verified. Start with the 2026-10-09 finishing list above, then use
 > [`Schematic-Subsystems/README.md`](Schematic-Subsystems/README.md) for the
 > working order and affected subsystem files for implementation details. This
 > section is expected to change as items are resolved or new blockers appear.
@@ -127,6 +119,12 @@ tasks are listed above, and the
 
 ## Current design summary
 
+The electrical findings below come from earlier reviews and are retained for
+re-verification; this routing audit does not establish that they are still
+present or that they have been corrected. The October 9 audit supersedes the
+older no-routing/no-pair-object status.
+
+
 The TPS54302 `3V3_HAILO` buck, AP2112 `3V3_CAMERA` LDO, Hailo M.2-to-CM5 PCIe
 interface, and 22-pin CSI-to-CM5 interface are drawn. The camera subsystem is
 not complete because U3 is wired incorrectly, its output capacitor is missing,
@@ -147,11 +145,11 @@ Hailo module datasheet provides no conflicting target and defers to the PCIe
 M.2 specification. CM5 includes coupling capacitors on its PCIe transmitter,
 and the M.2 module supplies its transmitter-side coupling; do not duplicate
 them. Controlled impedance is set by stackup and trace geometry, not by adding
-parallel termination resistors. The saved PCB currently has no defined
-differential-pair objects, and its generic 15 mil/10 mil differential rule is
-only a placeholder, not an approved geometry.
+parallel termination resistors. The September/October 5 snapshots lacked differential-pair objects. The
+October 9 audit confirms nine saved pairs and routed tracks; final rule scope,
+impedance, and skew verification remain open (see the PCB audit).
 
-## PCB layout setup status — 2026-09-28
+## Historical PCB layout setup status — 2026-09-28
 
 The board has a working outline of approximately 100 mm x 60 mm and a
 four-layer stack: L1 `SIG 1`, L2 internal `GND`, L3 internal `PWR`, and L4
@@ -447,6 +445,14 @@ the last work session left off without reading the whole file.
   generic differential rule, and a 0.50 mm rather than reported 1.0 mm general
   maximum width. Verify/save those items in Altium. Routing starts with power
   converter and decoupling loops, then the nine high-speed pairs.
+
+### 2026-10-09 - Saved PCB routing audit
+
+Independently inspected the October 8 saved PCB. Nine differential pairs and
+substantial copper routing are present. Updated the immediate work to corner
+GND vias, outline revisions, polygon pours, connectivity cleanup, differential
+rule/USB skew review, and final DRC. Evidence and inspection limits are recorded
+in [the audit](PCB-Audit-2026-10-09.md). No CAD changes or DRC execution occurred.
 
 ## Project summary
 

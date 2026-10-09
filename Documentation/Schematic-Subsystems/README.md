@@ -1,6 +1,6 @@
 # Schematic Subsystems
 
-Last updated: 2026-10-05
+Last updated: 2026-10-09
 
 This folder is the detailed working record for Schematic V1 of the Wireless
 Watchdog CM5 carrier board. Each file covers one independently reviewable
@@ -8,22 +8,31 @@ subsystem. `Documentation/Journal.md` is the source of truth for verified
 decisions, while `Documentation/documentation.md` is the daily working summary
 and active-blocker list.
 
-## Current layout sprint
+## Current PCB finishing work - 2026-10-09
 
-Routing is targeted for completion by 2026-10-06, with final cleanup and
-sign-off checks targeted for the following work session. The top priority is
-the complete high-speed differential-pair set. A direct check of the current
-saved `Watchdog PCB.PcbDoc` on 2026-10-05 found zero saved differential-pair
-objects, so pair creation and rule verification are part of the routing task.
-Component placement may be adjusted as needed for the critical routes and must
-receive a separate final review. DRC must be run during routing and again after
-all routing, plane pours, and placement changes are complete.
+Routing is substantially implemented in the saved PCB: all nine differential
+pairs are defined and each member has top-layer tracks. Finish corner GND
+vias, revise the board outline, and add/re-pour the required polygon copper.
+Then refresh connectivity and resolve remaining DRC items in Altium. Final
+routing, impedance, and release sign-off remain open.
 
-## Schematic V1 objective
+The read-only saved-file audit found 85 connection records (83 GND and two
+`NetCN1_78`), a broadly scoped 90-ohm differential rule, and unequal USB
+track-only lengths. No DRC report was found, so a small remaining violation
+count is not independently confirmed. See the [PCB audit](../PCB-Audit-2026-10-09.md) for evidence
+and the limits of this inspection.
+
+
+## Earlier schematic review findings
+
+These are historical findings pending final re-verification, rather than a
+new electrical audit. The October 9 PCB audit confirms routing progress but
+does not close the earlier electrical or mechanical review items.
+
 
 Schematic V1 completion is reopened. PCB import and a clean compile were
 reported, but the saved-CAD review found electrical omissions and incorrect
-LDO pin mapping. Correct and verify these before routing. The
+LDO pin mapping. Re-verify affected items before release. The
 [current design status](../documentation.md) contains the consolidated open
 findings; the subsystem records below contain the supporting implementation
 details.
@@ -33,13 +42,13 @@ details.
 | File | Subsystem | Draft status | Principal remaining work |
 |---|---|---|---|
 | [01](01-power-input-usb-pd.md) | USB-C power input and PD | Validation open | Source/fuse budget; proposed Basic R1 |
-| [02](02-main-5v-power.md) | Main 5 V supply | Validation open; placed | Reconcile main-rail/plane name; route converter loop; peak-power review |
-| [03](03-hailo-power-sequencing.md) | Hailo power and sequencing | Correction required; placed | Recheck C8/C9 before routing; route buck loop; validate reset timing |
+| [02](02-main-5v-power.md) | Main 5 V supply | Validation open; placed | Reconcile main-rail/plane name; verify routed converter loop; peak-power review |
+| [03](03-hailo-power-sequencing.md) | Hailo power and sequencing | Correction required; placed | Recheck C8/C9; verify routed buck loop; validate reset timing |
 | [04](04-camera-power.md) | Camera power | Critical correction | Fix U3 pin mapping; add output capacitor; thermal review |
-| [05](05-cm5-connectors.md) | CM5 connectors | **Component/footprint verified; placed; ready to route** | Preserve verified 10164227-1001A1RLF parts; finish board-level alignment, access, and fit checks |
-| [06](06-m2-hailo-pcie.md) | M.2 Hailo/PCIe | **High priority release blocker; placed** | Resolve CN3 identity; define/profile-link three pairs; route on L1/L2 |
-| [07](07-csi2-camera.md) | CSI-2 camera | Power dependency open; placed | Correct camera supply; verify FPC orientation; define/profile-link five pairs |
-| [08](08-programming-usb.md) | Programming USB | Correction required; placed | Recheck grounds; add ESD; define/profile-link USB pair; review VBUS |
+| [05](05-cm5-connectors.md) | CM5 connectors | **Component/footprint verified; placed; routing substantially implemented** | Preserve verified 10164227-1001A1RLF parts; finish board-level alignment, access, and fit checks |
+| [06](06-m2-hailo-pcie.md) | M.2 Hailo/PCIe | **High priority release blocker; placed** | Resolve CN3 identity; verify three routed pairs and rule/profile scopes |
+| [07](07-csi2-camera.md) | CSI-2 camera | Power dependency open; placed | Correct camera supply; verify FPC orientation; verify five routed pairs and 100-ohm rule scope |
+| [08](08-programming-usb.md) | Programming USB | Correction required; placed | Recheck grounds; add ESD; verify routed USB pair, rule scope, and skew; review VBUS |
 | [09](09-boot-recovery-reset.md) | Boot and recovery | SW placed and ECO-connected | Validate footprint and test point; accessible placement/routing; recovery test |
 | [10](10-debug-uart.md) | Debug UART | Schematic complete | Place accessible connector and label pin order |
 | [11](11-status-test-points.md) | Status and test access | Rough draft | Select final indicators and test points |
@@ -55,12 +64,16 @@ classes for the nine routed differential pairs:
 
 The earlier 85-ohm PCIe project note is superseded. Actual widths and gaps
 have reportedly been calculated from the configured stackup, but they still
-require JLCPCB confirmation. The saved PCB contains no defined
-differential-pair objects, the reported CSI class has no saved members, and
-the generic 15 mil/10 mil rule is not linked to the profiles or approved for
-routing.
+require JLCPCB confirmation. The October 9 audit confirms all nine pair objects. The highest-priority
+`USB_DiffPair` rule is profile-driven at 90 ohms but scoped to `All`; confirm
+and correct its effective scope, particularly for the 100-ohm MIPI pairs.
+The lower-priority generic rule remains a placeholder.
 
-## PCB layout setup
+## Historical PCB layout setup
+
+The bullets below record the September setup. The current saved plane net
+assignments are GND and `5V`; see the October 9 audit for current evidence.
+
 
 - Working outline: approximately 100 mm x 60 mm; all 43 components are placed
   top-side and inside it. Mechanical fit and connector/retention checks remain.
@@ -77,22 +90,13 @@ routing.
 
 ## Working order
 
-1. Define and verify all nine PCIe/MIPI/USB differential-pair objects, classes,
-   impedance-linked rules, and skew constraints; then route the complete pair
-   set as the first routing block.
-2. Adjust placement where the critical escapes, return paths, decoupling,
-   connector access, or mechanical clearance require it. Freeze and review
-   placement after the high-speed paths work.
-3. Re-verify the earlier U3, Hailo C8/C9, programming USB, recovery-switch,
-   CN3, plane/net, and ECO findings before locking affected routes.
-4. Finish converter and decoupling loops, remaining sensitive controls,
-   ordinary signals, power distribution, and ground stitching.
-5. Re-pour planes/polygons and run DRC iteratively. Finish with no unexplained
-   violations or unrouted connections; review return paths and differential
-   geometry rather than relying only on the violation count.
-6. Complete placement/mechanical, silkscreen, ERC/ECO, BoM/CPL,
-   fabrication-output, and drill-output reviews before release. Status LEDs
-   remain optional and are not a substitute for resolving release blockers.
+1. Add corner GND vias and revise the board shape.
+2. Add/re-pour polygon copper and review ground continuity and islands.
+3. Refresh connectivity; inspect saved GND and `NetCN1_78` connections.
+4. Verify differential profile/rule scopes and USB length/skew.
+5. Resolve remaining DRC items and run final DRC after all layout changes.
+6. Re-verify historical electrical/mechanical findings and complete final
+   silkscreen, ERC/ECO, BOM/CPL, fabrication, and drill-output reviews.
 
 ## Status vocabulary
 

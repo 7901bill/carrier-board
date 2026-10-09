@@ -1,13 +1,22 @@
 # 03 — Hailo Power and Reset Sequencing
 
-Last updated: 2026-09-28
+Last updated: 2026-10-09
+
+## Saved PCB checkpoint - 2026-10-09
+
+The saved October 8 PCB independently confirms substantial routing and all
+nine differential-pair definitions, superseding the earlier no-pair/no-routing
+snapshot below. Finish corner GND vias, the board outline, polygon pours,
+connectivity checks, and final DRC. Differential-rule scope and USB skew need
+review. This checkpoint does not close older electrical or mechanical findings.
+See the [PCB audit](../PCB-Audit-2026-10-09.md) for current evidence.
 
 ## Purpose
 
 Generate the dedicated Hailo-8L 3.3 V rail and ensure that the module remains
 in reset until its supply is stable.
 
-## Current status
+## Earlier status snapshot
 
 **Correction required.** The Hailo rail reaches all five M.2 power contacts,
 but C8-1 and C9-1 have no PCB net; only their ground pads are connected.

@@ -1,6 +1,15 @@
 # 07 — CSI-2 Camera Interface
 
-Last updated: 2026-09-28
+Last updated: 2026-10-09
+
+## Saved PCB checkpoint - 2026-10-09
+
+The saved October 8 PCB independently confirms substantial routing and all
+nine differential-pair definitions, superseding the earlier no-pair/no-routing
+snapshot below. Finish corner GND vias, the board outline, polygon pours,
+connectivity checks, and final DRC. Differential-rule scope and USB skew need
+review. This checkpoint does not close older electrical or mechanical findings.
+See the [PCB audit](../PCB-Audit-2026-10-09.md) for current evidence.
 
 ## Open review actions — 2026-09-19
 
@@ -17,7 +26,7 @@ in the [main design status](../documentation.md).
 Connect a Raspberry Pi camera module to the CM5 using the 22-pin FPC interface,
 including video lanes, control, power, and grounds.
 
-## Current status
+## Earlier status snapshot
 
 **Incomplete; signal wiring is drawn.** All four MIPI data lanes, MIPI clock,
 camera I²C, both camera GPIO controls, `3V3_CAMERA`, and ground contacts are
@@ -26,7 +35,7 @@ wired incorrectly and lacks its output capacitor. Cable orientation, connector
 pad 1, module clearance, PCB differential-pair rules, routing, and functional
 operation remain unverified.
 
-**PCB layout setup:** CN2 and CN4 are placed, and the intended MIPI routes are
+**Historical PCB layout setup:** CN2 and CN4 are placed, and the intended MIPI routes are
 on L1 over continuous L2 ground. The layout note reports that the 100-ohm
 profile and a CSI differential-pair class were created, but the current saved
 PCB still contains zero pair objects and no saved CSI class membership; the

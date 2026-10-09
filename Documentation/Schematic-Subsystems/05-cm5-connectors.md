@@ -1,6 +1,15 @@
 # 05 — CM5 Connectors and Base Connections
 
-Last updated: 2026-09-29
+Last updated: 2026-10-09
+
+## Saved PCB checkpoint - 2026-10-09
+
+The saved October 8 PCB independently confirms substantial routing and all
+nine differential-pair definitions, superseding the earlier no-pair/no-routing
+snapshot below. Finish corner GND vias, the board outline, polygon pours,
+connectivity checks, and final DRC. Differential-rule scope and USB skew need
+review. This checkpoint does not close older electrical or mechanical findings.
+See the [PCB audit](../PCB-Audit-2026-10-09.md) for current evidence.
 
 ## Purpose
 
@@ -8,7 +17,7 @@ Provide the complete electrical and mechanical interface between the CM5 and
 the carrier-board power, PCIe, camera, programming, recovery, and debug
 subsystems.
 
-## Current status
+## Earlier status snapshot
 
 **Connector component verified and approved for placement and routing.** `CN1`
 and `CN2` use the exact Raspberry Pi-specified Amphenol

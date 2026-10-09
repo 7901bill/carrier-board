@@ -890,3 +890,27 @@ plane re-pour and return-path review, placement/mechanical and silkscreen
 review, ERC/ECO consistency, and manufacturing-output review. This entry
 records the work plan and saved pair-object count; it does not declare routing,
 placement, or DRC complete.
+
+
+## 2026-10-09 - Independent saved PCB routing audit
+
+Routing is substantially implemented in the saved PCB: all nine differential
+pairs are defined and each member has top-layer tracks. Finish corner GND
+vias, revise the board outline, and add/re-pour the required polygon copper.
+Then refresh connectivity and resolve remaining DRC items in Altium. Final
+routing, impedance, and release sign-off remain open.
+
+The read-only saved-file audit found 85 connection records (83 GND and two
+`NetCN1_78`), a broadly scoped 90-ohm differential rule, and unequal USB
+track-only lengths. No DRC report was found, so a small remaining violation
+count is not independently confirmed. See the [PCB audit](PCB-Audit-2026-10-09.md) for evidence
+and the limits of this inspection.
+
+Inspected the October 8 saved PCB, hash and detailed findings recorded in the
+audit. This supersedes the October 5 no-pair-object/routing-start checkpoint.
+Confirmed nine pair objects, routed top-layer pair tracks, 105 vias (57 GND),
+two internal split-plane records, and a rectangular approximately 100 x 60 mm
+outline. Corner GND vias remain absent near the outline corners. Saved
+connectivity and rule-scope findings require Altium review; no fresh DRC or
+electrical sign-off is claimed. Earlier electrical findings remain historical
+checks pending re-verification. Documentation only was changed in this pass.

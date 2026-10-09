@@ -1,22 +1,21 @@
 # Carrier Board — Read This First
 
-## Current layout sprint — 2026-10-05
+## Current PCB finishing work - 2026-10-09
 
-The immediate priority is to finish PCB routing. Start with the nine
-high-speed differential pairs: three PCIe pairs, five MIPI CSI-2 pairs, and
-one programming USB 2.0 pair. The current saved `Watchdog PCB.PcbDoc` still
-contains zero differential-pair objects, so define and verify the pair
-objects, classes, and impedance-linked rules before routing them.
+Routing is substantially implemented in the saved PCB: all nine differential
+pairs are defined and each member has top-layer tracks. Finish corner GND
+vias, revise the board outline, and add/re-pour the required polygon copper.
+Then refresh connectivity and resolve remaining DRC items in Altium. Final
+routing, impedance, and release sign-off remain open.
 
-Routing is targeted for completion by 2026-10-06. Make any component-placement
-adjustments needed for clean escape routing, short controlled-impedance paths,
-continuous return paths, connector access, and mechanical clearance. After
-routing, run and clear DRC, review placement and silkscreen, and complete the
-remaining final checks in the following work session. This schedule is a
-working target, not evidence that the final checks have passed.
+The read-only saved-file audit found 85 connection records (83 GND and two
+`NetCN1_78`), a broadly scoped 90-ohm differential rule, and unequal USB
+track-only lengths. No DRC report was found, so a small remaining violation
+count is not independently confirmed. See the [PCB audit](Documentation/PCB-Audit-2026-10-09.md) for evidence
+and the limits of this inspection.
 
 See the [current design status](Documentation/documentation.md) and
-[prioritized task dashboard](Documentation/Schematic-Subsystems/README.md).
+[subsystem dashboard](Documentation/Schematic-Subsystems/README.md).
 
 ## Earlier schematic-review findings requiring final re-verification
 

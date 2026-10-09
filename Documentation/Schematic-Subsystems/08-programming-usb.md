@@ -1,13 +1,22 @@
 # 08 — CM5 Programming USB
 
-Last updated: 2026-09-28
+Last updated: 2026-10-09
+
+## Saved PCB checkpoint - 2026-10-09
+
+The saved October 8 PCB independently confirms substantial routing and all
+nine differential-pair definitions, superseding the earlier no-pair/no-routing
+snapshot below. Finish corner GND vias, the board outline, polygon pours,
+connectivity checks, and final DRC. Differential-rule scope and USB skew need
+review. This checkpoint does not close older electrical or mechanical findings.
+See the [PCB audit](../PCB-Audit-2026-10-09.md) for current evidence.
 
 ## Purpose
 
 Provide a dedicated USB 2.0 device connection from a development computer to
 the CM5 for initial eMMC flashing and recovery.
 
-## Current status
+## Earlier status snapshot
 
 **Correction required.** The 2026-09-19 review found programming-port cable
 ground-pad groups `A1B12` and `B1A12` without PCB nets. The current two
