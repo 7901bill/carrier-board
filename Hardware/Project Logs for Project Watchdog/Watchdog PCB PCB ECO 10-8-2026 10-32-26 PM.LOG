@@ -1,0 +1,4 @@
+Change Net Name : Old Net Name=NetCN2_3 New Net Name=USB_N
+Change Net Name : Old Net Name=NetCN2_5 New Net Name=USB_P
+Added Differential Pair: Name=USB
+Added Member To Class: ClassName=Power Rails Member=Component R10 0603WAF4022T5E
