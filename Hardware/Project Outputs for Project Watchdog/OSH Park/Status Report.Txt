@@ -1,0 +1,22 @@
+Output: Gerber Files
+Type  : Gerber
+From  : Variant [[No Variations]] of Project [Project Watchdog.PrjPcb]
+   Generated File[Watchdog PCB.GTO]
+   Generated File[Watchdog PCB.GTP]
+   Generated File[Watchdog PCB.GTS]
+   Generated File[Watchdog PCB.GTL]
+   Generated File[Watchdog PCB.G1]
+   Generated File[Watchdog PCB.G2]
+   Generated File[Watchdog PCB.GBL]
+   Generated File[Watchdog PCB.GBS]
+   Generated File[Watchdog PCB.GBP]
+   Generated File[Watchdog PCB.GBO]
+   Generated File[Watchdog PCB.GM]
+   Generated File[Watchdog PCB.EXTREP]
+   Generated File[Watchdog PCB.REP]
+
+
+Files Generated   : 13
+Documents Printed : 0
+
+Finished Output Generation At 10:16:25 PM On 10/15/2026

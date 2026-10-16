@@ -1,0 +1,20 @@
+----------------------------------------------------------------------------------------------------------------------------------
+NCDrill File Report For: Watchdog PCB.PcbDoc   10/15/2026  10:27:23 PM
+----------------------------------------------------------------------------------------------------------------------------------
+
+Layer Pair : SIG 1 to SIG 2
+ASCII RoundHoles File : Watchdog PCB-RoundHoles.TXT
+ASCII SlotHoles File : Watchdog PCB-SlotHoles.TXT
+
+Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
+----------------------------------------------------------------------------------------------------------------------------------
+T1      0.3mm (12mil)                                             Round             143       PTH        653.74mm (25.74inch)
+T2      0.6mm (24mil)                                             Slot              8         PTH        88.89mm (3.50inch)
+T3      2.75mm (108mil)                                           Round             4         PTH        294.03mm (11.58inch)
+T4      0.65mm (26mil)                                            Round             4         NPTH       18.26mm (0.72inch)
+T5      1.1mm (43mil)                                             Round             1         NPTH       0.00mm (0.00inch)
+T6      1.6mm (63mil)                                             Round             1         NPTH       0.00mm (0.00inch)
+----------------------------------------------------------------------------------------------------------------------------------
+Totals                                                                              161
+
+Total Processing Time (hh:mm:ss) : 00:00:01

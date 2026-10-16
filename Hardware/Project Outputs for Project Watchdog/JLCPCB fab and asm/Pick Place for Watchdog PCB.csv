@@ -1,0 +1,56 @@
+Altium Designer Pick and Place Locations
+C:\Users\Bill\Desktop\Bill's Folder\Altium\Project Watchdog_current\Hardware\Project Outputs for Project Watchdog\Pick Place for Watchdog PCB.csv
+
+========================================================================================================================
+File Design Information:
+
+Date:       15/10/26
+Time:       22:26
+Revision:   062152325c732d2aad8de3a910352f894650f073
+Variant:    No variations
+Units used: mm
+
+"Designator","Comment","Layer","Footprint","Center-X(mm)","Center-Y(mm)","Rotation","Description"
+"USB2","TYPEC-304J-BCP16","TopLayer","USB-C-SMD_TYPEC-304J-BCP16","50.2750","5.5250","0","USB-C (USB TYPE-C) Receptacle Connector 16 Position Surface Mount, Right Angle"
+"USB1","TYPEC-304J-BCP16","TopLayer","USB-C-SMD_TYPEC-304J-BCP16","37.8000","5.4563","0","USB-C (USB TYPE-C) Receptacle Connector 16 Position Surface Mount, Right Angle"
+"R10","0603WAF4022T5E","BottomLayer","R0603","24.7034","25.0000","0","40.2kÎ© Â±1% 100mW 0603 Thick Film Resistor"
+"R3","0603WAF5101T5E","TopLayer","R0603","52.7250","10.0000","180","5.1kÎ© Â±1% 100mW 0603 Thick Film Resistor"
+"R2","0603WAF5101T5E","TopLayer","R0603","46.8000","9.9750","0","5.1kÎ© Â±1% 100mW 0603 Thick Film Resistor"
+"R7","RT0603BRD0722K1L","BottomLayer","R0603","3.5500","46.7250","270","22.1kÎ© 100mW 75V Thin Film Resistor Â±25ppm/â„ƒ Â±0.1% 0603 Chip Resistor - Surface Mount RoHS"
+"U2","CH224A","TopLayer","ESSOP-10_L4.9-W3.9-P1.0-LS6.0-TL-EP","27.3750","4.5249","0","Power Receiver Controller 1C 140W ESSOP-10 Power Management - Specialized RoHS"
+"U3","AP2112K-3.3TRG1","BottomLayer","SOT-25-5_L2.9-W1.6-P0.95-LS2.8-BL","82.4750","5.4750","180","3.3V Positive Fixed SOT-25-5 Voltage Regulators - Linear, Low Drop Out (LDO) Regulators RoHS"
+"U1","TPS54302DDCR","BottomLayer","SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL","10.1000","45.6000","270","Buck Switching Regulator IC Adjustable 1 Output 3A TSOT-23-6"
+"CN3","91302-42-067RDM","TopLayer","CONN-SMD_91302-32-067RDM","30.5250","51.5750","180","67P Surface Mount, Right Angle SMD,P=0.5mm Centronics Connectors RoHS"
+"SW","TS-1088R-02026","TopLayer","SW-SMD_L3.9-W3.0-P4.45","91.7750","3.4750","270","Tactile Switch SPST 2mm 3.9mm x 2.93mm Surface Mount"
+"U8","UART","TopLayer","CONN-TH_SM03B-GHS-TB-LF-SN","84.8750","3.9250","0","Connector Header 3 position 1.25mm Pitch 1A Surface Mount, Right Angle -25â„ƒ~+85â„ƒ"
+"U6","CYA1250-3.3UH","BottomLayer","IND-SMD_L13.8-W12.8","34.8000","32.8750","0","20A 3.3uH ±20% 32A Molded inductor SMD,13.8x12.8mm Fixed Inductors"
+"U5","MP2329GG-Z","BottomLayer","QFN-11_L2.0-W2.0-P0.50_MP2384CGG-Z","22.4510","31.0749","0","MP2329GG-Z"
+"U4","CXP0530-6R8M-AG(6.8uh)","BottomLayer","IND-SMD_L5.7-W5.2","16.1000","52.8000","90","3.5A 6.8uH Â±20% 5A 70mÎ© Molded inductor SMD,5.7x5.2mm Fixed Inductors"
+"R9","FRQ0603F5491TS","BottomLayer","R0603","24.7000","23.4500","180","5.49kÎ© 100mW 75V Thick Film Resistor Â±100ppm/â„ƒ Â±1% 0603 Chip Resistor - Surface Mount"
+"R8","0603WAF1003T5E","BottomLayer","R0603","5.3000","46.7500","90","100kÎ© Â±1% 100mW 0603 Thick Film Resistor"
+"R6","0603WAF1003T5E","BottomLayer","R0603","22.2500","33.7000","0","100kÎ© Â±1% 100mW 0603 Thick Film Resistor"
+"R5","0603WAF4533T5E","BottomLayer","R0603","21.5750","19.9250","180","453kÎ© Â±1% 100mW 0603 Thick Film Resistor"
+"R4","0603WAF1003T5E","BottomLayer","R0603","24.8284","19.9250","180","100kÎ© Â±1% 100mW 0603 Thick Film Resistor"
+"R1","CQ03WAJ0682T5E","TopLayer","R0603","23.7500","7.0500","270","6.8kÎ© Â±5% 100mW 0603 Thick Film Resistor AEC-Q200"
+"F1","Fuse","TopLayer","F1206","19.6750","6.1250","90","3A Fuse Surface Mount 1206"
+"D1","TVS","BottomLayer","SMB_L4.6-W3.6-LS5.3-RD","23.0000","16.8000","180","21.5VC Clamp 28A@10/1000us Ipp TVS DIODE DO-214AA"
+"CN4","CSI Connector","TopLayer","FPC-SMD_22P-P0.50_FH55-22S-0.5SH","72.1498","3.5488","0","Flip-Top -55â„ƒ~+85â„ƒ 22P 0.5mm 500mA 50V Gold Surface Mount, Right Angle Phosphor bronze SMD,P=0.5mm FFC, FPC (Flat Flexible) Connector Assemblies RoHS"
+"CN2","10164227-1001A1RLF","TopLayer","CONN-SMD_100P-P0.40_10164227-1001A1RLF","77.6500","23.2250","0","100 Position Board to Board Connector Surface Mount,P=0.4mm Gold"
+"CN1","10164227-1001A1RLF","TopLayer","CONN-SMD_100P-P0.40_10164227-1001A1RLF","77.6600","56.2217","0","100 Position Board to Board Connector Surface Mount,P=0.4mm Gold"
+"C17","CL21A226MAQNNNE","BottomLayer","C0805","29.1250","15.4250","180","22uF ±20% 25V Ceramic Capacitor X5R 0805"
+"C16","CL21A226MAQNNNE","BottomLayer","C0805","29.0500","17.7500","180","22uF ±20% 25V Ceramic Capacitor X5R 0805"
+"C15","CC0603KRX5R9BB105","BottomLayer","C0603","83.4875","1.5250","0","1uF ±10% 50V Ceramic Capacitor X5R 0603"
+"C14","CL21A226MAQNNNE","BottomLayer","C0805","29.0250","20.2000","180","22uF ±20% 25V Ceramic Capacitor X5R 0805"
+"C13","TCC0603COG330F500CT","BottomLayer","C0603","24.7750","26.8250","0","33pF C0G ±1% 50V 0603 Ceramic Capacitors"
+"C12","CL10B224KA8NNNC","BottomLayer","C0603","25.0750","32.3500","270","220nF ±10% 25V Ceramic Capacitor X7R 0603"
+"C11","0603CG470J500NT","BottomLayer","C0603","7.1750","46.9000","90","47pF ±5% 50V Ceramic Capacitor C0G 0603"
+"C10","CC0603KRX5R9BB105","BottomLayer","C0603","24.8250","28.5750","180","1uF ±10% 50V Ceramic Capacitor X5R 0603"
+"C9","CL21A226MAQNNNE","BottomLayer","C0805","9.8000","53.5500","270","22uF ±20% 25V Ceramic Capacitor X5R 0805"
+"C8","CL21A226MAQNNNE","BottomLayer","C0805","12.0000","53.6000","270","22uF ±20% 25V Ceramic Capacitor X5R 0805"
+"C7","CL10B104JB8NNNC","BottomLayer","C0603","10.8250","50.3250","180","100nF ±5% 50V Ceramic Capacitor X7R 0603"
+"C6","CL21A226MAQNNNE","BottomLayer","C0805","18.7750","24.0500","0","22uF ±20% 25V Ceramic Capacitor X5R 0805"
+"C5","CL21A226MAQNNNE","BottomLayer","C0805","18.8000","26.2750","0","22uF ±20% 25V Ceramic Capacitor X5R 0805"
+"C4","CL10B104JB8NNNC","BottomLayer","C0603","19.3000","28.1750","0","100nF ±5% 50V Ceramic Capacitor X7R 0603"
+"C3","CL10B104JB8NNNC","BottomLayer","C0603","13.4750","45.2750","90","100nF ±5% 50V Ceramic Capacitor X7R 0603"
+"C2","CL21A226MAQNNNE","BottomLayer","C0805","15.6000","44.7750","270","22uF ±20% 25V Ceramic Capacitor X5R 0805"
+"C1","CC0603KRX5R9BB105","TopLayer","C0603","21.9250","6.8750","270","1uF ±10% 50V Ceramic Capacitor X5R 0603"
