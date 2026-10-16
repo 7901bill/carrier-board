@@ -1,8 +1,24 @@
 # 08 — CM5 Programming USB
 
-Last updated: 2026-10-09
+Last updated: 2026-10-14
 
-## Saved PCB checkpoint - 2026-10-09
+## Current release status — 2026-10-14
+
+Bill reports routing, DRC, polygon pour, electrical testing, high-speed,
+mechanical, and power verification complete. The earlier review findings in
+this file are retained as historical records and are closed as active release
+checklist blockers under that completion report. Specific correction details
+and test results were not supplied; no independent CAD audit or test was
+performed in this documentation pass.
+
+Remaining work: Finalize programming-port component sourcing and carry the final populated circuit into the assembly BOM and drawings.
+
+Prepare the final fabrication/assembly package using the
+[current checklist](../documentation.md). No schematic/PCB edits or manufacturing
+exports were made in this pass. This update does not claim post-assembly
+software or functional bring-up has occurred.
+
+## Historical saved PCB checkpoint - 2026-10-09 — superseded as release blockers
 
 The saved October 8 PCB independently confirms substantial routing and all
 nine differential-pair definitions, superseding the earlier no-pair/no-routing
@@ -16,7 +32,7 @@ See the [PCB audit](../PCB-Audit-2026-10-09.md) for current evidence.
 Provide a dedicated USB 2.0 device connection from a development computer to
 the CM5 for initial eMMC flashing and recovery.
 
-## Earlier status snapshot
+## Historical status snapshot — superseded by the 2026-10-14 completion report
 
 **Correction required.** The 2026-09-19 review found programming-port cable
 ground-pad groups `A1B12` and `B1A12` without PCB nets. The current two
@@ -118,3 +134,8 @@ development computer.
 - 2026-09-28: Layout setup placed USBC2/CN2 and reportedly calculated the
   90-ohm profile. Saved-CAD review still found no USB pair object or
   profile-linked rule, so the interface is not routing-ready.
+
+- 2026-10-14: Updated current release status from Bill's completion report.
+  Electrical, power, high-speed, mechanical, routing, DRC, and pour checks are
+  closed as release checklist items. Only sourcing and manufacturing file
+  preparation remain; older findings are preserved as superseded history.

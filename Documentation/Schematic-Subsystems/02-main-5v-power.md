@@ -1,8 +1,24 @@
 # 02 — Main 5 V Power Supply
 
-Last updated: 2026-10-09
+Last updated: 2026-10-14
 
-## Saved PCB checkpoint - 2026-10-09
+## Current release status — 2026-10-14
+
+Bill reports routing, DRC, polygon pour, electrical testing, high-speed,
+mechanical, and power verification complete. The earlier review findings in
+this file are retained as historical records and are closed as active release
+checklist blockers under that completion report. Specific correction details
+and test results were not supplied; no independent CAD audit or test was
+performed in this documentation pass.
+
+Remaining work: Settle U5 procurement and final passive sourcing. The earlier TPS56837RPAR candidate requires a redesign and has not been accepted for this routed board.
+
+Prepare the final fabrication/assembly package using the
+[current checklist](../documentation.md). No schematic/PCB edits or manufacturing
+exports were made in this pass. This update does not claim post-assembly
+software or functional bring-up has occurred.
+
+## Historical saved PCB checkpoint - 2026-10-09 — superseded as release blockers
 
 The saved October 8 PCB independently confirms substantial routing and all
 nine differential-pair definitions, superseding the earlier no-pair/no-routing
@@ -11,7 +27,7 @@ connectivity checks, and final DRC. Differential-rule scope and USB skew need
 review. This checkpoint does not close older electrical or mechanical findings.
 See the [PCB audit](../PCB-Audit-2026-10-09.md) for current evidence.
 
-## Open review actions — 2026-09-19
+## Historical review actions — 2026-09-19 — superseded as release blockers
 
 - Open: the 6.5 A converter rating is not the available system budget.
   A 5 V/6.5 A load is 32.5 W, exceeding the 27 W input before losses.
@@ -29,7 +45,7 @@ in the [main design status](../documentation.md).
 Convert the negotiated 9 V input into the shared `5V_MAIN` rail used by the
 CM5 and the local Hailo and camera regulators.
 
-## Earlier status snapshot
+## Historical status snapshot — superseded by the 2026-10-14 completion report
 
 **Schematic complete and transferred to PCB.** The converter and target rail
 are confirmed. Peak-load, transient, efficiency, and thermal verification
@@ -106,3 +122,8 @@ final current and thermal budget.
   complete, but the reported `5V` plane/net rename is not reflected in the
   current saved net table. Main-converter loop routing is the first routing
   priority after the open schematic corrections and net/plane verification.
+
+- 2026-10-14: Updated current release status from Bill's completion report.
+  Electrical, power, high-speed, mechanical, routing, DRC, and pour checks are
+  closed as release checklist items. Only sourcing and manufacturing file
+  preparation remain; older findings are preserved as superseded history.

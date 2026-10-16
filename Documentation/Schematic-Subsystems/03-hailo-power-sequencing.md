@@ -1,8 +1,24 @@
 # 03 — Hailo Power and Reset Sequencing
 
-Last updated: 2026-10-09
+Last updated: 2026-10-14
 
-## Saved PCB checkpoint - 2026-10-09
+## Current release status — 2026-10-14
+
+Bill reports routing, DRC, polygon pour, electrical testing, high-speed,
+mechanical, and power verification complete. The earlier review findings in
+this file are retained as historical records and are closed as active release
+checklist blockers under that completion report. Specific correction details
+and test results were not supplied; no independent CAD audit or test was
+performed in this documentation pass.
+
+Remaining work: Finalize the 47 pF and 100 nF capacitor sourcing and record the accepted codes in the final BOM.
+
+Prepare the final fabrication/assembly package using the
+[current checklist](../documentation.md). No schematic/PCB edits or manufacturing
+exports were made in this pass. This update does not claim post-assembly
+software or functional bring-up has occurred.
+
+## Historical saved PCB checkpoint - 2026-10-09 — superseded as release blockers
 
 The saved October 8 PCB independently confirms substantial routing and all
 nine differential-pair definitions, superseding the earlier no-pair/no-routing
@@ -16,7 +32,7 @@ See the [PCB audit](../PCB-Audit-2026-10-09.md) for current evidence.
 Generate the dedicated Hailo-8L 3.3 V rail and ensure that the module remains
 in reset until its supply is stable.
 
-## Earlier status snapshot
+## Historical status snapshot — superseded by the 2026-10-14 completion report
 
 **Correction required.** The Hailo rail reaches all five M.2 power contacts,
 but C8-1 and C9-1 have no PCB net; only their ground pads are connected.
@@ -58,7 +74,7 @@ their current state directly in Altium before closing this item.
   - 100 nF bootstrap capacitor `C14663`.
 - `3V3_HAILO` must be stable before M.2 `PERST#` is released.
 
-## Implemented content and open correction
+## Historical implementation and correction findings — superseded as release blockers
 
 - TPS54302 and selected passives are placed, but output capacitors C8/C9
   require connection before the supply can be considered complete.
@@ -69,7 +85,7 @@ their current state directly in Altium before closing this item.
   TPS54302 input/boot/switch/inductor/output loops and local decoupling before
   ordinary signals. Keep the switch node and inductor away from the PCIe pairs.
 
-## Verification remaining
+## Historical verification checklist — release status superseded
 
 - Confirm useful test access for `5V_MAIN`, `3V3_HAILO`, reset, and ground.
 - Review direct CN2-9 to CN3-50 PERST# behavior with no supply-good gating;
@@ -113,3 +129,8 @@ their current state directly in Altium before closing this item.
   connections; reset-timing and prototype validation remain open.
 - 2026-09-28: Components are placed and power-loop routing is next, but C8/C9
   must be corrected and verified first. No routing completion is claimed.
+
+- 2026-10-14: Updated current release status from Bill's completion report.
+  Electrical, power, high-speed, mechanical, routing, DRC, and pour checks are
+  closed as release checklist items. Only sourcing and manufacturing file
+  preparation remain; older findings are preserved as superseded history.

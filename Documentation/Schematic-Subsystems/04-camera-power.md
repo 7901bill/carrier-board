@@ -1,12 +1,28 @@
 # 04 — Camera Power
 
-Last updated: 2026-09-28
+Last updated: 2026-10-14
+
+## Current release status — 2026-10-14
+
+Bill reports routing, DRC, polygon pour, electrical testing, high-speed,
+mechanical, and power verification complete. The earlier review findings in
+this file are retained as historical records and are closed as active release
+checklist blockers under that completion report. Specific correction details
+and test results were not supplied; no independent CAD audit or test was
+performed in this documentation pass.
+
+Remaining work: Finalize the 1 µF capacitor sourcing and reflect the final populated design and quantities in the BOM.
+
+Prepare the final fabrication/assembly package using the
+[current checklist](../documentation.md). No schematic/PCB edits or manufacturing
+exports were made in this pass. This update does not claim post-assembly
+software or functional bring-up has occurred.
 
 ## Purpose
 
 Provide a quiet, dedicated 3.3 V rail to the Raspberry Pi camera connector.
 
-## Current status
+## Historical status snapshot — superseded by the 2026-10-14 completion report
 
 **Critical correction required.** The AP2112 is now `U3` (formerly `U7`).
 The 2026-09-24 PCB ECO retained the incorrect physical pin mapping, and the
@@ -91,3 +107,8 @@ See the consolidated [main design status](../documentation.md).
   1 µF X5R capacitors, EN tied to `5V_MAIN`, and NC open. The later saved-CAD
   review superseded the completion claim: U3 is wired incorrectly and the
   output capacitor is missing. The 300 mA value remains a thermal review case.
+
+- 2026-10-14: Updated current release status from Bill's completion report.
+  Electrical, power, high-speed, mechanical, routing, DRC, and pour checks are
+  closed as release checklist items. Only sourcing and manufacturing file
+  preparation remain; older findings are preserved as superseded history.

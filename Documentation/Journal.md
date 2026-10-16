@@ -914,3 +914,34 @@ outline. Corner GND vias remain absent near the outline corners. Saved
 connectivity and rule-scope findings require Altium review; no fresh DRC or
 electrical sign-off is claimed. Earlier electrical findings remain historical
 checks pending re-verification. Documentation only was changed in this pass.
+
+---
+
+## 2026-10-14 — User-reported design completion and remaining release work
+
+Bill reports that routing, DRC, polygon pour, electrical testing, high-speed
+verification, mechanical verification, and power verification are complete.
+This supersedes the September and October 9 findings as active release
+checklist blockers. The earlier dated audits remain preserved as history.
+Specific correction details and test measurements were not supplied, and no
+new independent CAD audit or electrical test was performed in this pass.
+
+The remaining scope is final component sourcing and compiling the necessary
+fabrication and assembly files. Prepare one consistent final-revision package:
+four-layer Gerbers plus outline/mask/silkscreen and NC Drill data; final BOM;
+CPL/pick-and-place; assembly drawings/notes; fabrication/stackup notes;
+schematic PDF; and the retained DRC report. Review the exported geometry,
+drills, component rotations, and BOM/CPL population before handoff.
+
+The October 14 sourcing review proposes C128624 for C15849, C24452 for
+C466768, and C105622 for C1671. C24452 could also consolidate C14663 uses.
+These are recommendations, not recorded implemented substitutions. U5
+procurement remains unresolved: TPS56837RPAR / C22428366 is a stocked
+functional candidate requiring schematic/PCB redesign, not an accepted
+replacement for the routed MP2329. Do not treat it as a finalized BOM choice.
+See ../Hardware/LCSC_replacement_review_2026-10-14.md for the research.
+
+No standalone OutJob or manufacturing exports were found in the working
+folders. No manufacturing files were generated or submitted. This pass changes
+only documentation, as requested; software must not be opened for this task.
+The assembly provider has not been confirmed in this session.

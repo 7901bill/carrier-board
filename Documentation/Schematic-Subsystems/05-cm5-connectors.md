@@ -1,8 +1,24 @@
 # 05 — CM5 Connectors and Base Connections
 
-Last updated: 2026-10-09
+Last updated: 2026-10-14
 
-## Saved PCB checkpoint - 2026-10-09
+## Current release status — 2026-10-14
+
+Bill reports routing, DRC, polygon pour, electrical testing, high-speed,
+mechanical, and power verification complete. The earlier review findings in
+this file are retained as historical records and are closed as active release
+checklist blockers under that completion report. Specific correction details
+and test results were not supplied; no independent CAD audit or test was
+performed in this documentation pass.
+
+Remaining work: Finalize connector procurement and include the verified final identities and orientations in the assembly package.
+
+Prepare the final fabrication/assembly package using the
+[current checklist](../documentation.md). No schematic/PCB edits or manufacturing
+exports were made in this pass. This update does not claim post-assembly
+software or functional bring-up has occurred.
+
+## Historical saved PCB checkpoint - 2026-10-09 — superseded as release blockers
 
 The saved October 8 PCB independently confirms substantial routing and all
 nine differential-pair definitions, superseding the earlier no-pair/no-routing
@@ -17,7 +33,7 @@ Provide the complete electrical and mechanical interface between the CM5 and
 the carrier-board power, PCIe, camera, programming, recovery, and debug
 subsystems.
 
-## Earlier status snapshot
+## Historical status snapshot — superseded by the 2026-10-14 completion report
 
 **Connector component verified and approved for placement and routing.** `CN1`
 and `CN2` use the exact Raspberry Pi-specified Amphenol
@@ -87,7 +103,7 @@ placement checks, not reasons to change the verified connector component.
 - Explicit no-connect markers for every intentionally unused pin.
 - Clear cross-sheet net labels with consistent spelling.
 
-## Remaining board-level checks
+## Historical board-level checks — superseded as release blockers
 
 1. Both connectors are placed; confirm final CM5 mechanical alignment,
    orientation, retention, installed-module clearance, and 1:1 assembly fit.
@@ -137,3 +153,8 @@ placement checks, not reasons to change the verified connector component.
   manufacturer's 100-pad land pattern. No connector-library change is needed.
   The placed instances are approved for routing, subject only to the remaining
   board-level alignment, clearance, and final fit checks above.
+
+- 2026-10-14: Updated current release status from Bill's completion report.
+  Electrical, power, high-speed, mechanical, routing, DRC, and pour checks are
+  closed as release checklist items. Only sourcing and manufacturing file
+  preparation remain; older findings are preserved as superseded history.

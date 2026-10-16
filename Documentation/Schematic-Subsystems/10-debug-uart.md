@@ -1,6 +1,22 @@
 # 10 — Debug UART
 
-Last updated: 2026-09-19
+Last updated: 2026-10-14
+
+## Current release status — 2026-10-14
+
+Bill reports routing, DRC, polygon pour, electrical testing, high-speed,
+mechanical, and power verification complete. The earlier review findings in
+this file are retained as historical records and are closed as active release
+checklist blockers under that completion report. Specific correction details
+and test results were not supplied; no independent CAD audit or test was
+performed in this documentation pass.
+
+Remaining work: Finalize UART-connector sourcing and carry pin labels and orientation into the assembly drawing.
+
+Prepare the final fabrication/assembly package using the
+[current checklist](../documentation.md). No schematic/PCB edits or manufacturing
+exports were made in this pass. This update does not claim post-assembly
+software or functional bring-up has occurred.
 
 ## Purpose
 
@@ -8,7 +24,7 @@ Provide a simple, independent serial-console path for observing CM5 bootloader,
 kernel, and early userspace messages when USB software, Wi-Fi, or SSH is not
 working.
 
-## Current status
+## Historical status snapshot — superseded by the 2026-10-14 completion report
 
 **Schematic complete and transferred to PCB.** The CM5 pins are routed to the
 three-pin JST debug connector with TX, RX, and GND. The interface remains
@@ -68,3 +84,8 @@ and userspace/service failures.
   troubleshooting guidance.
 - 2026-09-19: Completed the JST GH UART interface and transferred it to the
   PCB document. Accessibility and silkscreen pin labeling remain layout tasks.
+
+- 2026-10-14: Updated current release status from Bill's completion report.
+  Electrical, power, high-speed, mechanical, routing, DRC, and pour checks are
+  closed as release checklist items. Only sourcing and manufacturing file
+  preparation remain; older findings are preserved as superseded history.

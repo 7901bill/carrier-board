@@ -1,8 +1,24 @@
 # 06 — Hailo-8L M.2 and PCIe
 
-Last updated: 2026-10-09
+Last updated: 2026-10-14
 
-## Saved PCB checkpoint - 2026-10-09
+## Current release status — 2026-10-14
+
+Bill reports routing, DRC, polygon pour, electrical testing, high-speed,
+mechanical, and power verification complete. The earlier review findings in
+this file are retained as historical records and are closed as active release
+checklist blockers under that completion report. Specific correction details
+and test results were not supplied; no independent CAD audit or test was
+performed in this documentation pass.
+
+Remaining work: Finalize the mechanically verified connector identity and sourcing in the BOM; include retention/orientation notes in the assembly package.
+
+Prepare the final fabrication/assembly package using the
+[current checklist](../documentation.md). No schematic/PCB edits or manufacturing
+exports were made in this pass. This update does not claim post-assembly
+software or functional bring-up has occurred.
+
+## Historical saved PCB checkpoint - 2026-10-09 — superseded as release blockers
 
 The saved October 8 PCB independently confirms substantial routing and all
 nine differential-pair definitions, superseding the earlier no-pair/no-routing
@@ -11,7 +27,7 @@ connectivity checks, and final DRC. Differential-rule scope and USB skew need
 review. This checkpoint does not close older electrical or mechanical findings.
 See the [PCB audit](../PCB-Audit-2026-10-09.md) for current evidence.
 
-## Open review actions — 2026-09-24
+## Historical review actions — 2026-09-24 — superseded as release blockers
 
 - **HIGH PRIORITY - CN3 release blocker. Resolve before PCB fabrication or
   connector procurement.** The selected schematic and BoM DesignItemId is
@@ -46,7 +62,7 @@ in the [main design status](../documentation.md).
 Connect the Hailo-8L module to the CM5 over PCIe Gen 2 x1 and provide its
 power, clock, reset, and ground connections.
 
-## Earlier status snapshot
+## Historical status snapshot — superseded by the 2026-10-14 completion report
 
 **Schematic wiring complete.** The M.2 power, ground, PCIe lane 0, reference
 clock, reset, and clock-request signals are connected to the CM5 connector.
@@ -112,7 +128,7 @@ endpoint's receive signals connect to the host's transmit signals.
 - Local bulk and high-frequency M.2 decoupling.
 - Net-label continuity between the M.2 sheet and CM5 connector sheet.
 
-## PCB-layout work remaining
+## Historical PCB-layout checklist — superseded as release blockers
 
 - Define `PCIe_TX_P/N`, `PCIe_RX_P/N`, and `PCIe_CLK_P/N` as differential
   pairs.
@@ -169,3 +185,8 @@ endpoint's receive signals connect to the host's transmit signals.
   calculated the 90-ohm profile. Saved-CAD review still found zero pair
   objects and the generic unlinked rule, so pair/class/rule completion remains
   open before routing.
+
+- 2026-10-14: Updated current release status from Bill's completion report.
+  Electrical, power, high-speed, mechanical, routing, DRC, and pour checks are
+  closed as release checklist items. Only sourcing and manufacturing file
+  preparation remain; older findings are preserved as superseded history.

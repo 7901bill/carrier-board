@@ -1,8 +1,24 @@
 # 01 — USB-C Power Input and Power Delivery
 
-Last updated: 2026-09-19
+Last updated: 2026-10-14
 
-## Open review actions — 2026-09-19
+## Current release status — 2026-10-14
+
+Bill reports routing, DRC, polygon pour, electrical testing, high-speed,
+mechanical, and power verification complete. The earlier review findings in
+this file are retained as historical records and are closed as active release
+checklist blockers under that completion report. Specific correction details
+and test results were not supplied; no independent CAD audit or test was
+performed in this documentation pass.
+
+Remaining work: Finalize sourcing for the input/PD parts and input capacitor; include the final parts in the BOM and assembly drawings.
+
+Prepare the final fabrication/assembly package using the
+[current checklist](../documentation.md). No schematic/PCB edits or manufacturing
+exports were made in this pass. This update does not claim post-assembly
+software or functional bring-up has occurred.
+
+## Historical review actions — 2026-09-19 — superseded as release blockers
 
 - Open: validate simultaneous CM5/Hailo/camera load against the 9 V/3 A
   source (27 W before conversion losses), fuse derating and transient demand.
@@ -19,7 +35,7 @@ in the [main design status](../documentation.md).
 Accept DC power from an external USB-C PD charger, request 9 V, protect the
 board input, and deliver the negotiated supply to the main 5 V converter.
 
-## Current status
+## Historical status snapshot — superseded by the 2026-10-14 completion report
 
 **Schematic complete and transferred to PCB.** The connector, negotiation
 controller, requested voltage, and simplified fuse-plus-TVS Rev A protection
@@ -87,3 +103,8 @@ are implemented. The MP2329 enable network prevents startup from the default
 ## Session notes
 
 - 2026-09-18: Initial subsystem draft created from confirmed project records.
+
+- 2026-10-14: Updated current release status from Bill's completion report.
+  Electrical, power, high-speed, mechanical, routing, DRC, and pour checks are
+  closed as release checklist items. Only sourcing and manufacturing file
+  preparation remain; older findings are preserved as superseded history.

@@ -1,13 +1,29 @@
 # 11 — Status Indicators and Test Points
 
-Last updated: 2026-09-18
+Last updated: 2026-10-14
+
+## Current release status — 2026-10-14
+
+Bill reports routing, DRC, polygon pour, electrical testing, high-speed,
+mechanical, and power verification complete. The earlier review findings in
+this file are retained as historical records and are closed as active release
+checklist blockers under that completion report. Specific correction details
+and test results were not supplied; no independent CAD audit or test was
+performed in this documentation pass.
+
+Remaining work: Include existing test-point labels, any populated indicators, and do-not-populate notes in the assembly drawings and BOM. Optional new indicators are outside this release-file task.
+
+Prepare the final fabrication/assembly package using the
+[current checklist](../documentation.md). No schematic/PCB edits or manufacturing
+exports were made in this pass. This update does not claim post-assembly
+software or functional bring-up has occurred.
 
 ## Purpose
 
 Provide safe measurement and visible diagnostic access during initial power-up,
 CM5 flashing, boot, camera bring-up, and Hailo bring-up.
 
-## Current status
+## Historical status snapshot — superseded by the 2026-10-14 completion report
 
 **Rough draft.** The need for diagnostic access is confirmed. Visible main
 power and PD-negotiation indicators are planned. Additional per-subsystem LEDs
@@ -79,3 +95,8 @@ and physical test-point package choices can be decided later.
 ## Session notes
 
 - 2026-09-18: Initial status/test-access draft created.
+
+- 2026-10-14: Updated current release status from Bill's completion report.
+  Electrical, power, high-speed, mechanical, routing, DRC, and pour checks are
+  closed as release checklist items. Only sourcing and manufacturing file
+  preparation remain; older findings are preserved as superseded history.

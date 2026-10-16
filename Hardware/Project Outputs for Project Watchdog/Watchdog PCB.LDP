@@ -1,0 +1,3 @@
+Layer Pairs Export File for PCB: C:\Users\7901b\Desktop\Altium\Project Watchdog_Current\Hardware\Schematics & PCB\Watchdog PCB.PcbDoc
+LayersSetName=Top_Bot_Thru_Holes|DrillFile=watchdog pcb-roundholes.txt|DrillLayers=gtl,gp1,gp2,gbl
+LayersSetName=Top_Bot_Slot_Holes|DrillFile=watchdog pcb-slotholes.txt|DrillLayers=gtl,gp1,gp2,gbl

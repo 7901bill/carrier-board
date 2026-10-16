@@ -1,0 +1,65 @@
+Removed Pin From Net: NetName=GND Pin=USBC1-1
+Removed Pin From Net: NetName=GND Pin=USBC1-2
+Removed Pin From Net: NetName=GND Pin=USBC1-3
+Removed Pin From Net: NetName=GND Pin=USBC1-4
+Removed Pin From Net: NetName=GND Pin=USBC1-A1B12
+Removed Pin From Net: NetName=NetF1_2 Pin=USBC1-A4B9
+Removed Pin From Net: NetName=NetU2_7 Pin=USBC1-A5
+Removed Pin From Net: NetName=NetU2_4 Pin=USBC1-A6
+Removed Pin From Net: NetName=NetU2_5 Pin=USBC1-A7
+Removed Pin From Net: NetName=GND Pin=USBC1-B1A12
+Removed Pin From Net: NetName=NetF1_2 Pin=USBC1-B4A9
+Removed Pin From Net: NetName=NetU2_6 Pin=USBC1-B5
+Removed Pin From Net: NetName=NetU2_4 Pin=USBC1-B6
+Removed Pin From Net: NetName=NetU2_5 Pin=USBC1-B7
+Removed Pin From Net: NetName=GND Pin=USBC2-1
+Removed Pin From Net: NetName=GND Pin=USBC2-2
+Removed Pin From Net: NetName=GND Pin=USBC2-3
+Removed Pin From Net: NetName=GND Pin=USBC2-4
+Removed Pin From Net: NetName=GND Pin=USBC2-A1B12
+Removed Pin From Net: NetName=NetR3_2 Pin=USBC2-A5
+Removed Pin From Net: NetName=USB_P Pin=USBC2-A6
+Removed Pin From Net: NetName=USB_N Pin=USBC2-A7
+Removed Pin From Net: NetName=GND Pin=USBC2-B1A12
+Removed Pin From Net: NetName=NetR2_2 Pin=USBC2-B5
+Removed Pin From Net: NetName=USB_P Pin=USBC2-B6
+Removed Pin From Net: NetName=USB_N Pin=USBC2-B7
+Removed Member From Class: ClassName=USBC_Protection Member=USBC1
+Removed Member From Class: ClassName=USBC_Protection Member=USBC2
+Added Component: Designator=USB1(USB-C-SMD_TYPEC-304J-BCP16)
+Add component (AddParameter): Name = "Name"; Value = "C2835315"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "LCSC"; VariantName = "[No Variations]"
+Added Component: Designator=USB2(USB-C-SMD_TYPEC-304J-BCP16)
+Add component (AddParameter): Name = "Name"; Value = "C2835315"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "LCSC"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=USB1-13
+Added Pin To Net: NetName=GND Pin=USB1-14
+Added Pin To Net: NetName=GND Pin=USB1-15
+Added Pin To Net: NetName=GND Pin=USB1-16
+Added Pin To Net: NetName=GND Pin=USB1-A1B12
+Added Pin To Net: NetName=NetF1_2 Pin=USB1-A4B9
+Added Pin To Net: NetName=NetU2_6 Pin=USB1-A5
+Added Pin To Net: NetName=NetU2_4 Pin=USB1-A6
+Added Pin To Net: NetName=NetU2_5 Pin=USB1-A7
+Added Pin To Net: NetName=GND Pin=USB1-B1A12
+Added Pin To Net: NetName=NetF1_2 Pin=USB1-B4A9
+Added Pin To Net: NetName=NetU2_7 Pin=USB1-B5
+Added Pin To Net: NetName=NetU2_4 Pin=USB1-B6
+Added Pin To Net: NetName=NetU2_5 Pin=USB1-B7
+Added Pin To Net: NetName=GND Pin=USB2-13
+Added Pin To Net: NetName=GND Pin=USB2-14
+Added Pin To Net: NetName=GND Pin=USB2-15
+Added Pin To Net: NetName=GND Pin=USB2-16
+Added Pin To Net: NetName=GND Pin=USB2-A1B12
+Added Pin To Net: NetName=NetR2_2 Pin=USB2-A5
+Added Pin To Net: NetName=USB_P Pin=USB2-A6
+Added Pin To Net: NetName=USB_N Pin=USB2-A7
+Added Pin To Net: NetName=GND Pin=USB2-B1A12
+Added Pin To Net: NetName=NetR3_2 Pin=USB2-B5
+Added Pin To Net: NetName=USB_P Pin=USB2-B6
+Added Pin To Net: NetName=USB_N Pin=USB2-B7
+Added Pin To Net: NetName=NetUSB2_A4B9 Pin=USB2-A4B9
+Added Pin To Net: NetName=NetUSB2_A4B9 Pin=USB2-B4A9
+Added Net: Name=NetUSB2_A4B9
+Added Member To Class: ClassName=USBC_Protection Member=Component USB1 TYPEC-304J-BCP16
+Added Member To Class: ClassName=USBC_Protection Member=Component USB2 TYPEC-304J-BCP16

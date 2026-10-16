@@ -1,8 +1,24 @@
 # 07 — CSI-2 Camera Interface
 
-Last updated: 2026-10-09
+Last updated: 2026-10-14
 
-## Saved PCB checkpoint - 2026-10-09
+## Current release status — 2026-10-14
+
+Bill reports routing, DRC, polygon pour, electrical testing, high-speed,
+mechanical, and power verification complete. The earlier review findings in
+this file are retained as historical records and are closed as active release
+checklist blockers under that completion report. Specific correction details
+and test results were not supplied; no independent CAD audit or test was
+performed in this documentation pass.
+
+Remaining work: Finalize the camera-connector sourcing and include the verified orientation in assembly documentation.
+
+Prepare the final fabrication/assembly package using the
+[current checklist](../documentation.md). No schematic/PCB edits or manufacturing
+exports were made in this pass. This update does not claim post-assembly
+software or functional bring-up has occurred.
+
+## Historical saved PCB checkpoint - 2026-10-09 — superseded as release blockers
 
 The saved October 8 PCB independently confirms substantial routing and all
 nine differential-pair definitions, superseding the earlier no-pair/no-routing
@@ -11,7 +27,7 @@ connectivity checks, and final DRC. Differential-rule scope and USB skew need
 review. This checkpoint does not close older electrical or mechanical findings.
 See the [PCB audit](../PCB-Audit-2026-10-09.md) for current evidence.
 
-## Open review actions — 2026-09-19
+## Historical review actions — 2026-09-19 — superseded as release blockers
 
 - Camera power is not complete: fix U3 pin mapping and add its output
   capacitor as tracked in [04](04-camera-power.md).
@@ -26,7 +42,7 @@ in the [main design status](../documentation.md).
 Connect a Raspberry Pi camera module to the CM5 using the 22-pin FPC interface,
 including video lanes, control, power, and grounds.
 
-## Earlier status snapshot
+## Historical status snapshot — superseded by the 2026-10-14 completion report
 
 **Incomplete; signal wiring is drawn.** All four MIPI data lanes, MIPI clock,
 camera I²C, both camera GPIO controls, `3V3_CAMERA`, and ground contacts are
@@ -88,7 +104,7 @@ CSI contacts 1, 4, 7, 10, 13, 16, and 19 connect to ground. The standard
 Camera Module 3 uses two data lanes through the normal 22-to-15-pin cable;
 wiring lanes 2 and 3 preserves the standard four-lane 22-pin interface.
 
-## Drawn schematic content — verification incomplete
+## Historical drawn schematic content — verification status superseded
 
 - `C5182313` FPC connector; contact numbering and cable orientation still need
   verification against the connector and cable drawings.
@@ -100,7 +116,7 @@ wiring lanes 2 and 3 preserves the standard four-lane 22-pin interface.
 - Power, control, and ground test-access requirements remain to be verified;
   do not add stubs to high-speed CSI-2 pairs.
 
-## PCB-layout and review work remaining
+## Historical PCB-layout/review checklist — superseded as release blockers
 
 - Verify FPC contact-side orientation and pad 1 against the `C5182313`
   connector drawing and the selected Raspberry Pi camera cable.
@@ -152,3 +168,8 @@ wiring lanes 2 and 3 preserves the standard four-lane 22-pin interface.
   profile and CSI class. Saved-CAD inspection still found no pair objects or
   class members and only the generic differential rule, so setup is not yet
   routing-ready.
+
+- 2026-10-14: Updated current release status from Bill's completion report.
+  Electrical, power, high-speed, mechanical, routing, DRC, and pour checks are
+  closed as release checklist items. Only sourcing and manufacturing file
+  preparation remain; older findings are preserved as superseded history.

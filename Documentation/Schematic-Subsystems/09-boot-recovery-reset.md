@@ -1,13 +1,29 @@
 # 09 — Boot, Recovery, and Reset
 
-Last updated: 2026-09-28
+Last updated: 2026-10-14
+
+## Current release status — 2026-10-14
+
+Bill reports routing, DRC, polygon pour, electrical testing, high-speed,
+mechanical, and power verification complete. The earlier review findings in
+this file are retained as historical records and are closed as active release
+checklist blockers under that completion report. Specific correction details
+and test results were not supplied; no independent CAD audit or test was
+performed in this documentation pass.
+
+Remaining work: Finalize recovery-switch sourcing and include the existing labels and orientation in assembly documentation.
+
+Prepare the final fabrication/assembly package using the
+[current checklist](../documentation.md). No schematic/PCB edits or manufacturing
+exports were made in this pass. This update does not claim post-assembly
+software or functional bring-up has occurred.
 
 ## Purpose
 
 Allow the CM5 to boot normally from eMMC, enter USB recovery mode on demand,
 and be reset or power-controlled during development and fault recovery.
 
-## Current status
+## Historical status snapshot — superseded by the 2026-10-14 completion report
 
 **Switch placed and ECO-connected; recovery operation unverified.** The
 selected XUNPU `TS-1088R-02026`, JLCPCB/LCSC `C455280`, is now `SW` on the
@@ -104,3 +120,8 @@ A separate CM5 power button remains intentionally omitted from Rev A.
   the button remains unfinished; implementation and verification are open.
 - 2026-09-28: Current CAD contains `SW`; the 2026-09-23 ECO connected it
   between `CN1-93` and GND. Access and functional recovery remain open.
+
+- 2026-10-14: Updated current release status from Bill's completion report.
+  Electrical, power, high-speed, mechanical, routing, DRC, and pour checks are
+  closed as release checklist items. Only sourcing and manufacturing file
+  preparation remain; older findings are preserved as superseded history.
